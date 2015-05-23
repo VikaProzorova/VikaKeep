@@ -7,31 +7,32 @@
                 font-family: "Century gothic", Mistral;
                 font-size: 16pt;
                 color: #330033;
-                margin: 5% 20%;
+                margin: 0% 20%;
             }
-            .note {
-                margin: 5% 20% ;
+
+            .note-container {
                 padding: 10px;
                 background-color: #CC9999;
                 color: #330033;
                 font-family: "Century gothic", Mistral;
                 font-size: 12pt;
                 box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            }
-            textarea {
                 width: 100%;
             }
 
+            .note-container textarea {
+                width: 100%;
+            }
         </style>
     </head>
     <body bgcolor="FFFFCC">
         <div class="h1">
             Enter your note...
-              <textarea id="newNote" name="text" style="width: 100%"></textarea>
+              <textarea id="newNote" name="text" style="width: 100%; padding: 10px;"></textarea>
               <input id="addButton" type="button" value="Save">
           </div>
 
-          <div id="notesList">
+          <div id="notesList" style="margin: 5% 20%;">
           </div>
 
          <script type="text/javascript">
@@ -54,7 +55,7 @@
                   var newTextArea       = document.createElement('textarea');
 
                   newNoteContainer.appendChild(newTextArea);
-                  newNoteContainer.className = "note";
+                  newTextArea.className = "note-container";
                  newTextArea.innerHTML = text;
 
                  return newNoteContainer;
