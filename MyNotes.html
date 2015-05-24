@@ -7,7 +7,7 @@
                 font-family: "Century gothic", Mistral;
                 font-size: 16pt;
                 color: #330033;
-                margin: 0% 20%;
+                margin: 5% 20%;
             }
 
             .note-container {
@@ -18,49 +18,47 @@
                 font-size: 12pt;
                 box-shadow: 0 0 20px rgba(0,0,0,0.5);
                 width: 100%;
+                margin: 3% 0%;
             }
 
-            .note-container textarea {
-                width: 100%;
-            }
         </style>
     </head>
     <body bgcolor="FFFFCC">
         <div class="h1">
             Enter your note...
-              <textarea id="newNote" name="text" style="width: 100%; padding: 10px;"></textarea>
-              <input id="addButton" type="button" value="Save">
-          </div>
+            <textarea id="newNote" name="text" style="width: 100%; padding: 10px;"></textarea>
+            <input id="addButton" type="button" value="Save">
+        </div>
 
-          <div id="notesList" style="margin: 5% 20%;">
-          </div>
+        <div id="notesList" style="margin: 5% 20%;">
+        </div>
 
-         <script type="text/javascript">
-             var notes     = [];
-             var notesList = document.getElementById('notesList');
-             var newNote   = document.getElementById('newNote');
+        <script type="text/javascript">
+            var notes     = [];
+            var notesList = document.getElementById('notesList');
+            var newNote   = document.getElementById('newNote');
 
-              for (var i = 0; i < notes.length; i++) {
-                  var newNoteContainer = createNewNote(notes[i]);
-                  notesList.appendChild(newNoteContainer);
-              };
+            for (var i = 0; i < notes.length; i++) {
+                var newNoteContainer = createNewNote(notes[i]);
+                notesList.appendChild(newNoteContainer);
+            };
 
-              document.getElementById('addButton').onclick = function() {
-                  var newNoteContainer = createNewNote(newNote.value);
-                  notesList.insertBefore(newNoteContainer, notesList.firstChild);
-              };
+            document.getElementById('addButton').onclick = function() {
+                var newNoteContainer = createNewNote(newNote.value);
+                notesList.insertBefore(newNoteContainer, notesList.firstChild);
+            };
 
-              function createNewNote(text) {
-                  var newNoteContainer  = document.createElement('div');
-                  var newTextArea       = document.createElement('textarea');
+            function createNewNote(text) {
+                var newNoteContainer  = document.createElement('div');
+                var newTextArea       = document.createElement('textarea');
 
-                  newNoteContainer.appendChild(newTextArea);
-                  newTextArea.className = "note-container";
-                 newTextArea.innerHTML = text;
+                newNoteContainer.appendChild(newTextArea);
+                newTextArea.className = "note-container";
+                newTextArea.innerHTML = text;
 
-                 return newNoteContainer;
-              }
+                return newNoteContainer;
+            }
 
-         </script>
+        </script>
     </body>
 </html>
