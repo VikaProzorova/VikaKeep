@@ -57,17 +57,15 @@
                 var newNoteContainer = createNewNote(newNote.value);
                 notesList.insertBefore(newNoteContainer, notesList.firstChild);
                 notes.push(newNote.value);
-                console.log(notes);
             };
 
             function dateFormat(date) {
-                return date.getDate() + "." +
-                       (date.getMonth() +1) + "." +
-                       date.getFullYear() + ", " +
-                       date.getHours() + ":" +
-                       date.getMinutes() + ":" +
+                return date.getDate()       + "."  +
+                       (date.getMonth() +1) + "."  +
+                       date.getFullYear()   + ", " +
+                       date.getHours()      + ":"  +
+                       date.getMinutes()    + ":"  +
                        date.getSeconds();
-
             }
 
             function createNewNote(text) {
@@ -85,8 +83,6 @@
 
                 return newNoteContainer;
             }
-
-
 
         </script>
     </body>
