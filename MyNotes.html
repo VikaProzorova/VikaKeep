@@ -10,6 +10,10 @@
                 margin: 5% 20%;
             }
 
+            .div-style {
+                margin: 8% 0%;
+                width: 100%;
+            }
             .note-container {
                 padding: 10px;
                 background-color: #CC9999;
@@ -18,7 +22,13 @@
                 font-size: 12pt;
                 box-shadow: 0 0 20px rgba(0,0,0,0.5);
                 width: 100%;
-                margin: 3% 0%;
+            }
+
+            .date-style {
+                color: #999999;
+                font-family: "Century gothic", Mistral;
+                font-size: 8pt;
+                text-align: right;
             }
 
         </style>
@@ -30,7 +40,7 @@
             <input id="addButton" type="button" value="Save">
         </div>
 
-        <div id="notesList" style="margin: 5% 20%;">
+        <div id="notesList" style="margin: 0% 20%;">
         </div>
 
         <script type="text/javascript">
@@ -46,18 +56,37 @@
             document.getElementById('addButton').onclick = function() {
                 var newNoteContainer = createNewNote(newNote.value);
                 notesList.insertBefore(newNoteContainer, notesList.firstChild);
+                notes.push(newNote.value);
+                console.log(notes);
             };
+
+            function dateFormat(date) {
+                return date.getDate() + "." +
+                       (date.getMonth() +1) + "." +
+                       date.getFullYear() + ", " +
+                       date.getHours() + ":" +
+                       date.getMinutes() + ":" +
+                       date.getSeconds();
+
+            }
 
             function createNewNote(text) {
                 var newNoteContainer  = document.createElement('div');
                 var newTextArea       = document.createElement('textarea');
+                var createDate        = document.createElement('div');
 
                 newNoteContainer.appendChild(newTextArea);
-                newTextArea.className = "note-container";
-                newTextArea.innerHTML = text;
+                newNoteContainer.appendChild(createDate);
+                newNoteContainer.className = 'div-style';
+                newTextArea.className      = "note-container";
+                createDate.className       = "date-style";
+                newTextArea.innerHTML      = text;
+                createDate.innerHTML       = dateFormat(new Date());
 
                 return newNoteContainer;
             }
+
+
 
         </script>
     </body>
