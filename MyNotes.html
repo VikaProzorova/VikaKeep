@@ -11,7 +11,7 @@
             }
 
             .div-style {
-                margin: 8% 0%;
+                margin: 5% 0%;
                 width: 100%;
             }
             .note-container {
@@ -44,19 +44,24 @@
         </div>
 
         <script type="text/javascript">
-            var notes     = [];
-            var notesList = document.getElementById('notesList');
-            var newNote   = document.getElementById('newNote');
+            var notes     = [];  //массив с заметками
+            var notesList = document.getElementById('notesList'); //выход на див с заметками
+            var newNote   = document.getElementById('newNote'); // текстареа для ввода текста новой заметки
 
             for (var i = 0; i < notes.length; i++) {
-                var newNoteContainer = createNewNote(notes[i]);
+                var newNoteContainer = showNote(notes[i]);
                 notesList.appendChild(newNoteContainer);
-            };
+            }; //цикл который запихивает заметки из массива в дивы
 
             document.getElementById('addButton').onclick = function() {
-                var newNoteContainer = createNewNote(newNote.value);
+                var note = {
+                    text: newNote.value,
+                    date: new Date()
+                };
+
+                var newNoteContainer = showNote(note); //создание дива с текстом и датой только что введенной заметки
                 notesList.insertBefore(newNoteContainer, notesList.firstChild);
-                notes.push(newNote.value);
+                notes.push(note); //впихивание нового объекта в массив
             };
 
             function dateFormat(date) {
@@ -68,18 +73,18 @@
                        date.getSeconds();
             }
 
-            function createNewNote(text) {
+            function showNote(note) {
                 var newNoteContainer  = document.createElement('div');
                 var newTextArea       = document.createElement('textarea');
-                var createDate        = document.createElement('div');
+                var newDateContainer  = document.createElement('div');
 
                 newNoteContainer.appendChild(newTextArea);
-                newNoteContainer.appendChild(createDate);
+                newNoteContainer.appendChild(newDateContainer);
                 newNoteContainer.className = 'div-style';
                 newTextArea.className      = "note-container";
-                createDate.className       = "date-style";
-                newTextArea.innerHTML      = text;
-                createDate.innerHTML       = dateFormat(new Date());
+                newDateContainer.className = "date-style";
+                newTextArea.innerHTML      = note.text;
+                newDateContainer.innerHTML = dateFormat(note.date);
 
                 return newNoteContainer;
             }
