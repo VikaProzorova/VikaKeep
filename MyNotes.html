@@ -36,7 +36,7 @@
     <body bgcolor="FFFFCC">
         <div class="h1">
             Enter your note...
-            <textarea id="newNote" name="text" style="width: 100%; padding: 10px;"></textarea>
+            <textarea id="newNoteInput" name="text" style="width: 100%; padding: 10px;"></textarea>
             <input id="addButton" type="button" value="Save">
         </div>
 
@@ -45,22 +45,22 @@
 
         <script type="text/javascript">
             var notes     = [];  //массив с заметками
-            var notesList = document.getElementById('notesList'); //выход на див с заметками
-            var newNote   = document.getElementById('newNote'); // текстареа для ввода текста новой заметки
+            var notesList = document.getElementById('notesList'); //найти див для расположения заметок
+            var newNoteInput   = document.getElementById('newNoteInput'); // найти текстареа для ввода текста новой заметки
 
             for (var i = 0; i < notes.length; i++) {
-                var newNoteContainer = showNote(notes[i]);
+                var newNoteContainer = showNote(notes[i]); //создание дива с текстом и датой заметки из массива
                 notesList.appendChild(newNoteContainer);
             }; //цикл который запихивает заметки из массива в дивы
 
             document.getElementById('addButton').onclick = function() {
                 var note = {
-                    text: newNote.value,
+                    text: newNoteInput.value,
                     date: new Date()
                 };
 
                 var newNoteContainer = showNote(note); //создание дива с текстом и датой только что введенной заметки
-                notesList.insertBefore(newNoteContainer, notesList.firstChild);
+                notesList.insertBefore(newNoteContainer, notesList.firstChild); //1 аргумент - что вставлять, 2ой - куда
                 notes.push(note); //впихивание нового объекта в массив
             };
 
@@ -74,16 +74,16 @@
             }
 
             function showNote(note) {
-                var newNoteContainer  = document.createElement('div');
+                var newNoteContainer  = document.createElement('div'); //создание нового дива в виде объекта
                 var newTextArea       = document.createElement('textarea');
                 var newDateContainer  = document.createElement('div');
 
                 newNoteContainer.appendChild(newTextArea);
                 newNoteContainer.appendChild(newDateContainer);
-                newNoteContainer.className = 'div-style';
+                newNoteContainer.className = 'div-style'; //свойства объекта
                 newTextArea.className      = "note-container";
                 newDateContainer.className = "date-style";
-                newTextArea.innerHTML      = note.text;
+                newTextArea.innerHTML      = note.text; //свойствo объекта
                 newDateContainer.innerHTML = dateFormat(note.date);
 
                 return newNoteContainer;
