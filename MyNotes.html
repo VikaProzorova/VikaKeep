@@ -49,6 +49,22 @@
             var notesList = document.getElementById('notesList'); //найти див для расположения заметок
             var newNoteInput   = document.getElementById('newNoteInput'); // найти текстареа для ввода текста новой заметки
 
+            fetch('http://localhost:3000/notes', {mode: 'cors-with-forced-preflight'}).then(
+                function(response) {
+                    if (response.status !== 200) {
+                        console.log('Looks like there was a problem. Status Code: ' +  response.status);
+                        return;
+                    }
+
+                    // Examine the text in the response
+                    response.json().then(function(data) {
+                        console.log(data);
+                    });
+                }
+            ).catch(function(error) {
+                console.log('Fetch Error :-S', error);
+            });
+
             for (var i = 0; i < notes.length; i++) {
                 var newNoteContainer = showNote(notes[i]); //создание дива с текстом и датой заметки из массива
                 notesList.appendChild(newNoteContainer);

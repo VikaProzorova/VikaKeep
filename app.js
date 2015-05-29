@@ -1,6 +1,11 @@
 var express = require('express');
+var cors    = require('express-cors');
 var app     = express();
 
+app.use(cors({
+    origin:      true,
+    credentials: true,
+}));
 
 app.get('/notes', function(req, res){
     var notes = [
