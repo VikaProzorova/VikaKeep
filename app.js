@@ -1,12 +1,9 @@
-var fs      = require('fs');
-var express = require('express');
-var cors    = require('express-cors');
-var app     = express();
+var fs         = require('fs');
+var express    = require('express');
+var app        = express();
+var bodyParser = require('body-parser');
 
-app.use(cors({
-    origin:      true,
-    credentials: true,
-}));
+app.use(bodyParser.json()); // for parsing application/json
 
 var notes = [
    { text: "Lorem ipsum", date: '2011-05-26T21:10:36.511Z' },
@@ -18,6 +15,15 @@ app.get('/notes', function(req, res){
     res.send({
        data: notes,
        count: notes.length
+    });
+
+});
+
+app.post('/notes', function(req, res){
+    console.log(req.body);
+    notes.unshift(req.body);
+    res.send({
+        status: 1
     });
 
 });
