@@ -1,3 +1,4 @@
+var fs      = require('fs');
 var express = require('express');
 var cors    = require('express-cors');
 var app     = express();
@@ -20,4 +21,10 @@ app.get('/notes', function(req, res){
 
 });
 
+app.get('/', function(req, res){
+    var index = fs.readFileSync('D:\\js\\VikaKeep\\MyNotes.html').toString();
+
+    res.send(index);
+
+});
 app.listen(3000);

@@ -49,7 +49,7 @@
             var notesList = document.getElementById('notesList'); //найти див для расположения заметок
             var newNoteInput   = document.getElementById('newNoteInput'); // найти текстареа для ввода текста новой заметки
 
-            fetch('http://localhost:3000/notes', {mode: 'cors-with-forced-preflight'}).then(
+            fetch('http://localhost:3000/notes').then(
                 function(response) {
                     if (response.status !== 200) {
                         console.log('Looks like there was a problem. Status Code: ' +  response.status);
