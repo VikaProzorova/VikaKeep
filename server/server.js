@@ -4,6 +4,7 @@ var app        = express();
 var bodyParser = require('body-parser');
 
 app.use(bodyParser.json()); // for parsing application/json
+app.use(express.static('../client'));
 
 var notes = [
    { text: "Lorem ipsum", date: '2011-05-26T21:10:36.511Z' },
@@ -29,7 +30,7 @@ app.post('/notes', function(req, res){
 });
 
 app.get('/', function(req, res){
-    var index = fs.readFileSync('D:\\js\\VikaKeep\\MyNotes.html').toString();
+    var index = fs.readFileSync('D:\\js\\VikaKeep\\client\\index.html').toString();
 
     res.send(index);
 
