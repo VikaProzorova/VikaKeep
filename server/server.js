@@ -21,18 +21,16 @@ app.get('/notes', function(req, res){
 });
 
 app.post('/notes', function(req, res){
-    console.log(req.body);
-    notes.unshift(req.body);
+    var note  = req.body;
+    note.date = new Date();
+
+    console.log(note);
+    notes.unshift(note);
+
     res.send({
+        data: note,
         status: 1
     });
-
-});
-
-app.get('/', function(req, res){
-    var index = fs.readFileSync('D:\\js\\VikaKeep\\client\\index.html').toString();
-
-    res.send(index);
 
 });
 
