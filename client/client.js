@@ -58,9 +58,25 @@ function dateFormat(date) {
 }
 
 function showNote(note) {
-    var newNoteContainer  = document.createElement('div'); //создание нового дива в виде объекта
-    var newTextArea       = document.createElement('textarea');
-    var newDateContainer  = document.createElement('div');
+    var newNoteContainer   = document.createElement('div'); //создание нового дива в виде объекта
+    var newTextArea        = document.createElement('textarea');
+    var newDateContainer   = document.createElement('div');
+    newTextArea.dataset.id = note.id;
+
+    newTextArea.onblur     = function() {
+        fetch('/notes/' + this.dataset.id, {
+            method: 'post',
+            headers: { "Content-type": "application/json; charset=UTF-8" },
+            body: JSON.stringify({text: this.value})
+        }).then(function(response) {
+            response.json().then(function(resivedFromServerNote) {
+                var noteFromServer         = resivedFromServerNote.data
+                noteFromServer.date        = new Date(noteFromServer.date);
+                newDateContainer.innerHTML = dateFormat(noteFromServer.date);
+                console.log(noteFromServer);
+            })
+        });
+    }
 
     newNoteContainer.appendChild(newTextArea);
     newNoteContainer.appendChild(newDateContainer);
