@@ -19,7 +19,7 @@ fetch('http://localhost:3000/notes').then(
         notes = notes.concat(resivedFromServerNotes.data);
         console.log(notes);
     });
-}).catch(function(error) {
+    }).catch(function(error) {
         console.log('Fetch Error :-S', error);
     });
 
