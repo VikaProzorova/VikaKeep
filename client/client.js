@@ -31,19 +31,11 @@ document.getElementById('addButton').onclick = function() {
         text: newNoteInput.value,
     };
 
-    fetch('/notes', {
-        method: 'post',
-        headers: { "Content-type": "application/json; charset=UTF-8" },
-        body: JSON.stringify(note)
-    }).then(function(response) {
-        response.json().then(function(resivedFromServerNote) {
-            var noteFromServer   = resivedFromServerNote.data
-            noteFromServer.date  = new Date(noteFromServer.date);
-            var newNoteContainer = showNote(noteFromServer); //создание дива с текстом и датой только что введенной заметки
-            notesList.insertBefore(newNoteContainer, notesList.firstChild); //1 аргумент - что вставлять, 2ой - куда
-            notes.push(noteFromServer); //впихивание нового объекта в массив
-            console.log(resivedFromServerNote);
-        })
+    API.create(note).then(function(noteFromServer) {
+        var newNoteContainer = showNote(noteFromServer); //создание дива с текстом и датой только что введенной заметки
+        notesList.insertBefore(newNoteContainer, notesList.firstChild); //1 аргумент - что вставлять, 2ой - куда
+        notes.push(noteFromServer); //впихивание нового объекта в массив
+        console.log(noteFromServer);
     });
 
 };
