@@ -6,8 +6,8 @@ var API = {
             body: JSON.stringify(note)
         }).then(function(response) {
             return response.json().then(function(resivedFromServerNote) {
-                var noteFromServer   = resivedFromServerNote.data
-                noteFromServer.date  = new Date(noteFromServer.date);
+                var noteFromServer  = resivedFromServerNote.data
+                noteFromServer.date = new Date(noteFromServer.date);
                 return noteFromServer;
             });
         });
@@ -19,11 +19,23 @@ var API = {
             body: JSON.stringify({text: note.text})
         }).then(function(response) {
             return response.json().then(function(resivedFromServerNote) {
-                var noteFromServer         = resivedFromServerNote.data
-                noteFromServer.date        = new Date(noteFromServer.date);
+                var noteFromServer  = resivedFromServerNote.data
+                noteFromServer.date = new Date(noteFromServer.date);
                 return noteFromServer;
             })
         });
+    },
+    list: function() {
+        return fetch('/notes').then(
+            function(response) {
+                return response.json().then(function(resivedFromServerNotes) {
+                    for (var i = 0; i < resivedFromServerNotes.count; i++) {
+                        resivedFromServerNotes.data[i].date = new Date(resivedFromServerNotes.data[i].date);
+                    }
+                    return resivedFromServerNotes;
+                })
+            }
+        )
     }
 }
 

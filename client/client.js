@@ -2,29 +2,16 @@ var notes          = [];  //массив с заметками
 var notesList      = document.getElementById('notesList'); //найти див для расположения заметок
 var newNoteInput   = document.getElementById('newNoteInput'); // найти текстареа для ввода текста новой заметки
 
-fetch('/notes').then(
-    function(response) {
+API.list().then(function(notesFromServer) {
+    for (var i = 0; i < notesFromServer.count; i++) {
+        var resivedFromServerNote  = notesFromServer.data[i];
+        var newNoteContainer       = showNote(resivedFromServerNote); //создание дива с текстом и датой заметки из массива
+        notesList.appendChild(newNoteContainer);
+    }; //цикл который запихивает заметки из массива в дивы
 
-        if (response.status !== 200) {
-            console.log('Looks like there was a problem. Status Code: ' +  response.status);
-            return;
-        }
-
-        response.json().then(function(resivedFromServerNotes) {
-        for (var i = 0; i < resivedFromServerNotes.count; i++) {
-            var resivedFromServerNote  = resivedFromServerNotes.data[i];
-            resivedFromServerNote.date = new Date(resivedFromServerNote.date);
-            var newNoteContainer       = showNote(resivedFromServerNote); //создание дива с текстом и датой заметки из массива
-            notesList.appendChild(newNoteContainer);
-        }; //цикл который запихивает заметки из массива в дивы
-
-        notes = notes.concat(resivedFromServerNotes.data);
-        console.log(notes);
-        });
-
-    }).catch(function(error) {
-        console.log('Fetch Error :-S', error);
-    });
+    notes = notes.concat(notesFromServer.data);
+    console.log(notes);
+});
 
 document.getElementById('addButton').onclick = function() {
     var note = {
@@ -37,7 +24,6 @@ document.getElementById('addButton').onclick = function() {
         notes.push(noteFromServer); //впихивание нового объекта в массив
         console.log(noteFromServer);
     });
-
 };
 
 function dateFormat(date) {
