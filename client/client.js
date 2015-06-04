@@ -56,18 +56,9 @@ function showNote(note) {
     newTextArea.dataset.id = note.id;
 
     newTextArea.onblur     = function() {
-        fetch('/notes/' + this.dataset.id, {
-            method: 'post',
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            body: JSON.stringify({text: this.value})
-        }).then(function(response) {
-            response.json().then(function(resivedFromServerNote) {
-                var noteFromServer         = resivedFromServerNote.data
-                noteFromServer.date        = new Date(noteFromServer.date);
-                newDateContainer.innerHTML = dateFormat(noteFromServer.date);
-                console.log(noteFromServer);
-            })
-        });
+        API.update({id: this.dataset.id, text: this.value}).then(function(noteFromServer) {
+            newDateContainer.innerHTML = dateFormat(noteFromServer.date);
+        })
     }
 
     newNoteContainer.appendChild(newTextArea);
