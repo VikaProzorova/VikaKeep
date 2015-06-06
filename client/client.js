@@ -22,6 +22,7 @@ document.getElementById('addButton').onclick = function() {
         var newNoteContainer = showNote(noteFromServer); //создание дива с текстом и датой только что введенной заметки
         notesList.insertBefore(newNoteContainer, notesList.firstChild); //1 аргумент - что вставлять, 2ой - куда
         notes.push(noteFromServer); //впихивание нового объекта в массив
+        newNoteInput.value = "";
         console.log(noteFromServer);
     });
 };
