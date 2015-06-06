@@ -2,6 +2,12 @@ var fs         = require('fs');
 var express    = require('express');
 var app        = express();
 var bodyParser = require('body-parser');
+var mysql      = require('mysql');
+var config     = require('./config');
+
+var connection = mysql.createConnection(config);
+
+connection.connect();
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(express.static('../client'));
