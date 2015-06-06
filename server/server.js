@@ -12,9 +12,10 @@ var notes = [
 ];
 
 app.get('/notes', function(req, res) {
-
     res.send({
-       data: notes,
+       data: notes.filter(function(note) {
+            return !note.isDeleted;
+       }),
        count: notes.length
     });
 
@@ -54,4 +55,21 @@ app.post('/notes/:id', function(req, res) {
     };
 
 });
+
+app.delete('/notes/:id', function(req, res) {
+    var noteID = req.params.id;
+
+    for (var i = 0; i < notes.length; i++) {
+        var note = notes[i];
+
+        if (note.id == noteID) {
+            notes[i].isDeleted = true;
+
+            return res.send({
+                status: 1
+            })
+        }
+    };
+
+})
 app.listen(3000);

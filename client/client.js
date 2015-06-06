@@ -3,7 +3,7 @@ var notesList      = document.getElementById('notesList'); //найти див �
 var newNoteInput   = document.getElementById('newNoteInput'); // найти текстареа для ввода текста новой заметки
 
 API.list().then(function(notesFromServer) {
-    for (var i = 0; i < notesFromServer.count; i++) {
+    for (var i = 0; i < notesFromServer.data.length; i++) {
         var resivedFromServerNote  = notesFromServer.data[i];
         var newNoteContainer       = showNote(resivedFromServerNote); //создание дива с текстом и датой заметки из массива
         notesList.appendChild(newNoteContainer);
@@ -38,6 +38,7 @@ function dateFormat(date) {
 function showNote(note) {
     var newNoteContainer   = document.createElement('div'); //создание нового дива в виде объекта
     var newTextArea        = document.createElement('textarea');
+    var deleteButton       = document.createElement('div');
     var newDateContainer   = document.createElement('div');
     newTextArea.dataset.id = note.id;
 
@@ -47,10 +48,20 @@ function showNote(note) {
         })
     }
 
+    deleteButton.onclick   = function() {
+        API.delete(note.id).then(function() {
+            newNoteContainer.style.display = "none";
+        })
+    }
+
+    newNoteContainer.appendChild(deleteButton);
     newNoteContainer.appendChild(newTextArea);
     newNoteContainer.appendChild(newDateContainer);
+
     newNoteContainer.className = 'note-container'; //свойства объекта
     newDateContainer.className = "date";
+    deleteButton.className     = "delete-button";
+
     newTextArea.innerHTML      = note.text; //свойствo объекта
     newDateContainer.innerHTML = dateFormat(note.date);
 

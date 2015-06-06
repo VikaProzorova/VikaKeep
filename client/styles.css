@@ -26,3 +26,12 @@
     font-size: 8pt;
     text-align: right;
 }
+
+.delete-button {
+    height: 16px;
+    width: 16px;
+    background-image: url(del1.png);
+    background-repeat: no-repeat;
+    background-position: right;
+    cursor: pointer;
+}
