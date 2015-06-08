@@ -1,14 +1,12 @@
 var fs         = require('fs');
 var express    = require('express');
-var app        = express();
 var bodyParser = require('body-parser');
-var mysql      = require('mysql');
+var db         = require('mysql-promise')();
 var config     = require('./config');
 
-var connection = mysql.createConnection(config);
+db.configure(config);
 
-connection.connect();
-
+var app = express();
 app.use(bodyParser.json()); // for parsing application/json
 app.use(express.static('../client'));
 
@@ -18,27 +16,34 @@ var notes = [
 ];
 
 app.get('/notes', function(req, res) {
-    res.send({
-       data: notes.filter(function(note) {
-            return !note.isDeleted;
-       }),
-       count: notes.length
+    db.query('SELECT * FROM notes')
+    .spread(function(notesFromDB) {
+        res.send({
+           data: notesFromDB.filter(function(note) {
+                return !note.isDeleted;
+           }),
+           count: notesFromDB.length
+        });
     });
+
 
 });
 
 app.post('/notes', function(req, res) {
     var note  = req.body;
-    note.id   = notes.length +1;
     note.date = new Date();
 
-    console.log(note);
-    notes.unshift(note);
+    db.query('INSERT INTO notes (text, date) VALUES (?, ?)', [note.text, note.date])
+    .spread(function(queryStatus) {
+        console.log(queryStatus);
+        note.id = queryStatus.insertId;
 
-    res.send({
-        data: note,
-        status: 1
+        res.send({
+            data: note,
+            status: 1
+        });
     });
+
 
 });
 
