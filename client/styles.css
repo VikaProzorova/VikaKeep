@@ -30,6 +30,9 @@
 .delete-button {
     height: 16px;
     width: 16px;
+    position: absolute;
+    margin-top: 5px;
+    margin-left: 59.2%;
     background-image: url(del1.png);
     background-repeat: no-repeat;
     background-position: right;
