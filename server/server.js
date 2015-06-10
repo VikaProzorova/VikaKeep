@@ -25,8 +25,6 @@ app.get('/notes', function(req, res) {
            count: notesFromDB.length
         });
     });
-
-
 });
 
 app.post('/notes', function(req, res) {
@@ -43,44 +41,29 @@ app.post('/notes', function(req, res) {
             status: 1
         });
     });
-
-
 });
 
 app.post('/notes/:id', function(req, res) {
     var newNoteData  = req.body;
     newNoteData.id   = req.params.id;
+    newNoteData.date = new Date();
 
-    for (var i = 0; i < notes.length; i++) {
-        var note = notes[i];
-
-        if (note.id == newNoteData.id) {
-            note.text = newNoteData.text;
-            note.date = new Date();
-
-            return res.send({
-                data: note,
-                status: 1
-            })
-        }
-    };
-
+    db.query('UPDATE notes SET text = ?, date = ? WHERE id = ?', [newNoteData.text, newNoteData.date, newNoteData.id])
+    .spread(function() {
+        res.send({
+            data: newNoteData,
+            status: 1
+        })
+    })
 });
 
 app.delete('/notes/:id', function(req, res) {
     var noteID = req.params.id;
 
-    for (var i = 0; i < notes.length; i++) {
-        var note = notes[i];
-
-        if (note.id == noteID) {
-            notes[i].isDeleted = true;
-
-            return res.send({
-                status: 1
-            })
-        }
-    };
-
+    db.query('UPDATE notes SET isDeleted = true WHERE id = ?', [noteID])
+    .then(function() {
+        res.send({status: 1})
+    })
 })
+
 app.listen(3000);
