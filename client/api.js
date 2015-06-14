@@ -1,4 +1,17 @@
 var API = {
+    list: function() {
+        return fetch('/notes')
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(resivedFromServerNotes) {
+            console.log(resivedFromServerNotes);
+            for (var i = 0; i < resivedFromServerNotes.data.length; i++) {
+                resivedFromServerNotes.data[i].date = new Date(resivedFromServerNotes.data[i].date);
+            }
+            return resivedFromServerNotes;
+        })
+    },
     create: function(note) {
         return fetch('/notes', {
             method: 'post',
@@ -28,19 +41,6 @@ var API = {
             noteFromServer.date = new Date(noteFromServer.date);
             return noteFromServer;
         });
-    },
-    list: function() {
-        return fetch('/notes')
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(resivedFromServerNotes) {
-            console.log(resivedFromServerNotes);
-            for (var i = 0; i < resivedFromServerNotes.data.length; i++) {
-                resivedFromServerNotes.data[i].date = new Date(resivedFromServerNotes.data[i].date);
-            }
-            return resivedFromServerNotes;
-        })
     },
     delete: function(noteID) {
         return fetch('/notes/' + noteID, {

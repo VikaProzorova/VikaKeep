@@ -1,6 +1,9 @@
 {
-  "host": "localhost",
-  "user": "root",
-  "password": "secret",
-  "database": "vika_keep"
+    "db": {
+        "host": "localhost",
+        "user": "root",
+        "password": "secret",
+        "database": "vika_keep"
+    },
+    "port": 3000
 }
