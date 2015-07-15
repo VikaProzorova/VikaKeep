@@ -38,3 +38,10 @@
     background-position: right;
     cursor: pointer;
 }
+
+.login {
+    font-family: "Century gothic", Mistral;
+    font-size: 14pt;
+    color: #330033;
+    margin: 10% 40%;
+}
