@@ -1,4 +1,3 @@
-var notes          = [];  //массив с заметками
 var notesList      = document.getElementById('notesList'); //найти див для расположения заметок
 var newNoteInput   = document.getElementById('newNoteInput'); // найти текстареа для ввода текста новой заметки
 
@@ -8,9 +7,6 @@ API.list().then(function(notesFromServer) {
         var newNoteContainer       = showNote(resivedFromServerNote); //создание дива с текстом и датой заметки из массива
         notesList.appendChild(newNoteContainer);
     }; //цикл который запихивает заметки из массива в дивы
-
-    notes = notes.concat(notesFromServer.data);
-    console.log(notes);
 });
 
 document.getElementById('addButton').onclick = function() {
@@ -21,7 +17,6 @@ document.getElementById('addButton').onclick = function() {
     API.create(note).then(function(noteFromServer) {
         var newNoteContainer = showNote(noteFromServer); //создание дива с текстом и датой только что введенной заметки
         notesList.insertBefore(newNoteContainer, notesList.firstChild); //1 аргумент - что вставлять, 2ой - куда
-        notes.push(noteFromServer); //впихивание нового объекта в массив
         newNoteInput.value = "";
         console.log(noteFromServer);
     });
@@ -41,10 +36,9 @@ function showNote(note) {
     var newTextArea        = document.createElement('textarea');
     var deleteButton       = document.createElement('div');
     var newDateContainer   = document.createElement('div');
-    newTextArea.dataset.id = note.id;
 
     newTextArea.onblur     = function() {
-        API.update({id: this.dataset.id, text: this.value}).then(function(noteFromServer) {
+        API.update({id: note.id, text: this.value}).then(function(noteFromServer) {
             newDateContainer.innerHTML = dateFormat(noteFromServer.date);
         })
     }
