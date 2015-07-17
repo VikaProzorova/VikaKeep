@@ -40,8 +40,11 @@
 }
 
 .login {
+    padding: 50px 80px;
+    background-color: #CC9999;
+    color: #330033;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
     font-family: "Century gothic", Mistral;
     font-size: 14pt;
-    color: #330033;
-    margin: 10% 40%;
+    margin: 200px 500px;
 }
