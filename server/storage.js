@@ -34,9 +34,12 @@ var storage = {
         });
     },
     loginUser: function(user) {
-        console.log(user);
         return db.query('SELECT * FROM users WHERE email = ? AND password = ?', [user.email, user.password])
-        .then(function() {
+        .spread(function(usersFromDB) {
+            var user = usersFromDB[0];
+            if (!user) {
+                throw "Wrong email or password"
+            }
             return user;
         });
     }

@@ -35,7 +35,7 @@ app.post('/notes/:id', function(req, res) {
     storage.updateNote(newNoteData)
     .then(function(newNoteData) {
         res.send({
-            data:   newNoteData,
+            data: newNoteData,
             status: 1
         });
     });
@@ -49,13 +49,21 @@ app.delete('/notes/:id', function(req, res) {
 });
 
 app.post('/users/login', function(req, res) {
+    console.log('cookies', req.signedCookies);
     storage.loginUser(req.body)
     .then(function(user) {
+        res.cookie("email", user.email, {signed: true, httpOnly: false})
         res.send({
-            data:   user,
+            data: user,
             status: 1
         });
-    });
+    })
+    .catch(function(error){
+        res.send({
+            status: 0,
+            error: error
+        })
+    })
 });
 
 app.listen(config.port);
