@@ -1,7 +1,7 @@
 var notesList      = document.getElementById('notesList'); //найти див для расположения заметок
 var newNoteInput   = document.getElementById('newNoteInput'); // найти текстареа для ввода текста новой заметки
 
-API.list().then(function(notesFromServer) {
+API.notes.list().then(function(notesFromServer) {
     for (var i = 0; i < notesFromServer.data.length; i++) {
         var resivedFromServerNote  = notesFromServer.data[i];
         var newNoteContainer       = showNote(resivedFromServerNote); //создание дива с текстом и датой заметки из массива
@@ -14,7 +14,7 @@ document.getElementById('addButton').onclick = function() {
         text: newNoteInput.value,
     };
 
-    API.create(note).then(function(noteFromServer) {
+    API.notes.create(note).then(function(noteFromServer) {
         var newNoteContainer = showNote(noteFromServer); //создание дива с текстом и датой только что введенной заметки
         notesList.insertBefore(newNoteContainer, notesList.firstChild); //1 аргумент - что вставлять, 2ой - куда
         newNoteInput.value = "";
@@ -38,13 +38,13 @@ function showNote(note) {
     var newDateContainer   = document.createElement('div');
 
     newTextArea.onblur     = function() {
-        API.update({id: note.id, text: this.value}).then(function(noteFromServer) {
+        API.notes.update({id: note.id, text: this.value}).then(function(noteFromServer) {
             newDateContainer.innerHTML = dateFormat(noteFromServer.date);
         })
     }
 
     deleteButton.onclick   = function() {
-        API.delete(note.id).then(function() {
+        API.notes.delete(note.id).then(function() {
             newNoteContainer.style.display = "none";
         })
     }

@@ -1,5 +1,4 @@
 var db     = require('mysql-promise')();
-var uuid   = require('node-uuid');
 var config = require('./config');
 db.configure(config.db);
 
@@ -29,8 +28,14 @@ var storage = {
         return db.query('UPDATE notes SET isDeleted = true WHERE id = ?', [note.id])
     },
     createUser: function(user) {
-        user.securityCode = uuid.v4();
-        return db.query('INSERT INTO users (email, password, securityCode) VALUES (?, ?, ?)', [user.email, user.password, user.securityCode])
+        return db.query('INSERT INTO users (email, password) VALUES (?, ?)', [user.email, user.password])
+        .then(function() {
+            return user;
+        });
+    },
+    loginUser: function(user) {
+        console.log(user);
+        return db.query('SELECT * FROM users WHERE email = ? AND password = ?', [user.email, user.password])
         .then(function() {
             return user;
         });

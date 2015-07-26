@@ -15,6 +15,22 @@
             <input id="password"type="password"/> <br>
             <input id="submitButton" type="button" value="Login"/>
         </div>
+
+        <script type="text/javascript" src="./api.js"> </script>
+        <script type="text/javascript">
+            var email    = document.getElementById('email');
+            var password = document.getElementById('password');
+
+            document.getElementById('submitButton').onclick = function() {
+                var user = {
+                    email: email.value,
+                    password: password.value
+                };
+
+                API.users.login(user);
+            }
+
+        </script>
     </body>
 
 </html>

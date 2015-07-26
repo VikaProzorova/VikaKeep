@@ -1,4 +1,4 @@
-var API = {
+var notes = {
     list: function() {
         return fetch('/notes')
         .then(function(response) {
@@ -14,9 +14,9 @@ var API = {
     },
     create: function(note) {
         return fetch('/notes', {
-            method: 'post',
+            method:  'post',
             headers: { "Content-type": "application/json; charset=UTF-8" },
-            body: JSON.stringify(note)
+            body:    JSON.stringify(note)
         })
         .then(function(response) {
             return response.json()
@@ -29,9 +29,9 @@ var API = {
     },
     update: function(note) {
         return fetch('/notes/' + note.id, {
-            method: 'post',
+            method:  'post',
             headers: { "Content-type": "application/json; charset=UTF-8" },
-            body: JSON.stringify({text: note.text})
+            body:    JSON.stringify({text: note.text})
         })
         .then(function(response) {
             return response.json();
@@ -44,7 +44,7 @@ var API = {
     },
     delete: function(noteID) {
         return fetch('/notes/' + noteID, {
-            method: 'delete',
+            method:  'delete',
             headers: { "Content-type": "application/json; charset=UTF-8" },
         })
         .then(function(response) {
@@ -55,6 +55,27 @@ var API = {
             return status;
         });
     }
+};
+
+var users = {
+    login: function(user) {
+        return fetch('/users/login', {
+            method:  'post',
+            headers: { "Content-type": "application/json; charset=UTF-8" },
+            body:    JSON.stringify(user)
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(status) {
+            console.log(status)
+            return status;
+        });
+    }
+
 }
 
-window.API = API;
+window.API = {
+    notes: notes,
+    users: users
+};

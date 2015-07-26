@@ -1,10 +1,13 @@
-var fs         = require('fs');
-var express    = require('express');
-var bodyParser = require('body-parser');
-var config     = require('./config');
-var storage    = require('./storage');
+var fs           = require('fs');
+var express      = require('express');
+var cookieParser = require('cookie-parser');
+var bodyParser   = require('body-parser');
+var config       = require('./config');
+var storage      = require('./storage');
 
-var app        = express();
+var app = express();
+
+app.use(cookieParser(config.secret));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(express.static('../client'));
 
@@ -19,7 +22,7 @@ app.post('/notes', function(req, res) {
     storage.createNote(req.body)
     .then(function(note) {
         res.send({
-            data: note,
+            data:   note,
             status: 1
         });
     });
@@ -32,7 +35,7 @@ app.post('/notes/:id', function(req, res) {
     storage.updateNote(newNoteData)
     .then(function(newNoteData) {
         res.send({
-            data: newNoteData,
+            data:   newNoteData,
             status: 1
         });
     });
@@ -40,10 +43,19 @@ app.post('/notes/:id', function(req, res) {
 
 app.delete('/notes/:id', function(req, res) {
     storage.deleteNote({ id: req.params.id })
-    .then(function(){
+    .then(function() {
         res.send({status: 1})
     });
 });
 
+app.post('/users/login', function(req, res) {
+    storage.loginUser(req.body)
+    .then(function(user) {
+        res.send({
+            data:   user,
+            status: 1
+        });
+    });
+});
 
 app.listen(config.port);
