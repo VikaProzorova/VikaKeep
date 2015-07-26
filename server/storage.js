@@ -11,7 +11,7 @@ var storage = {
     },
     createNote: function(note) {
         note.date = new Date();
-        return db.query('INSERT INTO notes (text, date) VALUES (?, ?)', [note.text, note.date])
+        return db.query('INSERT INTO notes (text, date, user) VALUES (?, ?, ?)', [note.text, note.date, note.user])
         .spread(function(queryStatus) {
             note.id = queryStatus.insertId;
             return note;

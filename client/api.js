@@ -1,6 +1,8 @@
 var notes = {
     list: function() {
-        return fetch('/notes')
+        return fetch('/notes', {
+            credentials: "same-origin"
+        })
         .then(function(response) {
             return response.json();
         })
@@ -16,7 +18,8 @@ var notes = {
         return fetch('/notes', {
             method:  'post',
             headers: { "Content-type": "application/json; charset=UTF-8" },
-            body:    JSON.stringify(note)
+            body:    JSON.stringify(note),
+            credentials: "same-origin"
         })
         .then(function(response) {
             return response.json()
@@ -31,7 +34,8 @@ var notes = {
         return fetch('/notes/' + note.id, {
             method:  'post',
             headers: { "Content-type": "application/json; charset=UTF-8" },
-            body:    JSON.stringify({text: note.text})
+            body:    JSON.stringify({text: note.text}),
+            credentials: "same-origin"
         })
         .then(function(response) {
             return response.json();
@@ -46,6 +50,7 @@ var notes = {
         return fetch('/notes/' + noteID, {
             method:  'delete',
             headers: { "Content-type": "application/json; charset=UTF-8" },
+            credentials: "same-origin"
         })
         .then(function(response) {
             return response.json();
@@ -63,7 +68,7 @@ var users = {
             method:  'post',
             headers: { "Content-type": "application/json; charset=UTF-8" },
             body:    JSON.stringify(user),
-            credentials: "same-origin"
+
         })
         .then(function(response) {
             return response.json();
