@@ -13,7 +13,6 @@ app.use(express.static('../client'));
 
 var auth = function(req, res, next) {
     var email = req.signedCookies.email;
-    console.log(req.signedCookies);
 
     if (email) return next();
     res.send({

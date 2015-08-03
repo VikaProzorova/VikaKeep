@@ -68,7 +68,7 @@ var users = {
             method:  'post',
             headers: { "Content-type": "application/json; charset=UTF-8" },
             body:    JSON.stringify(user),
-
+            credentials: "same-origin"
         })
         .then(function(response) {
             return response.json();
@@ -79,7 +79,7 @@ var users = {
         });
     }
 
-}
+};
 
 window.API = {
     notes: notes,
