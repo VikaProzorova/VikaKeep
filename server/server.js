@@ -78,4 +78,20 @@ app.post('/users/login', function(req, res) {
     })
 });
 
+app.post('/users/registration', function(req, res) {
+    storage.registerUser(req.body)
+    .then(function(user) {
+        res.send({
+            data: user,
+            status: 1
+        });
+    })
+    .catch(function(error){
+        res.send({
+            status: 0,
+            error: error
+        })
+    })
+});
+
 app.listen(config.port);

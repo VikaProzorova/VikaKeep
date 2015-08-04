@@ -77,6 +77,21 @@ var users = {
             console.log(status)
             return status;
         });
+    },
+    register: function(user) {
+        return fetch('/users/registration', {
+            method:  'post',
+            headers: { "Content-type": "application/json; charset=UTF-8" },
+            body:    JSON.stringify(user),
+            credentials: "same-origin"
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(status) {
+            console.log(status)
+            return status;
+        });
     }
 
 };

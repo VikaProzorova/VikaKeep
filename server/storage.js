@@ -28,7 +28,7 @@ var storage = {
         return db.query('UPDATE notes SET isDeleted = true WHERE id = ?', [note.id])
     },
     createUser: function(user) {
-        return db.query('INSERT INTO users (email, password) VALUES (?, ?)', [user.email, user.password])
+        return db.query('INSERT INTO users (email, password, name) VALUES (?, ?, ?)', [user.email, user.password, user.name])
         .then(function() {
             return user;
         });
@@ -41,6 +41,22 @@ var storage = {
                 throw "Wrong email or password"
             }
             return user;
+        });
+    },
+    registerUser: function(user) {
+        return db.query('INSERT INTO users (email, password, name) VALUES (?, ?, ?)', [user.email, user.password, user.name])
+        .spread(function() {
+            return user;
+        })
+        .catch(function(error) {
+            console.log(error);
+            if (error.code == 'ER_BAD_NULL_ERROR') {
+                throw "All fields are required";
+            }
+            if (error.code == 'ER_DUP_ENTRY') {
+                throw "Email already exist";
+            }
+            throw "UNKNOWN ERROR";
         });
     }
 }
