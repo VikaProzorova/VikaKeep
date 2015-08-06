@@ -9,6 +9,15 @@ API.notes.list().then(function(notesFromServer) {
     }; //цикл который запихивает заметки из массива в дивы
 });
 
+document.getElementById('logoutButton').onclick = function() {
+    API.users.logout()
+    .then(function(response){
+        if (response.status) {
+           router.login();
+        }
+    })
+};
+
 document.getElementById('addButton').onclick = function() {
     var note = {
         text: newNoteInput.value,
