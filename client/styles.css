@@ -67,3 +67,14 @@
 .input {
     width: 100%
 }
+.button {
+    background-color: #E1C3FC;
+    border: 2px solid #E1C3FC;
+    margin-top: 10px;
+    width: 100px;
+    font-size: 10pt;
+    color: #330033;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    font-family: "Century gothic", Mistral;
+    cursor: pointer;
+}

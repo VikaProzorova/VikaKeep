@@ -4,6 +4,10 @@ var password       = document.getElementById('password');
 var repeatPassword = document.getElementById('repeatPassword');
 var error          = document.getElementById('error');
 
+document.getElementById('loginButton').onclick = function() {
+    router.login();
+};
+
 document.getElementById('submitButton').onclick = function() {
     if (password.value !== repeatPassword.value) {
         error.style.visibility = "visible";
