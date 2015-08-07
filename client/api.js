@@ -6,12 +6,14 @@ var notes = {
         .then(function(response) {
             return response.json();
         })
-        .then(function(resivedFromServerNotes) {
-            console.log(resivedFromServerNotes);
-            for (var i = 0; i < resivedFromServerNotes.data.length; i++) {
-                resivedFromServerNotes.data[i].date = new Date(resivedFromServerNotes.data[i].date);
+        .then(function(response) {
+            if(!response.status) {
+                throw response.error;
             }
-            return resivedFromServerNotes;
+            for (var i = 0; i < response.data.length; i++) {
+                response.data[i].date = new Date(response.data[i].date);
+            }
+            return response;
         })
     },
     create: function(note) {

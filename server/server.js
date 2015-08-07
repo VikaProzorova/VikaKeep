@@ -97,7 +97,6 @@ router.post('/users/registration', function(req, res) {
 });
 
 router.post('/users/logout', function(req, res) {
-    console.log('sfsfs');
     res.clearCookie("email");
     res.send({
         status: 1

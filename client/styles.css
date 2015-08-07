@@ -12,7 +12,7 @@
 
 .note-container textarea {
     padding: 10px;
-    background-color: #CC9999;
+    background-color: #E7EDA5;
     color: #330033;
     font-family: "Century gothic", Mistral;
     font-size: 12pt;
@@ -41,7 +41,7 @@
 
 .login {
     padding: 3% 5%;
-    background-color: #E7EDA5;
+    background-color: #99FF99;
     color: #330033;
     box-shadow: 0 0 20px rgba(0,0,0,0.5);
     font-family: "Century gothic", Mistral;
