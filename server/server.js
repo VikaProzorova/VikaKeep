@@ -20,14 +20,17 @@ var auth = function(req, res, next) {
     if (email) return next();
     res.send({
         status: 0,
-        error: "Permission denied"
+        error:  "Permission denied"
     });
 };
 
 router.get('/notes', auth, function(req, res) {
     storage.getNotesList()
     .then(function(notesList){
-        res.send({ data: notesList });
+        res.send({
+            data:   notesList,
+            status: 1
+        });
     });
 });
 
@@ -51,7 +54,7 @@ router.post('/notes/:id', auth, function(req, res) {
     storage.updateNote(newNoteData)
     .then(function(newNoteData) {
         res.send({
-            data: newNoteData,
+            data:   newNoteData,
             status: 1
         });
     });
@@ -69,14 +72,14 @@ router.post('/users/login', function(req, res) {
     .then(function(user) {
         res.cookie("email", user.email, {signed: true, httpOnly: false})
         res.send({
-            data: user,
+            data:   user,
             status: 1
         });
     })
     .catch(function(error){
         res.send({
             status: 0,
-            error: error
+            error:  error
         })
     })
 });
@@ -85,14 +88,14 @@ router.post('/users/registration', function(req, res) {
     storage.registerUser(req.body)
     .then(function(user) {
         res.send({
-            data: user,
+            data:   user,
             status: 1
         });
     })
     .catch(function(error){
         res.send({
             status: 0,
-            error: error
+            error:  error
         })
     })
 });
