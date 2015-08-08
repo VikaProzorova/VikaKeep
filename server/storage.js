@@ -1,4 +1,5 @@
 var db     = require('mysql-promise')();
+var bcrypt = require('bcrypt-nodejs');
 var config = require('./config');
 db.configure(config.db);
 
@@ -34,19 +35,35 @@ var storage = {
         });
     },
     loginUser: function(user) {
-        return db.query('SELECT * FROM users WHERE email = ? AND password = ?', [user.email, user.password])
+
+        return db.query('SELECT * FROM users WHERE email = ?', [user.email])
         .spread(function(usersFromDB) {
-            var user = usersFromDB[0];
-            if (!user) {
-                throw "Wrong email or password"
+            var foundUser = usersFromDB[0];
+            if (!foundUser) {
+                throw "User not exist";
             }
-            return user;
+
+            var isValidPassword = bcrypt.compareSync(user.password+foundUser.salt, foundUser.password);
+            if (!isValidPassword) {
+                throw "Wrong password";
+            }
+
+            return {
+                name: user.name,
+                email: user.email
+            };
         });
     },
     registerUser: function(user) {
-        return db.query('INSERT INTO users (email, password, name) VALUES (?, ?, ?)', [user.email, user.password, user.name])
+        var salt = bcrypt.genSaltSync();
+        var hash = bcrypt.hashSync(user.password+salt);
+
+        return db.query('INSERT INTO users (email, password, salt, name) VALUES (?, ?, ?, ?)', [user.email, hash, salt, user.name])
         .spread(function() {
-            return user;
+            return {
+                name: user.name,
+                email: user.email
+            };
         })
         .catch(function(error) {
             console.log(error);

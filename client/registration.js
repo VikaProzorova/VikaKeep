@@ -19,7 +19,6 @@ document.getElementById('submitButton').onclick = function() {
         password: password.value,
         name: fullName.value
     };
-    console.log(user);
     API.users.register(user)
     .then(function(response){
         if (response.status == 1) {
