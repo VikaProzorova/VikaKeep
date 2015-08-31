@@ -3,16 +3,20 @@ var bcrypt = require('bcrypt-nodejs');
 var config = require('./config');
 db.configure(config.db);
 
-var storage = {
+function Storage(user) {
+    this.user = user;
+};
+
+Storage.prototype = {
     getNotesList: function() {
-        return db.query('SELECT * FROM notes WHERE isDeleted = 0 ORDER BY id DESC')
+        return db.query('SELECT * FROM notes WHERE user = ? AND isDeleted = 0 ORDER BY id DESC', [this.user.email])
         .spread(function(notesFromDB) {
             return notesFromDB;
         });
     },
     createNote: function(note) {
         note.date = new Date();
-        return db.query('INSERT INTO notes (text, date, user) VALUES (?, ?, ?)', [note.text, note.date, note.user])
+        return db.query('INSERT INTO notes (text, date, user) VALUES (?, ?, ?)', [note.text, note.date, this.user.email])
         .spread(function(queryStatus) {
             note.id = queryStatus.insertId;
             return note;
@@ -35,7 +39,6 @@ var storage = {
         });
     },
     loginUser: function(user) {
-
         return db.query('SELECT * FROM users WHERE email = ?', [user.email])
         .spread(function(usersFromDB) {
             var foundUser = usersFromDB[0];
@@ -78,5 +81,4 @@ var storage = {
     }
 }
 
-
-module.exports = storage;
+module.exports = Storage;

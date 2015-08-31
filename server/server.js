@@ -4,10 +4,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 
 var config       = require('./config');
-var storage      = require('./storage');
+var Storage      = require('./storage');
 
-var app    = express();
-var router = express.Router();
+var app          = express();
+var router       = express.Router();
 
 app.use(cookieParser(config.secret));
 app.use(bodyParser.json()); // for parsing application/json
@@ -25,7 +25,11 @@ var auth = function(req, res, next) {
 };
 
 router.get('/notes', auth, function(req, res) {
-    storage.getNotesList()
+    var user = {
+        email: req.signedCookies.email
+    };
+
+    new Storage(user).getNotesList()
     .then(function(notesList){
         res.send({
             data:   notesList,
@@ -36,9 +40,11 @@ router.get('/notes', auth, function(req, res) {
 
 router.post('/notes', auth, function(req, res) {
     var note  = req.body;
-    note.user = req.signedCookies.email;
+    var user  = {
+        email: req.signedCookies.email
+    };
 
-    storage.createNote(note)
+    new Storage(user).createNote(note)
     .then(function(note) {
         res.send({
             data:   note,
@@ -50,8 +56,11 @@ router.post('/notes', auth, function(req, res) {
 router.post('/notes/:id', auth, function(req, res) {
     var newNoteData  = req.body;
     newNoteData.id   = req.params.id;
+    var user         = {
+        email: req.signedCookies.email
+    };
 
-    storage.updateNote(newNoteData)
+    new Storage(user).updateNote(newNoteData)
     .then(function(newNoteData) {
         res.send({
             data:   newNoteData,
@@ -61,14 +70,21 @@ router.post('/notes/:id', auth, function(req, res) {
 });
 
 router.delete('/notes/:id', auth, function(req, res) {
-    storage.deleteNote({ id: req.params.id })
+    var user = {
+        email: req.signedCookies.email
+    };
+
+    new Storage(user).deleteNote({ id: req.params.id })
     .then(function() {
         res.send({status: 1})
     });
 });
 
 router.post('/users/login', function(req, res) {
-    storage.loginUser(req.body)
+    var user = {
+        email: req.signedCookies.email
+    };
+    new Storage(user).loginUser(req.body)
     .then(function(user) {
         res.cookie("email", user.email, {signed: true, httpOnly: false})
         res.send({
@@ -85,7 +101,10 @@ router.post('/users/login', function(req, res) {
 });
 
 router.post('/users/registration', function(req, res) {
-    storage.registerUser(req.body)
+    var user = {
+        email: req.signedCookies.email
+    };
+    new Storage(user).registerUser(req.body)
     .then(function(user) {
         res.send({
             data:   user,

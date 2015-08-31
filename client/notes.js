@@ -10,7 +10,8 @@ API.notes.list().then(function(notesFromServer) {
 })
 .catch(function(error) {
     if (error == "Permission denied") {
-        return router.login();
+        router.login();
+        return;
     }
 
     alert("Some bullshit! " + error);
