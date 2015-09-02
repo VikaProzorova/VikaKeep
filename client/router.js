@@ -7,6 +7,9 @@ var router = {
     },
     register: function() {
         window.location = "/registration.html"
+    },
+    profile: function() {
+         window.location = "/profile.html"
     }
 }
 window.router = router;

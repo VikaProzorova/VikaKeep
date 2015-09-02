@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+
+    <head>
+        <title> Profile </title>
+        <link rel="stylesheet" type="text/css" href="./styles.css">
+    </head>
+
+    <body bgcolor="#DFD519">
+        <div class="header">
+        <input id="notesButton" type="button" class="button" value="Notes">
+        <input id="logoutButton" type="button" class="button" value="Log Out">
+        </div>
+
+        <div class="profile">
+            <center> <b> Profile </b> </center><br>
+
+            Name <br>
+            <input id="name" maxlength="40" type="text" class="input" /> <br>
+
+            Email <br>
+            <input id="email" maxlength="40" type="email" class="input" /> <br> <br>
+
+            <center> <b> Change password </b> </center><br>
+
+            Password <br>
+            <input id="oldPassword" maxlength="40" type="password" class="input" /> <br>
+
+            New password <br>
+            <input id="newPassword" maxlength="40" type="password" class="input" /> <br>
+
+            Repeat new password <br>
+            <input id="repeatNewPassword" maxlength="40" type="password" class="input" /> <br>
+
+            <input id="submitButton" type="button" class="button" value="Save"/>
+
+            <div class="error" id='error' style="visibility: hidden">
+            <p> Wrong data </p>
+        </div>
+
+        <script type="text/javascript" src="./api.js"> </script>
+        <script type="text/javascript" src="./router.js"> </script>
+        <script type="text/javascript" src="./profile.js"> </script>
+
+    </body>
+
+</html>

@@ -59,6 +59,24 @@
     margin: 7% 35%;
 }
 
+.profile {
+    padding: 3% 8%;
+    background-color: #1DA171;
+    color: #330033;
+    box-shadow: 0 0 8px rgba(0,0,0,0.4);
+    font-family: "Century gothic", Mistral;
+    font-size: 14pt;
+    margin: 5% 30%;
+
+}
+
+
+.header {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+}
+
 .error {
     color: #E91D26;
     font-size: 10pt;
@@ -68,8 +86,8 @@
     width: 100%
 }
 .button {
-    background-color: #E1C3FC;
-    border: 2px solid #E1C3FC;
+    background-color: #E90059;
+    border: 2px solid #E90059;
     margin-top: 10px;
     width: 100px;
     font-size: 10pt;

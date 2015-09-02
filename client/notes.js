@@ -15,8 +15,11 @@ API.notes.list().then(function(notesFromServer) {
     }
 
     alert("Some bullshit! " + error);
-})
-;
+});
+
+document.getElementById('profileButton').onclick = function() {
+    router.profile();
+};
 
 document.getElementById('logoutButton').onclick = function() {
     API.users.logout()
