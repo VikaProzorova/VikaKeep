@@ -126,4 +126,23 @@ router.post('/users/logout', function(req, res) {
     });
 });
 
+router.get('/users/profile', function(req, res) {
+    var user = {
+        email: req.signedCookies.email
+    };
+    new Storage(user).showUser(user)
+    .then(function(user) {
+        res.send({
+            data:   user,
+            status: 1
+        });
+    })
+    .catch(function(error){
+        res.send({
+            status: 0,
+            error:  error
+        })
+    })
+});
+
 app.listen(config.port);

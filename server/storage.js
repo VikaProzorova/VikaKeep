@@ -64,7 +64,7 @@ Storage.prototype = {
         return db.query('INSERT INTO users (email, password, salt, name) VALUES (?, ?, ?, ?)', [user.email, hash, salt, user.name])
         .spread(function() {
             return {
-                name: user.name,
+                name:  user.name,
                 email: user.email
             };
         })
@@ -77,6 +77,19 @@ Storage.prototype = {
                 throw "Email already exist";
             }
             throw "UNKNOWN ERROR";
+        });
+    },
+    showUser: function(user) {
+        return db.query('SELECT * FROM users WHERE email = ?', [user.email])
+        .spread(function(usersFromDB) {
+            var foundUser = usersFromDB[0];
+            if (!foundUser) {
+                throw "User not exist";
+            }
+            return {
+                name:  foundUser.name,
+                email: foundUser.email
+            };
         });
     }
 }

@@ -1,6 +1,7 @@
 var notes = {
     list: function() {
         return fetch('/api/notes', {
+            method: 'get',
             credentials: "same-origin"
         })
         .then(function(response) {
@@ -106,8 +107,22 @@ var users = {
         .then(function(status) {
             return status;
         });
+    },
+    show: function(user) {
+        return fetch('/api/users/profile', {
+            method: 'get',
+            headers: { "Content-type": "application/json; charset=UTF-8" },
+            body:    JSON.stringify(user),
+            credentials: "same-origin"
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(userFromServer) {
+            var user = userFromServer.data;
+            return user;
+        })
     }
-
 };
 
 window.API = {

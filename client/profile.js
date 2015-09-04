@@ -10,3 +10,11 @@ document.getElementById('logoutButton').onclick = function() {
         }
     })
 };
+
+var fullName  = document.getElementById('name');
+var email     = document.getElementById('email');
+
+API.users.show().then(function(user) {
+    fullName.value  = user.name;
+    email.value     = user.email;
+});
