@@ -15,9 +15,9 @@ app.use(express.static('../client'));
 app.use('/api', router);
 
 var auth = function(req, res, next) {
-    var email = req.signedCookies.email;
+    var id = req.signedCookies.id;
 
-    if (email) return next();
+    if (id) return next();
     res.send({
         status: 0,
         error:  "Permission denied"
@@ -26,7 +26,7 @@ var auth = function(req, res, next) {
 
 router.get('/notes', auth, function(req, res) {
     var user = {
-        email: req.signedCookies.email
+        id: req.signedCookies.id
     };
 
     new Storage(user).getNotesList()
@@ -41,7 +41,7 @@ router.get('/notes', auth, function(req, res) {
 router.post('/notes', auth, function(req, res) {
     var note  = req.body;
     var user  = {
-        email: req.signedCookies.email
+        id: req.signedCookies.id
     };
 
     new Storage(user).createNote(note)
@@ -57,7 +57,7 @@ router.post('/notes/:id', auth, function(req, res) {
     var newNoteData  = req.body;
     newNoteData.id   = req.params.id;
     var user         = {
-        email: req.signedCookies.email
+        id: req.signedCookies.id
     };
 
     new Storage(user).updateNote(newNoteData)
@@ -71,7 +71,7 @@ router.post('/notes/:id', auth, function(req, res) {
 
 router.delete('/notes/:id', auth, function(req, res) {
     var user = {
-        email: req.signedCookies.email
+        id: req.signedCookies.id
     };
 
     new Storage(user).deleteNote({ id: req.params.id })
@@ -82,11 +82,11 @@ router.delete('/notes/:id', auth, function(req, res) {
 
 router.post('/users/login', function(req, res) {
     var user = {
-        email: req.signedCookies.email
+        id: req.signedCookies.id
     };
     new Storage(user).loginUser(req.body)
     .then(function(user) {
-        res.cookie("email", user.email, {signed: true, httpOnly: false})
+        res.cookie("id", user.id, {signed: true, httpOnly: false})
         res.send({
             data:   user,
             status: 1
@@ -102,7 +102,7 @@ router.post('/users/login', function(req, res) {
 
 router.post('/users/registration', function(req, res) {
     var user = {
-        email: req.signedCookies.email
+        id: req.signedCookies.id
     };
     new Storage(user).registerUser(req.body)
     .then(function(user) {
@@ -120,20 +120,40 @@ router.post('/users/registration', function(req, res) {
 });
 
 router.post('/users/logout', function(req, res) {
-    res.clearCookie("email");
+    res.clearCookie("id");
     res.send({
         status: 1
     });
 });
 
-router.get('/users/profile', function(req, res) {
+router.get('/users/current', function(req, res) {
     var user = {
-        email: req.signedCookies.email
+        id: req.signedCookies.id
     };
     new Storage(user).showUser(user)
     .then(function(user) {
         res.send({
             data:   user,
+            status: 1
+        });
+    })
+    .catch(function(error){
+        res.send({
+            status: 0,
+            error:  error
+        })
+    })
+});
+
+router.post('/users/current', function(req, res) {
+    var user = {
+        id: req.signedCookies.id
+    };
+
+    new Storage(user).updateUser(req.body)
+    .then(function(user) {
+        res.send({
+            data: user,
             status: 1
         });
     })

@@ -9,14 +9,14 @@ function Storage(user) {
 
 Storage.prototype = {
     getNotesList: function() {
-        return db.query('SELECT * FROM notes WHERE user = ? AND isDeleted = 0 ORDER BY id DESC', [this.user.email])
+        return db.query('SELECT * FROM notes WHERE user = ? AND isDeleted = 0 ORDER BY id DESC', [this.user.id])
         .spread(function(notesFromDB) {
             return notesFromDB;
         });
     },
     createNote: function(note) {
         note.date = new Date();
-        return db.query('INSERT INTO notes (text, date, user) VALUES (?, ?, ?)', [note.text, note.date, this.user.email])
+        return db.query('INSERT INTO notes (text, date, user) VALUES (?, ?, ?)', [note.text, note.date, this.user.id])
         .spread(function(queryStatus) {
             note.id = queryStatus.insertId;
             return note;
@@ -35,7 +35,10 @@ Storage.prototype = {
     createUser: function(user) {
         return db.query('INSERT INTO users (email, password, name) VALUES (?, ?, ?)', [user.email, user.password, user.name])
         .then(function() {
-            return user;
+             return { //TO DO return id
+                name:  user.name,
+                email: user.email
+            };
         });
     },
     loginUser: function(user) {
@@ -52,6 +55,7 @@ Storage.prototype = {
             }
 
             return {
+                id: foundUser.id,
                 name: user.name,
                 email: user.email
             };
@@ -80,7 +84,7 @@ Storage.prototype = {
         });
     },
     showUser: function(user) {
-        return db.query('SELECT * FROM users WHERE email = ?', [user.email])
+        return db.query('SELECT * FROM users WHERE id = ?', [user.id])
         .spread(function(usersFromDB) {
             var foundUser = usersFromDB[0];
             if (!foundUser) {
@@ -89,6 +93,25 @@ Storage.prototype = {
             return {
                 name:  foundUser.name,
                 email: foundUser.email
+            };
+        });
+    },
+    updateUser: function(user) {
+        return db.query('UPDATE users SET email = ?, name = ? WHERE id = ?', [user.email, user.name, this.user.id])
+        .catch(function(error) {
+            console.log(error);
+            if (error.code == 'ER_BAD_NULL_ERROR') {
+                throw "All fields are required";
+            }
+            if (error.code == 'ER_DUP_ENTRY') {
+                throw "Email already exist";
+            }
+            throw "UNKNOWN ERROR";
+        })
+        .spread(function(){
+            return {
+                name:  user.name,
+                email: user.email
             };
         });
     }
