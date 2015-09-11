@@ -49,7 +49,7 @@ Storage.prototype = {
                 throw "User not exist";
             }
 
-            var isValidPassword = bcrypt.compareSync(user.password+foundUser.salt, foundUser.password);
+            var isValidPassword = bcrypt.compareSync(user.password + foundUser.salt, foundUser.password);
             if (!isValidPassword) {
                 throw "Wrong password";
             }
@@ -63,7 +63,7 @@ Storage.prototype = {
     },
     registerUser: function(user) {
         var salt = bcrypt.genSaltSync();
-        var hash = bcrypt.hashSync(user.password+salt);
+        var hash = bcrypt.hashSync(user.password + salt);
 
         return db.query('INSERT INTO users (email, password, salt, name) VALUES (?, ?, ?, ?)', [user.email, hash, salt, user.name])
         .spread(function() {
@@ -112,6 +112,36 @@ Storage.prototype = {
             return {
                 name:  user.name,
                 email: user.email
+            };
+        });
+    },
+    changePasswordUser: function(user) {
+        return db.query('SELECT * FROM users WHERE id = ?', [this.user.id])
+        .spread(function(usersFromDB) {
+            var foundUser = usersFromDB[0];
+            var isValidPassword = bcrypt.compareSync(user.oldPassword + foundUser.salt, foundUser.password);
+            if (!isValidPassword) {
+                throw "Wrong password";
+            }
+            return foundUser;
+        })
+        .then(function(foundUser) {
+            var salt = bcrypt.genSaltSync();
+            var hash = bcrypt.hashSync(user.newPassword + salt);
+            console.log(foundUser, salt, hash);
+            return db.query('UPDATE users SET password = ?, salt = ? WHERE id = ?', [hash, salt, foundUser.id])
+            .catch(function(error) {
+                console.log(error);
+                if (error.code == 'ER_BAD_NULL_ERROR') {
+                    throw "All fields are required";
+                }
+                throw "UNKNOWN ERROR";
+            })
+        })
+        .spread(function(foundUser) {
+            return {
+                name:  foundUser.name,
+                email: foundUser.email
             };
         });
     }

@@ -139,6 +139,23 @@ var users = {
             }
             return userFromServer.data;
         })
+    },
+    changePassword: function(user) {
+        return fetch('/api/users/current/password', {
+            method: 'post',
+            headers: { "Content-type": "application/json; charset=UTF-8" },
+            body:    JSON.stringify(user),
+            credentials: "same-origin"
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(userFromServer) {
+            if (!userFromServer.status) {
+                throw userFromServer.error;
+            }
+            return userFromServer.data;
+        })
     }
 };
 

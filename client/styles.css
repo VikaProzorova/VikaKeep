@@ -60,13 +60,13 @@
 }
 
 .profile {
-    padding: 3% 8%;
+    padding: 2% 8%;
     background-color: #1DA171;
     color: #330033;
     box-shadow: 0 0 8px rgba(0,0,0,0.4);
     font-family: "Century gothic", Mistral;
     font-size: 14pt;
-    margin: 5% 30%;
+    margin: 3% 30%;
 }
 
 .input {

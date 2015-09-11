@@ -18,9 +18,12 @@
             Name <br>
             <input id="name" maxlength="40" type="text" class="input" /> <br>
             Email <br>
-            <input id="email" maxlength="40" type="email" class="input" /> <br> <br>
+            <input id="email" maxlength="40" type="email" class="input" /> <br>
 
-            <input id="changeDataButton" type="button" class="button" value="Save"/>
+            <input id="changeDataButton" type="button" class="button" value="Save"/> <br> <br>
+            <div class="error" id='error' style="visibility: hidden">
+                <p> Wrong data </p>
+            </div>
 
             <center> <b> Change password </b> </center><br>
 
@@ -31,11 +34,11 @@
             Repeat new password <br>
             <input id="repeatNewPassword" maxlength="40" type="password" class="input" /> <br>
 
-            <input id="changePasswordButton" type="button" class="button" value="Change password"/>
-
+            <input id="changePasswordButton" type="button" style='width: 200px;'class="button" value="Change password"/>
             <div class="error" id='error' style="visibility: hidden">
-            <p> Wrong data </p>
-        </div>
+                <p> Wrong data </p>
+            </div>
+
 
         <script type="text/javascript" src="./api.js"> </script>
         <script type="text/javascript" src="./router.js"> </script>

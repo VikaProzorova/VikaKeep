@@ -38,3 +38,27 @@ document.getElementById('changeDataButton').onclick = function() {
         alert(error);
     });
 }
+
+document.getElementById('changePasswordButton').onclick = function() {
+    var passwordData = {
+        oldPassword:       oldPassword.value,
+        newPassword:       newPassword.value,
+        repeatNewPassword: repeatNewPassword.value
+    };
+
+    if (passwordData.newPassword !== passwordData.repeatNewPassword) {
+        alert('Passwords not match');
+        return;
+    }
+
+    API.users.changePassword(passwordData)
+    .then(function (user) {
+        alert('Password successfully saved');
+        oldPassword.value       = '';
+        newPassword.value       = '';
+        repeatNewPassword.value = '';
+    })
+    .catch(function(error) {
+        alert(error);
+    });
+}

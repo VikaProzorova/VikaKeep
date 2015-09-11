@@ -165,4 +165,25 @@ router.post('/users/current', function(req, res) {
     })
 });
 
+router.post('/users/current/password', function(req, res) {
+    var user = {
+        id: req.signedCookies.id
+    };
+
+    new Storage(user).changePasswordUser(req.body)
+    .then(function(user) {
+        console.log(user);
+        res.send({
+            data: user,
+            status: 1
+        });
+    })
+    .catch(function(error){
+        res.send({
+            status: 0,
+            error:  error
+        })
+    })
+});
+
 app.listen(config.port);
