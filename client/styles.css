@@ -39,6 +39,18 @@
     cursor: pointer;
 }
 
+.close-button {
+    height: 16px;
+    width: 16px;
+    position: absolute;
+    margin-top: 1px;
+    margin-left: 285px;
+    background-image: url(del1.png);
+    background-repeat: no-repeat;
+    background-position: right;
+    cursor: pointer;
+}
+
 .login {
     padding: 3% 5%;
     background-color: #99FF99;
@@ -102,4 +114,25 @@
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
     font-family: "Century gothic", Mistral;
     cursor: pointer;
+}
+
+.popup-background {
+    width: 100%;
+    min-height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow: hidden;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    padding: 0px;
+
+}
+.popup {
+    margin: 38% 0% 0% 75%;
+    width: 300px;
+    height: 100px;
+    padding: 10px;
+    background-color: #E7EDA5;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px #000;
 }

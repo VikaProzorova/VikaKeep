@@ -21,7 +21,7 @@
             <input id="email" maxlength="40" type="email" class="input" /> <br>
 
             <input id="changeDataButton" type="button" class="button" value="Save"/> <br> <br>
-            <div class="error" id='error' style="visibility: hidden">
+            <div class="error" id="error" style="visibility: hidden">
                 <p> Wrong data </p>
             </div>
 
@@ -34,11 +34,18 @@
             Repeat new password <br>
             <input id="repeatNewPassword" maxlength="40" type="password" class="input" /> <br>
 
-            <input id="changePasswordButton" type="button" style='width: 200px;'class="button" value="Change password"/>
-            <div class="error" id='error' style="visibility: hidden">
+            <input id="changePasswordButton" type="button" style="width: 200px;" class="button" value="Change password"/>
+            <div class="error" id="error" style="visibility: hidden">
                 <p> Wrong data </p>
             </div>
+        </div>
 
+        <div class="popup-background" id="popupBackground"  style="visibility: hidden">
+            <div class="popup" id="popup" style="visibility: hidden">
+                <div class="close-button" id="closeButton" style="visibility: hidden"></div>
+                <div id="popupText" style="visibility: hidden"></div>
+            </div>
+        </div>
 
         <script type="text/javascript" src="./api.js"> </script>
         <script type="text/javascript" src="./router.js"> </script>

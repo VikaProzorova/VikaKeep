@@ -18,10 +18,33 @@ var newPassword       = document.getElementById('newPassword');
 var repeatNewPassword = document.getElementById('repeatNewPassword');
 
 
+function showPopup (message) {
+    var popupBackground = document.getElementById('popupBackground');
+    var popup           = document.getElementById('popup');
+    var closeButton     = document.getElementById('closeButton');
+    var popupText       = document.getElementById('popupText');
+
+
+    closeButton.onclick   = function() {
+        popup.style.display           = "none";
+        popupBackground.style.display = "none";
+    }
+
+    popupBackground.style.visibility = "visible";
+    popup.style.visibility           = "visible";
+    popupText.style.visibility       = "visible";
+    closeButton.style.visibility     = "visible";
+
+    popupText.innerHTML = message;
+
+
+}
+
+
 API.users.show()
 .then(function(user) {
-    fullName.value  = user.name;
-    email.value     = user.email;
+    fullName.value = user.name;
+    email.value    = user.email;
 });
 
 document.getElementById('changeDataButton').onclick = function() {
@@ -32,10 +55,10 @@ document.getElementById('changeDataButton').onclick = function() {
 
     API.users.update(newUserData)
     .then(function(user) {
-        alert('Changes successfully saved');
+        showPopup('Changes successfully saved');
     })
     .catch(function(error) {
-        alert(error);
+        showPopup(error);
     });
 }
 
@@ -47,18 +70,20 @@ document.getElementById('changePasswordButton').onclick = function() {
     };
 
     if (passwordData.newPassword !== passwordData.repeatNewPassword) {
-        alert('Passwords not match');
+        showPopup('Passwords not match');
         return;
     }
 
     API.users.changePassword(passwordData)
     .then(function (user) {
-        alert('Password successfully saved');
+        showPopup('Password successfully saved');
         oldPassword.value       = '';
         newPassword.value       = '';
         repeatNewPassword.value = '';
     })
     .catch(function(error) {
-        alert(error);
+        showPopup(error);
     });
 }
+
+
