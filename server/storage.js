@@ -128,8 +128,11 @@ Storage.prototype = {
         .then(function(foundUser) {
             var salt = bcrypt.genSaltSync();
             var hash = bcrypt.hashSync(user.newPassword + salt);
-            console.log(foundUser, salt, hash);
+
             return db.query('UPDATE users SET password = ?, salt = ? WHERE id = ?', [hash, salt, foundUser.id])
+            .then(function(){
+                return foundUser;
+            })
             .catch(function(error) {
                 console.log(error);
                 if (error.code == 'ER_BAD_NULL_ERROR') {
@@ -138,7 +141,7 @@ Storage.prototype = {
                 throw "UNKNOWN ERROR";
             })
         })
-        .spread(function(foundUser) {
+        .then(function(foundUser) {
             return {
                 name:  foundUser.name,
                 email: foundUser.email

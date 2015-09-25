@@ -26,8 +26,10 @@ function showPopup (message) {
 
 
     closeButton.onclick   = function() {
-        popup.style.display           = "none";
-        popupBackground.style.display = "none";
+        popup.style.visibility           = "hidden";
+        closeButton.style.visibility     = "hidden";
+        popupText.style.visibility       = "hidden";
+        popupBackground.style.visibility = "hidden";
     }
 
     popupBackground.style.visibility = "visible";
@@ -69,7 +71,7 @@ document.getElementById('changePasswordButton').onclick = function() {
         repeatNewPassword: repeatNewPassword.value
     };
 
-    if (passwordData.newPassword !== passwordData.repeatNewPassword) {
+    if (passwordData.newPassword != passwordData.repeatNewPassword) {
         showPopup('Passwords not match');
         return;
     }
