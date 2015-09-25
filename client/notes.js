@@ -14,7 +14,7 @@ API.notes.list().then(function(notesFromServer) {
         return;
     }
 
-    alert("Some bullshit! " + error);
+    showPopup("Some bullshit! " + error);
 });
 
 document.getElementById('profileButton').onclick = function() {

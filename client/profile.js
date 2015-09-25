@@ -18,31 +18,6 @@ var newPassword       = document.getElementById('newPassword');
 var repeatNewPassword = document.getElementById('repeatNewPassword');
 
 
-function showPopup (message) {
-    var popupBackground = document.getElementById('popupBackground');
-    var popup           = document.getElementById('popup');
-    var closeButton     = document.getElementById('closeButton');
-    var popupText       = document.getElementById('popupText');
-
-
-    closeButton.onclick   = function() {
-        popup.style.visibility           = "hidden";
-        closeButton.style.visibility     = "hidden";
-        popupText.style.visibility       = "hidden";
-        popupBackground.style.visibility = "hidden";
-    }
-
-    popupBackground.style.visibility = "visible";
-    popup.style.visibility           = "visible";
-    popupText.style.visibility       = "visible";
-    closeButton.style.visibility     = "visible";
-
-    popupText.innerHTML = message;
-
-
-}
-
-
 API.users.show()
 .then(function(user) {
     fullName.value = user.name;

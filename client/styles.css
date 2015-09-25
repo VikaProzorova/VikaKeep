@@ -121,12 +121,13 @@
     min-height: 100%;
     background-color: rgba(0,0,0,0.5);
     overflow: hidden;
-    position: fixed;
+    position: absolute;
     left: 0px;
     top: 0px;
     padding: 0px;
 
 }
+
 .popup {
     margin: 38% 0% 0% 75%;
     width: 300px;
@@ -135,4 +136,12 @@
     background-color: #E7EDA5;
     border-radius: 5px;
     box-shadow: 0px 0px 10px #000;
+}
+
+.popup-text {
+    padding: 10px;
+    color: #330033;
+    font-family: "Century gothic", Mistral;
+    font-size: 12pt;
+    text-align: center;
 }
