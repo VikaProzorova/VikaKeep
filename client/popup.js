@@ -34,6 +34,10 @@ function switchVisibility (visibility) {
 
 function showPopup (message) {
     switchVisibility("visible");
+    setTimeout(function(){
+        switchVisibility("hidden");
+    } , 2500);
+
     popupText.innerHTML = message;
 }
 
