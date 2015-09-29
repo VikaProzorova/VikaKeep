@@ -7,6 +7,7 @@
     "mysql-promise": "latest",
     "node-uuid": "latest",
     "cookie-parser": "latest",
-    "bcrypt-nodejs": "latest"
+    "bcrypt-nodejs": "latest",
+    "livr": "latest"
   }
 }

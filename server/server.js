@@ -2,6 +2,8 @@ var fs           = require('fs');
 var express      = require('express');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
+var LIVR         = require('livr');
+LIVR.Validator.defaultAutoTrim(true);
 
 var config       = require('./config');
 var Storage      = require('./storage');
@@ -14,6 +16,9 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(express.static('../client'));
 app.use('/api', router);
 
+
+
+
 var auth = function(req, res, next) {
     var id = req.signedCookies.id;
 
@@ -25,11 +30,8 @@ var auth = function(req, res, next) {
 };
 
 router.get('/notes', auth, function(req, res) {
-    var user = {
-        id: req.signedCookies.id
-    };
-
-    new Storage(user).getNotesList()
+    new Storage({id: req.signedCookies.id})
+    .getNotesList()
     .then(function(notesList){
         res.send({
             data:   notesList,
@@ -39,12 +41,21 @@ router.get('/notes', auth, function(req, res) {
 });
 
 router.post('/notes', auth, function(req, res) {
-    var note  = req.body;
-    var user  = {
-        id: req.signedCookies.id
-    };
+    var validator = new LIVR.Validator({
+        text: [ {max_length: 1000} ],
+    });
 
-    new Storage(user).createNote(note)
+    var note = validator.validate(req.body);
+    if (!note) {
+        res.send({
+            status: 0,
+            error:  validator.getErrors()
+        });
+        return;
+    }
+
+    new Storage({id: req.signedCookies.id})
+    .createNote(note)
     .then(function(note) {
         res.send({
             data:   note,
@@ -54,37 +65,75 @@ router.post('/notes', auth, function(req, res) {
 });
 
 router.post('/notes/:id', auth, function(req, res) {
-    var newNoteData  = req.body;
-    newNoteData.id   = req.params.id;
-    var user         = {
-        id: req.signedCookies.id
-    };
+    var validator = new LIVR.Validator({
+        text: [ {max_length: 1000} ],
+        id:   [ 'required', 'positive_integer']
+    });
 
-    new Storage(user).updateNote(newNoteData)
-    .then(function(newNoteData) {
+    var note = validator.validate({
+        text: req.body.text,
+        id:   req.params.id
+    });
+    if (!note) {
         res.send({
-            data:   newNoteData,
+            status: 0,
+            error:  validator.getErrors()
+        });
+        return;
+    }
+
+    new Storage({id: req.signedCookies.id})
+    .updateNote(note)
+    .then(function(note) {
+        res.send({
+            data:   note,
             status: 1
         });
     });
 });
 
 router.delete('/notes/:id', auth, function(req, res) {
-    var user = {
-        id: req.signedCookies.id
-    };
+    var validator = new LIVR.Validator({
+        id:   [ 'required', 'positive_integer']
+    });
 
-    new Storage(user).deleteNote({ id: req.params.id })
+    var note = validator.validate({
+        id:   req.params.id
+    });
+    if (!note) {
+        res.send({
+            status: 0,
+            error:  validator.getErrors()
+        });
+        return;
+    }
+
+    new Storage({id: req.signedCookies.id})
+    .deleteNote({ id: req.params.id })
     .then(function() {
         res.send({status: 1})
     });
 });
 
+//===========================================================================//
+
 router.post('/users/login', function(req, res) {
-    var user = {
-        id: req.signedCookies.id
-    };
-    new Storage(user).loginUser(req.body)
+    var validator = new LIVR.Validator({
+        email:     [ 'required', 'email' ],
+        password:  [ 'required', {min_length: 6} ],
+    });
+
+    var user = validator.validate(req.body);
+    if (!user) {
+        res.send({
+            status: 0,
+            error:  validator.getErrors()
+        });
+        return;
+    }
+
+    new Storage({id: req.signedCookies.id})
+    .loginUser(user)
     .then(function(user) {
         res.cookie("id", user.id, {signed: true, httpOnly: false})
         res.send({
@@ -101,10 +150,23 @@ router.post('/users/login', function(req, res) {
 });
 
 router.post('/users/registration', function(req, res) {
-    var user = {
-        id: req.signedCookies.id
-    };
-    new Storage(user).registerUser(req.body)
+    var validator = new LIVR.Validator({
+        name:      [ 'required', {min_length: 2} ],
+        email:     [ 'required', 'email' ],
+        password:  [ 'required', {min_length: 6} ],
+    });
+
+    var user = validator.validate(req.body);
+    if (!user) {
+        res.send({
+            status: 0,
+            error:  validator.getErrors()
+        });
+        return;
+    }
+
+    new Storage({id: req.signedCookies.id})
+    .registerUser(user)
     .then(function(user) {
         res.send({
             data:   user,
@@ -117,6 +179,7 @@ router.post('/users/registration', function(req, res) {
             error:  error
         })
     })
+
 });
 
 router.post('/users/logout', function(req, res) {
@@ -127,10 +190,10 @@ router.post('/users/logout', function(req, res) {
 });
 
 router.get('/users/current', function(req, res) {
-    var user = {
-        id: req.signedCookies.id
-    };
-    new Storage(user).showUser(user)
+    var user = {id: req.signedCookies.id};
+
+    new Storage(user)
+    .showUser(user)
     .then(function(user) {
         res.send({
             data:   user,
@@ -146,11 +209,22 @@ router.get('/users/current', function(req, res) {
 });
 
 router.post('/users/current', function(req, res) {
-    var user = {
-        id: req.signedCookies.id
-    };
+    var validator = new LIVR.Validator({
+        name:      [ 'required', {min_length: 2} ],
+        email:     [ 'required', 'email' ],
+    });
 
-    new Storage(user).updateUser(req.body)
+    var user = validator.validate(req.body);
+    if (!user) {
+        res.send({
+            status: 0,
+            error:  validator.getErrors()
+        });
+        return;
+    }
+
+    new Storage({id: req.signedCookies.id})
+    .updateUser(user)
     .then(function(user) {
         res.send({
             data: user,
@@ -166,11 +240,22 @@ router.post('/users/current', function(req, res) {
 });
 
 router.post('/users/current/password', function(req, res) {
-    var user = {
-        id: req.signedCookies.id
-    };
+    var validator = new LIVR.Validator({
+        oldPassword:  [ 'required', {min_length: 6} ],
+        newPassword:  [ 'required', {min_length: 6} ]
+    });
 
-    new Storage(user).changePasswordUser(req.body)
+    var user = validator.validate(req.body);
+    if (!user) {
+        res.send({
+            status: 0,
+            error:  validator.getErrors()
+        });
+        return;
+    }
+
+    new Storage({id: req.signedCookies.id})
+    .changePasswordUser(user)
     .then(function(user) {
         console.log(user);
         res.send({
