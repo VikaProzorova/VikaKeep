@@ -2,10 +2,10 @@
 var fs     = require('fs');
 var db     = require('mysql-promise')();
 
-var config = require('./config');
+var config = require('../etc/config');
 config.db.multipleStatements = true;
 
-var sql = fs.readFileSync('./db.sql', 'utf8');
+var sql = fs.readFileSync('../db.sql', 'utf8');
 
 db.configure(config.db);
 

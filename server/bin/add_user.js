@@ -1,6 +1,6 @@
-var storage = require('./storage');
+var Storage = require('../storage');
 
-storage.createUser({
+new Storage().registerUser({
     email:    process.argv[2],
     password: process.argv[3],
     name:     process.argv[4] || 'Vasia'

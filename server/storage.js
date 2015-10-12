@@ -1,6 +1,6 @@
 var db     = require('mysql-promise')();
 var bcrypt = require('bcrypt-nodejs');
-var config = require('./config');
+var config = require('./etc/config');
 db.configure(config.db);
 
 function Storage(user) {
@@ -31,15 +31,6 @@ Storage.prototype = {
     },
     deleteNote: function(note) {
         return db.query('UPDATE notes SET isDeleted = true WHERE id = ?', [note.id])
-    },
-    createUser: function(user) {
-        return db.query('INSERT INTO users (email, password, name) VALUES (?, ?, ?)', [user.email, user.password, user.name])
-        .then(function() {
-             return { //TO DO return id
-                name:  user.name,
-                email: user.email
-            };
-        });
     },
     loginUser: function(user) {
         return db.query('SELECT * FROM users WHERE email = ?', [user.email])

@@ -2,12 +2,13 @@
   "name": "VikaKeep",
   "version": "0.0.1",
   "dependencies": {
-    "express": "latest",
-    "body-parser": "latest",
-    "mysql-promise": "latest",
-    "node-uuid": "latest",
-    "cookie-parser": "latest",
     "bcrypt-nodejs": "latest",
-    "livr": "latest"
+    "bluebird": "^2.10.2",
+    "body-parser": "latest",
+    "cookie-parser": "latest",
+    "express": "latest",
+    "livr": "latest",
+    "mysql-promise": "latest",
+    "node-uuid": "latest"
   }
 }
