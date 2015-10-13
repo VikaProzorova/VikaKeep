@@ -1,14 +1,20 @@
 {
-  "name": "VikaKeep",
-  "version": "0.0.1",
-  "dependencies": {
-    "bcrypt-nodejs": "latest",
-    "bluebird": "^2.10.2",
-    "body-parser": "latest",
-    "cookie-parser": "latest",
-    "express": "latest",
-    "livr": "latest",
-    "mysql-promise": "latest",
-    "node-uuid": "latest"
-  }
+    "name":         "VikaKeep",
+    "version":      "0.0.1",
+    "dependencies": {
+        "bcrypt-nodejs": "latest",
+        "bluebird":      "latest",
+        "body-parser":   "latest",
+        "cookie-parser": "latest",
+        "express":       "latest",
+        "livr":          "latest",
+        "mysql-promise": "latest",
+        "node-uuid":     "latest",
+        "supertest":     "latest",
+        "chai":          "latest",
+        "mocha":         "latest"
+    },
+    "scripts":      {
+        "test":          "mocha --timeout 10000 --reporter spec --ui qunit tests/*"
+    }
 }

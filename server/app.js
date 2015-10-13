@@ -37,3 +37,4 @@ router.post('/users/current',          auth, routes('Users/update') );
 router.post('/users/current/password', auth, routes('Users/changePassword') );
 
 app.listen(config.port);
+module.exports = app;
