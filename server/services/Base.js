@@ -1,10 +1,10 @@
-var Storage = require('../storage');
 var LIVR = require('livr');
 LIVR.Validator.defaultAutoTrim(true);
 var Promise = require('bluebird');
 
-function Base(userID) {
-    this.userID  = userID;
+function Base(params) {
+    this.userID  = params.userID;
+    this.Storage = params.Storage;
 }
 
 Base.prototype.runValidation = function(data, rules) {
@@ -17,7 +17,7 @@ Base.prototype.runValidation = function(data, rules) {
 }
 
 Base.prototype.run = function(data) {
-    this.storage = new Storage({id: this.userID});
+    this.storage = new this.Storage({id: this.userID});
     try {
         return this.execute( this.validate(data) );
     } catch (error) {

@@ -1,11 +1,14 @@
 var db     = require('mysql-promise')();
 var bcrypt = require('bcrypt-nodejs');
-var config = require('./etc/config');
-db.configure(config.db);
+
 
 function Storage(user) {
     this.user = user;
 };
+
+Storage.getDB = function() {
+    return db;
+}
 
 Storage.prototype = {
     getNotesList: function() {
@@ -139,6 +142,10 @@ Storage.prototype = {
             };
         });
     }
+
 }
 
-module.exports = Storage;
+module.exports = function(params) {
+    db.configure(params.config);
+    return Storage;
+};

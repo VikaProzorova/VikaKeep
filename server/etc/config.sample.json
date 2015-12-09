@@ -5,6 +5,8 @@
         "password": "secret",
         "database": "vika_keep"
     },
-    "secret": "en6ohzMQFRd55qqU4zaz",
-    "port": 3000
+    "app": {
+        "secret": "this_will_be_secret_tocken",
+        "port": 3000
+    }
 }
