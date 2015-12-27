@@ -9,6 +9,7 @@ Base.prototype.renderPromise = function(promise, res) {
         res.send(data);
     })
     .catch(function(error){
+        console.log(error);
         res.send({
             status: 0,
             error:  error

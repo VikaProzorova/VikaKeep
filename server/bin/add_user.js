@@ -1,4 +1,4 @@
-var Storage = require('../storage');
+var Storage = require('../Storage');
 
 new Storage().registerUser({
     email:    process.argv[2],

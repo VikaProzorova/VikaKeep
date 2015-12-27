@@ -1,0 +1,837 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"res",
+				"resultPromise"
+			],
+			[
+				"re",
+				"result"
+			],
+			[
+				"r",
+				"return"
+			],
+			[
+				"sa",
+				"sampleCallback"
+			],
+			[
+				"read",
+				"readFileAsync"
+			],
+			[
+				"rea",
+				"readFileSync"
+			],
+			[
+				"pac",
+				"package_json"
+			],
+			[
+				"db",
+				"db_sql"
+			],
+			[
+				"t",
+				"test"
+			],
+			[
+				"e",
+				"email"
+			],
+			[
+				"user",
+				"userRes"
+			],
+			[
+				"a",
+				"app"
+			],
+			[
+				"con",
+				"console"
+			],
+			[
+				"val",
+				"validator"
+			],
+			[
+				"v",
+				"validator"
+			],
+			[
+				"U",
+				"Update"
+			],
+			[
+				"ac",
+				"actionClass"
+			],
+			[
+				"act",
+				"actionObject"
+			],
+			[
+				"action",
+				"actionClass"
+			],
+			[
+				"i",
+				"id"
+			],
+			[
+				"route",
+				"routes"
+			],
+			[
+				"u",
+				"user"
+			],
+			[
+				"p",
+				"promise"
+			],
+			[
+				"th",
+				"then"
+			],
+			[
+				"D",
+				"Delete"
+			],
+			[
+				"C",
+				"Create"
+			],
+			[
+				"R",
+				"Registration"
+			],
+			[
+				"L",
+				"Login"
+			],
+			[
+				"s",
+				"services"
+			],
+			[
+				"st",
+				"storage"
+			],
+			[
+				"vali",
+				"validate"
+			],
+			[
+				"pr",
+				"prototype"
+			],
+			[
+				"l",
+				"latest"
+			],
+			[
+				"f",
+				"function"
+			],
+			[
+				"c",
+				"closeButton"
+			],
+			[
+				"d",
+				"document"
+			],
+			[
+				"va",
+				"value"
+			],
+			[
+				"cl",
+				"closeButton"
+			],
+			[
+				"fo",
+				"foundUser"
+			],
+			[
+				"n",
+				"newUserPassword"
+			],
+			[
+				"us",
+				"users"
+			],
+			[
+				"new",
+				"newUserData"
+			],
+			[
+				"po",
+				"post"
+			],
+			[
+				"g",
+				"getElementById"
+			],
+			[
+				"ge",
+				"get	Get Elements"
+			],
+			[
+				"pro",
+				"profile"
+			],
+			[
+				"S",
+				"Storage"
+			],
+			[
+				"no",
+				"note"
+			],
+			[
+				"am",
+				"animal1"
+			],
+			[
+				"FR",
+				"fruit1"
+			],
+			[
+				"fri",
+				"fruit2"
+			],
+			[
+				"ft",
+				"fruits"
+			],
+			[
+				"frut",
+				"fruits"
+			],
+			[
+				"fru",
+				"fruits"
+			],
+			[
+				"str",
+				"storage1"
+			],
+			[
+				"get",
+				"getNotesList"
+			],
+			[
+				"W",
+				"Wrong"
+			],
+			[
+				"lo",
+				"log"
+			],
+			[
+				"tr",
+				"throw"
+			],
+			[
+				"qu",
+				"queriesInfo"
+			],
+			[
+				"in",
+				"INTO"
+			],
+			[
+				"I",
+				"INSERT"
+			],
+			[
+				"di",
+				"display"
+			],
+			[
+				"se",
+				"signedCookies"
+			],
+			[
+				"ne",
+				"next"
+			],
+			[
+				"use",
+				"user"
+			],
+			[
+				"q",
+				"query"
+			],
+			[
+				"US",
+				"user"
+			],
+			[
+				"req",
+				"require"
+			],
+			[
+				"da",
+				"date"
+			],
+			[
+				"co",
+				"console"
+			],
+			[
+				"wi",
+				"width"
+			],
+			[
+				"o",
+				"onclick"
+			],
+			[
+				"nr",
+				"newNoteContainer"
+			],
+			[
+				"for",
+				"for	for (…) {…}"
+			],
+			[
+				"note",
+				"noteFromServer"
+			],
+			[
+				"date",
+				"dateFormat"
+			],
+			[
+				"not",
+				"note"
+			],
+			[
+				"te",
+				"text"
+			],
+			[
+				"cr",
+				"createDate"
+			],
+			[
+				"b",
+				"block1"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"h",
+				"height"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "server/etc/config.json",
+			"settings":
+			{
+				"buffer_size": 230,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "server/app.js",
+			"settings":
+			{
+				"buffer_size": 81,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "server/etc/config.sample.json",
+			"settings":
+			{
+				"buffer_size": 226,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "server/server.js",
+			"settings":
+			{
+				"buffer_size": 1755,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"java",
+				"Set Syntax: JavaScript"
+			]
+		],
+		"width": 528.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/D/js/VikaKeep/server/node_modules/chai/lib/chai/utils/addProperty.js",
+		"/D/js/VikaKeep/server/app.js",
+		"/D/js/VikaKeep/server/routes/Notes.js",
+		"/D/js/VikaKeep/server/routes/Users.js",
+		"/D/js/VikaKeep/server/promise_test.js",
+		"/D/js/VikaKeep/server/Storage.js",
+		"/D/js/VikaKeep/server/server.js",
+		"/D/js/VikaKeep/server/tests/helper.js",
+		"/D/js/VikaKeep/server/tests/users_registration.js",
+		"/D/js/VikaKeep/server/tests/user_login.js",
+		"/D/js/VikaKeep/server/package.json",
+		"/D/js/VikaKeep/server/etc/config.test.json",
+		"/D/js/VikaKeep/server/etc/config.json",
+		"/D/js/VikaKeep/server/services/index.js",
+		"/D/js/VikaKeep/server/routes/index.js",
+		"/D/js/VikaKeep/server/services/Base.js",
+		"/D/js/VikaKeep/server/etc/config.sample.json",
+		"/D/js/VikaKeep/server/tests/user_show.js",
+		"/D/js/VikaKeep/server/bin/add_user.js",
+		"/D/js/VikaKeep/server/user_login.js",
+		"/D/js/VikaKeep/server/users_registration.js",
+		"/D/js/VikaKeep/server/node_modules/bluebird/js/main/promise_array.js",
+		"/D/js/VikaKeep/server/storage.js",
+		"/D/js/VikaKeep/server/bin/create_db.js",
+		"/D/js/VikaKeep/server/services/Notes/Create.js",
+		"/D/js/VikaKeep/server/services/Users/Login.js",
+		"/D/js/VikaKeep/server/routes/Base.js",
+		"/D/js/VikaKeep/server/services/Users/Show.js",
+		"/D/js/VikaKeep/server/services/Users/Registration.js",
+		"/D/js/VikaKeep/server/services/Users/ChangePassword.js",
+		"/D/js/VikaKeep/server/services/Users/Update.js",
+		"/D/js/VikaKeep/server/services/Notes/Update.js",
+		"/D/js/VikaKeep/server/services/Notes/Delete.js",
+		"/D/js/VikaKeep/server/services/Notes/List.js",
+		"/D/js/VikaKeep/server/services/Users/index.js",
+		"/D/js/VikaKeep/server/services/Notes/index.js",
+		"/C/Users/Viktoria/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/D/js/VikaKeep/server/services/Notes.js",
+		"/D/js/VikaKeep/server/services/Users.js",
+		"/D/js/VikaKeep/server/routes/Users,js",
+		"/D/js/VikaKeep/server/create_db.js",
+		"/D/js/VikaKeep/client/notes.html",
+		"/D/js/VikaKeep/client/popup.js",
+		"/D/js/VikaKeep/client/profile.js",
+		"/D/js/VikaKeep/client/profile.html",
+		"/D/js/VikaKeep/client/notes.js",
+		"/D/js/VikaKeep/client/styles.css",
+		"/D/js/VikaKeep/client/registration.js",
+		"/D/js/VikaKeep/client/registration.html",
+		"/D/js/VikaKeep/client/login.js",
+		"/D/js/VikaKeep/client/login.html",
+		"/C/Windows/System32/drivers/etc/hosts",
+		"/C/Users/Viktoria/.ssh/known_hosts",
+		"/C/Users/Viktoria/.ssh/id_rsa",
+		"/D/js/VikaKeep/client/api.js",
+		"/D/js/VikaKeep/server/db.sql",
+		"/D/js/VikaKeep/client/router.js",
+		"/D/js/test1.js",
+		"/C/Users/Viktoria/.ssh/id_rsa.pub",
+		"/C/Users/Viktoria/.gitconfig",
+		"/D/js/VikaKeep/client/index.html",
+		"/D/js/VikaKeep/server/add_user.js",
+		"/D/js/VikaKeep/server/config.json",
+		"/D/js/VikaKeep/server/config.sample.json",
+		"/D/js/VikaKeep/client/client.js",
+		"/C/Users/Viktoria/AppData/Local/Temp/Rar$DI03.384/README",
+		"/D/js/VikaKeep/app.js",
+		"/D/js/VikaKeep/client.js",
+		"/D/js/VikaKeep/MyNotes.html",
+		"/D/js/VikaKeep/package.json",
+		"/D/js/VikaKeep/.gitignore",
+		"/D/MyNotes.html",
+		"/D/1/3.js"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 90.0,
+		"where_history":
+		[
+			"-node_modules/*",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"prototype",
+			".map",
+			"contents",
+			"storage",
+			"userRes",
+			"sessionRes",
+			"res",
+			"'supertest'",
+			"supertest",
+			"user",
+			"login",
+			"registration",
+			"latest",
+			"123",
+			"console.log",
+			";",
+			"console",
+			"data",
+			"super_call",
+			"router",
+			"auth",
+			"create",
+			"Notes",
+			"return",
+			"services",
+			"Nptes",
+			"List",
+			"Show",
+			"ChangePassword",
+			"Registration",
+			"Show",
+			"require",
+			"Registration",
+			"Login",
+			"Create",
+			"List",
+			"Notes",
+			"id: req.signedCookies.id",
+			"newNoteData",
+			"validData",
+			"ri",
+			"alert",
+			"className",
+			"getElementById",
+			"user",
+			"email",
+			"userFromDB",
+			" #",
+			"margin",
+			"eat",
+			"fruit",
+			"fruit1",
+			"Fruit",
+			"this",
+			"string",
+			"Storage",
+			"new",
+			"user",
+			"resivedFromServerNotes",
+			"fetch",
+			"app",
+			"name",
+			"client",
+			"API",
+			"API.",
+			"=",
+			"securityCode",
+			"NOT NULL",
+			"notes",
+			"db",
+			"note",
+			"rows",
+			"'",
+			"count",
+			"resivedFromServerNotes",
+			"this",
+			"oldNote",
+			"newNote",
+			"note",
+			"notes[i]",
+			"console",
+			"resivedFromServerStatus",
+			"req.body",
+			"client",
+			"allData",
+			"showNote",
+			"newNote",
+			"text",
+			"createNewNote",
+			"createDate",
+			"	",
+			"\\t",
+			"container",
+			"%;\n",
+			"\"",
+			"+",
+			","
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"'supertest-as-promised'",
+			"supertest-as-promised",
+			"super_.call",
+			"\"",
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "server/etc/config.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 230,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								230,
+								230
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "server/app.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 81,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								81,
+								81
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "server/etc/config.sample.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 226,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "server/server.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1755,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1471,
+								1471
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "vika_keep.sublime-project",
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"app",
+				"server\\app.js"
+			],
+			[
+				"pack",
+				"server\\package.json"
+			],
+			[
+				"pac",
+				"server\\package.json"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"D:\\js\\lessons\\lessons.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 170.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
