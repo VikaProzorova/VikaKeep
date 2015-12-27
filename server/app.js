@@ -1,3 +1,10 @@
 var config = require('./etc/config');
 var server = require('./server')(config);
 
+server.app.listen(config.app.port, function (error) {
+    if (error) {
+        console.error(error)
+    } else {
+        console.log('App listen', config.app.port);
+    }
+});

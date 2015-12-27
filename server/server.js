@@ -10,7 +10,7 @@ module.exports   = function(config) {
     var services = require('./services')({config: null, Storage: Storage});
     var routes   = require('./routes')({config: config.app, services: services});
 
-    app.use(cookieParser(config.secret));
+    app.use(cookieParser(config.app.secret));
     app.use(bodyParser.json()); // for parsing application/json
     app.use(express.static('../client'));
     app.use('/api', router);
@@ -36,7 +36,6 @@ module.exports   = function(config) {
     router.post('/users/current',          auth, routes('Users/update') );
     router.post('/users/current/password', auth, routes('Users/changePassword') );
 
-    app.listen(config.port);
     return {
         app: app,
         Storage: Storage,
