@@ -3,24 +3,25 @@
 
     <head>
         <title> Registration </title>
-        <link rel="stylesheet" type="text/css" href="./styles.css">
+        <!-- <link rel="stylesheet" type="text/css" href="./styles.css"> -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     </head>
 
-    <body bgcolor="FFFFCC">
-        <input id="loginButton" type="button" class="button" value="Login">
+    <body class="body">
+        <input id="loginButton" type="button" class="btn btn-primary" value="Login">
+        <div class="row text-center pad-top col-md-12"> <h1> VikaKeep Registration Page </h1> </div>
 
-        <div class="registration">
-            <center> <b> Registration </b> </center><br>
-            Email <br>
-            <input id="email" maxlength="40" type="email" class="input" /> <br>
-            Name <br>
-            <input id="name" maxlength="40" type="text" class="input" /> <br>
-            Password <br>
-            <input id="password" maxlength="40" type="password" class="input" /> <br>
-            Repeat password <br>
-            <input id="repeatPassword" maxlength="40" type="password" class="input" /> <br>
-            <input id="submitButton" type="button" class="button" value="Register"/>
-
+        <div class="row  pad-top col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+            <div class="panel panel-success">
+                <div class="panel-heading"> Registration </div>
+                <div class="panel-body">
+                    <input id="email" type="email" class="form-control form-group input-group" placeholder="Email"/>
+                    <input id="name" type="text" class="form-control form-group input-group" placeholder="Name">
+                    <input id="password" maxlength="40" type="password form-group input-group" placeholder="Password" class="form-control form-group input-group"/>
+                    <input id="repeatPassword" maxlength="40" type="password"  placeholder="Repeat password " class="form-control form-group input-group"/>
+                    <input id="submitButton" type="button" class="btn btn-success form-group input-group" value="Register"/>
+                </div>
+            </div>
         </div>
 
         <script type="text/javascript" src="./api.js"> </script>
