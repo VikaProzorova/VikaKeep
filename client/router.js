@@ -9,7 +9,7 @@ var router = {
         window.location = "/registration.html"
     },
     profile: function() {
-         window.location = "/profile.html"
+        window.location = "/profile.html"
     }
 }
 window.router = router;

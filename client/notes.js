@@ -1,5 +1,6 @@
 var notesList      = document.getElementById('notesList'); //найти див для расположения заметок
 var newNoteInput   = document.getElementById('newNoteInput'); // найти текстареа для ввода текста новой заметки
+// var moment         = require('moment');
 
 API.notes.list().then(function(notesFromServer) {
     for (var i = 0; i < notesFromServer.data.length; i++) {
@@ -61,6 +62,7 @@ function showNote(note) {
     newTextArea.onblur     = function() {
         API.notes.update({id: note.id, text: this.value}).then(function(noteFromServer) {
             newDateContainer.innerHTML = dateFormat(noteFromServer.date);
+            //newDateContainer.innerHTML = moment(noteFromServer.date).format('MMMM Do YYYY, h:mm:ss');
         })
     }
 
@@ -70,16 +72,18 @@ function showNote(note) {
         })
     }
 
-    newNoteContainer.appendChild(deleteButton);
     newNoteContainer.appendChild(newTextArea);
     newNoteContainer.appendChild(newDateContainer);
+    newNoteContainer.appendChild(deleteButton);
 
-    newNoteContainer.className = 'note-container'; //свойства объекта
-    newDateContainer.className = "date";
-    deleteButton.className     = "delete-button";
+    newNoteContainer.className = "panel panel-default"; //свойства объекта
+    newTextArea.className      = "panel-body form-control form-group"
+    newDateContainer.className = "panel-title";
+    deleteButton.className     = "glyphicon glyphicon-trash";
 
     newTextArea.innerHTML      = note.text; //свойствo объекта
     newDateContainer.innerHTML = dateFormat(note.date);
+    // newDateContainer.innerHTML = moment(note.date).format('MMMM Do YYYY, h:mm:ss');
 
     return newNoteContainer;
 }
