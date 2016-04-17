@@ -159,7 +159,7 @@ var users = {
     }
 };
 
-window.API = {
+module.exports = {
     notes: notes,
     users: users
 };

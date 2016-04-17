@@ -3,7 +3,6 @@ var popup           = document.createElement('div');
 var closeButton     = document.createElement('div');
 var popupText       = document.createElement('div');
 
-
 function init() {
     switchVisibility("hidden");
 
@@ -42,3 +41,8 @@ function showPopup (message) {
 }
 
 init();
+
+module.exports = {
+    switchVisibility: switchVisibility,
+    showPopup:        showPopup
+}

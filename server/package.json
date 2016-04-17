@@ -12,7 +12,8 @@
         "node-uuid":     "latest",
         "supertest-as-promised": "latest",
         "chai":          "latest",
-        "mocha":         "latest"
+        "mocha":         "latest",
+        "moment":        "latest"
     },
     "scripts":      {
         "test":          "mocha --timeout 10000 --reporter spec --ui qunit tests/users_registration.js"

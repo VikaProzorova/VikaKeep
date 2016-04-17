@@ -1,0 +1,12 @@
+{
+  "name": "VikaKeep",
+  "version": "0.0.1",
+  "dependencies": {
+    "moment": "latest"
+  },
+  "devDependencies": {
+    "css-loader": "^0.23.1",
+    "raw-loader": "^0.5.1",
+    "style-loader": "^0.13.1"
+  }
+}

@@ -1,15 +1,16 @@
-var router = {
-    login: function() {
-        window.location = "/login.html"
-    },
-    notes: function() {
-        window.location = "/notes.html"
-    },
-    register: function() {
-        window.location = "/registration.html"
-    },
-    profile: function() {
-        window.location = "/profile.html"
+var controllers = {
+    login:        require("./controller/login.js"),
+    registration: require("./controller/registration.js"),
+    notes:        require("./controller/notes.js"),
+    profile:      require("./controller/profile.js")
+};
+
+var router = {};
+
+Object.keys(controllers).forEach(function(controllerName) {
+    router[ controllerName ] = function() {
+        controllers[ controllerName ]( router );
     }
-}
-window.router = router;
+});
+
+module.exports = router;
