@@ -1,10 +1,8 @@
 var API      = require('../api.js');
-var template = require('../templates/profile.html');
-// var router   = require('../router.js');
 var popup    = require('../popup.js');
 
 module.exports = function(router) {
-    document.body.innerHTML = template;
+    popup.init();
 
     document.getElementById('notesButton').onclick = function() {
         router.notes();

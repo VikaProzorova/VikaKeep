@@ -4,6 +4,8 @@ var closeButton     = document.createElement('div');
 var popupText       = document.createElement('div');
 
 function init() {
+console.log("init");
+
     switchVisibility("hidden");
 
     popupBackground.appendChild(popup);
@@ -40,9 +42,8 @@ function showPopup (message) {
     popupText.innerHTML = message;
 }
 
-init();
-
 module.exports = {
     switchVisibility: switchVisibility,
-    showPopup:        showPopup
+    showPopup:        showPopup,
+    init:             init
 }

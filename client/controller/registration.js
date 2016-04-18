@@ -1,10 +1,8 @@
 var API      = require('../api.js');
-var template = require('../templates/registration.html');
-// var router   = require('../router.js');
 var popup    = require('../popup.js');
 
 module.exports = function(router) {
-    document.body.innerHTML = template;
+    popup.init();
 
     var fullName       = document.getElementById('name');
     var email          = document.getElementById('email');

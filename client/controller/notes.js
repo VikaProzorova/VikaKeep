@@ -1,14 +1,10 @@
 var API      = require('../api.js');
-var template = require('../templates/notes.html');
-// var router   = require('../router.js');
-var moment = require('moment');
+var moment   = require('moment');
 
 module.exports = function(router) {
-    document.body.innerHTML = template;
 
     var notesList      = document.getElementById('notesList'); //найти див для расположения заметок
     var newNoteInput   = document.getElementById('newNoteInput'); // найти текстареа для ввода текста новой заметки
-    // var moment         = require('moment');
 
     API.notes.list().then(function(notesFromServer) {
         for (var i = 0; i < notesFromServer.data.length; i++) {

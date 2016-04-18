@@ -5,11 +5,20 @@ var controllers = {
     profile:      require("./controller/profile.js")
 };
 
+var templates = {
+    login:        require("./templates/login.html"),
+    registration: require("./templates/registration.html"),
+    notes:        require("./templates/notes.html"),
+    profile:      require("./templates/profile.html")
+};
+
 var router = {};
 
 Object.keys(controllers).forEach(function(controllerName) {
     router[ controllerName ] = function() {
-        controllers[ controllerName ]( router );
+        console.log("render", controllerName);
+        document.body.innerHTML = templates[ controllerName ];
+        controllers[ controllerName ](router);
     }
 });
 

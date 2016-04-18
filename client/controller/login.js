@@ -1,9 +1,8 @@
 var API      = require('../api.js');
-var template = require('../templates/login.html');
-//var router   = require('../router.js');
 var popup    = require('../popup.js');
+
 module.exports = function(router) {
-    document.body.innerHTML = template;
+    popup.init();
 
     var email    = document.getElementById('email');
     var password = document.getElementById('password');
@@ -20,7 +19,7 @@ module.exports = function(router) {
 
         API.users.login(user)
         .then(function(response){
-console.log("oooo44", router);
+
             if (response.status == 1) {
                router.notes();
             }
