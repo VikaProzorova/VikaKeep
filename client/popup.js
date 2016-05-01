@@ -1,7 +1,7 @@
-var popupBackground = document.createElement('div');
-var popup           = document.createElement('div');
-var closeButton     = document.createElement('div');
-var popupText       = document.createElement('div');
+var popupBackground = document.createElement("div");
+var popup           = document.createElement("div");
+var closeButton     = document.createElement("div");
+var popupText       = document.createElement("div");
 
 function init() {
 console.log("init");
@@ -21,16 +21,16 @@ console.log("init");
     body.appendChild(popupBackground);
 
     closeButton.onclick = function() {
-        switchVisibility("hidden")
+        switchVisibility("hidden");
     };
 }
 
 function switchVisibility (visibility) {
-    var popupElements = [popupBackground, popup, closeButton, popupText]
+    var popupElements = [popupBackground, popup, closeButton, popupText];
 
     for (var i = 0; i < popupElements.length; i++) {
         popupElements[i].style.visibility = visibility;
-    };
+    }
 }
 
 function showPopup (message) {
@@ -46,4 +46,4 @@ module.exports = {
     switchVisibility: switchVisibility,
     showPopup:        showPopup,
     init:             init
-}
+};

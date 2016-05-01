@@ -1,3 +1,5 @@
+"use strict";
+
 var express      = require('express');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
@@ -12,7 +14,6 @@ module.exports   = function(config) {
 
     app.use(cookieParser(config.app.secret));
     app.use(bodyParser.json()); // for parsing application/json
-    app.use(express.static('../client'));
     app.use('/api', router);
 
     var auth = function(req, res, next) {
@@ -42,5 +43,4 @@ module.exports   = function(config) {
         services: services,
         routes: routes,
     };
-
-}
+};

@@ -1,17 +1,17 @@
-var API      = require('../api.js');
-var popup    = require('../popup.js');
+var API      = require("../api.js");
+var popup    = require("../popup.js");
 
 module.exports = function(router) {
     popup.init();
 
-    var email    = document.getElementById('email');
-    var password = document.getElementById('password');
+    var email    = document.getElementById("email");
+    var password = document.getElementById("password");
 
-    document.getElementById('regButton').onclick = function() {
+    document.getElementById("regButton").onclick = function() {
         router.registration();
     };
 
-    document.getElementById('submitButton').onclick = function() {
+    document.getElementById("submitButton").onclick = function() {
         var user = {
             email: email.value,
             password: password.value
@@ -24,7 +24,7 @@ module.exports = function(router) {
                router.notes();
             }
             else {
-                popup.showPopup('Wrong email and/or password');
+                popup.showPopup("Wrong email and/or password");
             }
         })
     }

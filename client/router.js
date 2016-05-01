@@ -1,3 +1,5 @@
+"use strict";
+
 var controllers = {
     login:        require("./controller/login.js"),
     registration: require("./controller/registration.js"),
@@ -17,9 +19,19 @@ var router = {};
 Object.keys(controllers).forEach(function(controllerName) {
     router[ controllerName ] = function() {
         console.log("render", controllerName);
+        window.history.pushState({ route: controllerName }, null, controllerName);
         document.body.innerHTML = templates[ controllerName ];
         controllers[ controllerName ](router);
-    }
+    };
 });
+
+router.start = function() {
+    console.log(window.history.state);
+
+    var state = window.history.state || {route: 'login'};
+    var route = router[ state.route ] || router.login;
+
+    route();
+};
 
 module.exports = router;
