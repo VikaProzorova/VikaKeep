@@ -1,21 +1,23 @@
 {
-    "name":         "VikaKeep",
-    "version":      "0.0.1",
-    "dependencies": {
-        "bcrypt-nodejs": "latest",
-        "bluebird":      "latest",
-        "body-parser":   "latest",
-        "cookie-parser": "latest",
-        "express":       "latest",
-        "livr":          "latest",
-        "mysql-promise": "latest",
-        "node-uuid":     "latest",
-        "supertest-as-promised": "latest",
-        "chai":          "latest",
-        "mocha":         "latest",
-        "moment":        "latest"
-    },
-    "scripts":      {
-        "test":          "mocha --timeout 10000 --reporter spec --ui qunit tests/users_registration.js"
-    }
+  "name": "VikaKeep",
+  "version": "0.0.1",
+  "dependencies": {
+    "bcrypt-nodejs": "latest",
+    "bluebird": "latest",
+    "body-parser": "latest",
+    "chai": "latest",
+    "cookie-parser": "latest",
+    "express": "latest",
+    "livr": "latest",
+    "mocha": "latest",
+    "moment": "latest",
+    "mysql-promise": "latest",
+    "node-uuid": "latest",
+    "nodemon": "^1.9.2",
+    "supertest-as-promised": "latest"
+  },
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "mocha --timeout 10000 --reporter spec --ui qunit tests/users_registration.js"
+  }
 }
