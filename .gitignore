@@ -1,4 +1,6 @@
 node_modules
 config.json
 config.test.json
+npm-debug.log
+client/public/static/build/*
 *.sublime*
