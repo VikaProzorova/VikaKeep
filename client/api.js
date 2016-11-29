@@ -1,156 +1,121 @@
-var notes = {
-    list: function() {
+const notes = {
+    list() {
         return fetch("/api/notes", {
             method: "get",
             credentials: "same-origin"
         })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(response) {
+        .then(response => response.json())
+        .then(response => {
             if(!response.status) {
                 throw response.error;
             }
-            for (var i = 0; i < response.data.length; i++) {
+            for (let i = 0; i < response.data.length; i++) {
                 response.data[i].date = new Date(response.data[i].date);
             }
             return response;
         });
     },
-    create: function(note) {
+    create(note) {
         return fetch("/api/notes", {
             method:  "post",
             headers: { "Content-type": "application/json; charset=UTF-8" },
             body:    JSON.stringify(note),
             credentials: "same-origin"
         })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(resivedFromServerNote) {
-            var noteFromServer  = resivedFromServerNote.data;
+        .then(response => response.json())
+        .then(resivedFromServerNote => {
+            let noteFromServer  = resivedFromServerNote.data;
             noteFromServer.date = new Date(noteFromServer.date);
             return noteFromServer;
         });
     },
-    update: function(note) {
+    update(note) {
         return fetch("/api/notes/" + note.id, {
             method:  "post",
             headers: { "Content-type": "application/json; charset=UTF-8" },
             body:    JSON.stringify({text: note.text}),
             credentials: "same-origin"
         })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(resivedFromServerNote) {
-            var noteFromServer  = resivedFromServerNote.data;
+        .then(response => response.json())
+        .then(resivedFromServerNote => {
+            let noteFromServer  = resivedFromServerNote.data;
             noteFromServer.date = new Date(noteFromServer.date);
             return noteFromServer;
         });
     },
-    delete: function(noteID) {
+    delete(noteID) {
         return fetch("/api/notes/" + noteID, {
             method:  "delete",
             headers: { "Content-type": "application/json; charset=UTF-8" },
             credentials: "same-origin"
         })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(status) {
-            console.log(status);
-            return status;
-        });
+        .then(response => response.json());
     }
 };
 
-var users = {
-    login: function(user) {
+const users = {
+    login(user) {
         return fetch("/api/users/login", {
             method:  "post",
             headers: { "Content-type": "application/json; charset=UTF-8" },
             body:    JSON.stringify(user),
             credentials: "same-origin"
         })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(status) {
-            console.log(status);
-            return status;
-        });
+        .then(response => response.json());
     },
-    register: function(user) {
+    register(user) {
         return fetch("/api/users/registration", {
             method:  "post",
             headers: { "Content-type": "application/json; charset=UTF-8" },
             body:    JSON.stringify(user),
             credentials: "same-origin"
         })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(status) {
-            console.log(status);
-            return status;
-        });
+        .then(response => response.json());
     },
-    logout: function() {
+    logout() {
         return fetch("/api/users/logout", {
             method:  "post",
             credentials: "same-origin"
         })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(status) {
-            return status;
-        });
+        .then(response => response.json());
     },
-    show: function(user) {
+    show(user) {
         return fetch("/api/users/current", {
             method: "get",
             headers: { "Content-type": "application/json; charset=UTF-8" },
             body:    JSON.stringify(user),
             credentials: "same-origin"
         })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(userFromServer) {
-            var user = userFromServer.data;
+        .then(response => response.json())
+        .then(userFromServer => {
+            let user = userFromServer.data;
             return user;
         });
     },
-    update: function(user) {
+    update(user) {
         return fetch("/api/users/current", {
             method: "post",
             headers: { "Content-type": "application/json; charset=UTF-8" },
             body:    JSON.stringify(user),
             credentials: "same-origin"
         })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(userFromServer) {
+        .then(response => response.json())
+        .then(userFromServer => {
             if (!userFromServer.status) {
                 throw userFromServer.error;
             }
             return userFromServer.data;
         });
     },
-    changePassword: function(user) {
+    changePassword(user) {
         return fetch("/api/users/current/password", {
             method: "post",
             headers: { "Content-type": "application/json; charset=UTF-8" },
             body:    JSON.stringify(user),
             credentials: "same-origin"
         })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(userFromServer) {
+        .then(response => response.json())
+        .then(userFromServer => {
             if (!userFromServer.status) {
                 throw userFromServer.error;
             }
@@ -160,6 +125,6 @@ var users = {
 };
 
 module.exports = {
-    notes: notes,
-    users: users
+    notes,
+    users
 };
