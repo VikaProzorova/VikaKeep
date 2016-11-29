@@ -14,7 +14,7 @@
     "webpack-dev-server": "^1.14.1"
   },
   "scripts": {
-    "start": "webpack --progress --colors --watch",
+    "start": "webpack-dev-server --progress --colors --watch",
     "build": "webpack --progress --colors -p"
   }
 }

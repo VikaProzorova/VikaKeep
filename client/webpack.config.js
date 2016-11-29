@@ -1,9 +1,13 @@
 module.exports = {
     entry:  "./main.js",
+    devtool: "source-map",
     output: {
         path:       "./public/static/build/",
         filename:   "bandle.js",
         publicPath: "static/build"
+    },
+    resolve: {
+        moduleDirectories: ['.', 'node_modules'],
     },
     module: {
         loaders: [
@@ -12,5 +16,14 @@ module.exports = {
             { test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/, loader: "file-loader?name=/fonts/[name].[ext]" }
         ]
     },
-    devtool: "source-map"
+    devServer: {
+        contentBase: "public",
+        port: 8000,
+        hot: true,
+        historyApiFallback: true,
+        compress: true,
+        proxy: {
+            '/api/*': { target: 'http://localhost:3000/' }
+        },
+    }
 };

@@ -20,44 +20,44 @@ create table notes (
     date      DATETIME    NOT NULL,
     isDeleted BOOLEAN     NOT NULL DEFAULT FALSE,
     user      INT         NOT NULL,
-    customer  INT         NOT NULL,
-    teammate  INT         NOT NULL,
+    -- customer  INT         NOT NULL,
+    -- teammate  INT         NOT NULL,
 
     PRIMARY KEY (id),
     FOREIGN KEY (user) REFERENCES users (id)
 )  DEFAULT CHARACTER SET utf8;
 
-create table customers (
-    id          INT          NOT NULL AUTO_INCREMENT,
-    parentID    INT,
-    name        VARCHAR(40)  NOT NULL,
-    description VARCHAR(100) NOT NULL,
-    project     VARCHAR(40)  NOT NULL,
-    priority    ENUM('low', 'normal', 'high') NOT NULL DEFAULT 'normal',
+-- create table customers (
+--     id          INT          NOT NULL AUTO_INCREMENT,
+--     parentID    INT,
+--     name        VARCHAR(40)  NOT NULL,
+--     description VARCHAR(100) NOT NULL,
+--     project     VARCHAR(40)  NOT NULL,
+--     priority    ENUM('low', 'normal', 'high') NOT NULL DEFAULT 'normal',
 
-    PRIMARY KEY (id),
-    UNIQUE KEY (name),
-    FOREIGN KEY (project) REFERENCES projects (id)
-) DEFAULT CHARACTER SET utf8;
+--     PRIMARY KEY (id),
+--     UNIQUE KEY (name),
+--     FOREIGN KEY (project) REFERENCES projects (id)
+-- ) DEFAULT CHARACTER SET utf8;
 
-create table teammates (
-    id          INT          NOT NULL AUTO_INCREMENT,
-    name        VARCHAR(40)  NOT NULL,
-    project     VARCHAR(40)  NOT NULL,
-    priority    ENUM('low', 'normal', 'high') NOT NULL DEFAULT 'normal',
+-- create table teammates (
+--     id          INT          NOT NULL AUTO_INCREMENT,
+--     name        VARCHAR(40)  NOT NULL,
+--     project     VARCHAR(40)  NOT NULL,
+--     priority    ENUM('low', 'normal', 'high') NOT NULL DEFAULT 'normal',
 
-    PRIMARY KEY (id),
-    UNIQUE KEY (name),
-    FOREIGN KEY (project) REFERENCES projects (id)
-) DEFAULT CHARACTER SET utf8;
+--     PRIMARY KEY (id),
+--     UNIQUE KEY (name),
+--     FOREIGN KEY (project) REFERENCES projects (id)
+-- ) DEFAULT CHARACTER SET utf8;
 
-create table projects (
-    id          INT          NOT NULL AUTO_INCREMENT,
-    parentID    INT,
-    name        VARCHAR(40)  NOT NULL,
-    description VARCHAR(100) NOT NULL,
-    priority    ENUM('low', 'normal', 'high') NOT NULL DEFAULT 'normal',
+-- create table projects (
+--     id          INT          NOT NULL AUTO_INCREMENT,
+--     parentID    INT,
+--     name        VARCHAR(40)  NOT NULL,
+--     description VARCHAR(100) NOT NULL,
+--     priority    ENUM('low', 'normal', 'high') NOT NULL DEFAULT 'normal',
 
-    PRIMARY KEY (id),
-    UNIQUE KEY (name),
-) DEFAULT CHARACTER SET utf8;
+--     PRIMARY KEY (id),
+--     UNIQUE KEY (name),
+-- ) DEFAULT CHARACTER SET utf8;

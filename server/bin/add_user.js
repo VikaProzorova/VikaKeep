@@ -1,4 +1,6 @@
-var Storage = require('../Storage');
+var config = require('../etc/config').db;
+var Storage = require('../Storage')({config: config});
+
 
 new Storage().registerUser({
     email:    process.argv[2],
