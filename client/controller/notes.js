@@ -1,56 +1,54 @@
 "use strict";
 
-var API      = require("../api.js");
-var moment   = require("moment");
-var popup    = require("../popup.js");
+const API    = require("../api.js");
+const moment = require("moment");
+const popup  = require("../popup.js");
 
 function showNote(note) {
-    var newNoteContainer   = document.createElement("div"); //создание нового дива в виде объекта
-    var newTextArea        = document.createElement("textarea");
-    var deleteButton       = document.createElement("div");
-    var newDateContainer   = document.createElement("div");
+    const newNoteContainer = document.createElement("div");
+    const newTextArea      = document.createElement("textarea");
+    const deleteButton     = document.createElement("div");
+    const newDateContainer = document.createElement("div");
 
-    newTextArea.onblur     = function() {
-        API.notes.update({id: note.id, text: this.value}).then(function(noteFromServer) {
-            newDateContainer.innerHTML = moment(noteFromServer.date).toNow();
-        });
+    newTextArea.onblur = () => {
+        API.notes.update({id: note.id, text: newTextArea.value})
+        .then(noteFromServer => newDateContainer.innerHTML = moment(noteFromServer.date).toNow());
     };
 
-    deleteButton.onclick   = function() {
-        API.notes.delete(note.id).then(function() {
-            newNoteContainer.style.display = "none";
-        });
+    deleteButton.onclick = () => {
+        API.notes.delete(note.id)
+        .then(() => newNoteContainer.style.display = "none");
     };
 
     newNoteContainer.appendChild(newTextArea);
     newNoteContainer.appendChild(newDateContainer);
     newNoteContainer.appendChild(deleteButton);
 
-    newNoteContainer.className = "panel panel-default"; //свойства объекта
+    newNoteContainer.className = "panel panel-default";
     newTextArea.className      = "panel-body form-control form-group";
     newDateContainer.className = "panel-title";
     deleteButton.className     = "glyphicon glyphicon-trash";
 
-    newTextArea.innerHTML      = note.text; //свойствo объекта
+    newTextArea.innerHTML      = note.text; 
     newDateContainer.innerHTML = moment(note.date).toNow();
 
     return newNoteContainer;
-}
+};
 
-module.exports = function(router) {
+module.exports = (router) => {
+    const notesList    = document.getElementById("notesList"); 
+    const newNoteInput = document.getElementById("newNoteInput"); 
 
-    var notesList      = document.getElementById("notesList"); //найти див для расположения заметок
-    var newNoteInput   = document.getElementById("newNoteInput"); // найти текстареа для ввода текста новой заметки
 
-
-    API.notes.list().then(function(notesFromServer) {
-        for (var i = 0; i < notesFromServer.data.length; i++) {
-            var resivedFromServerNote  = notesFromServer.data[i];
-            var newNoteContainer       = showNote(resivedFromServerNote); //создание дива с текстом и датой заметки из массива
+    API.notes.list()
+    .then(allNotes => {
+        for (let i = 0; i < allNotes.data.length; i++) {
+            let note = allNotes.data[i];
+            let newNoteContainer = showNote(note);
             notesList.appendChild(newNoteContainer);
-        } //цикл который запихивает заметки из массива в дивы
+        }
     })
-    .catch(function(error) {
+    .catch((error) => {
         if (error == "Permission denied") {
             router.login();
             return;
@@ -59,30 +57,25 @@ module.exports = function(router) {
         popup.showPopup("Some bullshit! " + error);
     });
 
-    document.getElementById("profileButton").onclick = function() {
-        router.profile();
-    };
-
-    document.getElementById("logoutButton").onclick = function() {
+    document.getElementById("profileButton").onclick = () => router.profile();
+    
+    document.getElementById("logoutButton").onclick = () => {
         API.users.logout()
-        .then(function(response){
+        .then(response => {
             if (response.status) {
                router.login();
             }
         });
     };
 
-    document.getElementById("addButton").onclick = function() {
-        var note = {
-            text: newNoteInput.value,
-        };
+    document.getElementById("addButton").onclick = () => {
+        const note = {text: newNoteInput.value};
 
-        API.notes.create(note).then(function(noteFromServer) {
-            var newNoteContainer = showNote(noteFromServer); //создание дива с текстом и датой только что введенной заметки
-            notesList.insertBefore(newNoteContainer, notesList.firstChild); //1 аргумент - что вставлять, 2ой - куда
+        API.notes.create(note)
+        .then(noteFromServer => {
+            let newNoteContainer = showNote(noteFromServer); 
+            notesList.insertBefore(newNoteContainer, notesList.firstChild); 
             newNoteInput.value = "";
-            console.log(noteFromServer);
-
         });
     };
 
