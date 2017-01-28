@@ -87,10 +87,7 @@ const users = {
             credentials: "same-origin"
         })
         .then(response => response.json())
-        .then(userFromServer => {
-            let user = userFromServer.data;
-            return user;
-        });
+        .then(userFromServer => userFromServer.data);
     },
     update(user) {
         return fetch("/api/users/current", {

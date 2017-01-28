@@ -4,8 +4,6 @@
 require("bootstrap/dist/css/bootstrap.css");
 const router = require("./router.js");
 
-window.onpopstate = function() {
-    router.start();
-};
+window.onpopstate = () => router.start();
 
 router.start();
