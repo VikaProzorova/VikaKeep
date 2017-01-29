@@ -1,14 +1,14 @@
 "use strict";
 
 var controllers = {
-    login:        require("./controller/login.js"),
-    registration: require("./controller/registration.js"),
+    login:        require("./components/Login.jsx"),
+    registration: require("./components/Registration.jsx"),
     notes:        require("./controller/notes.js"),
     profile:      require("./controller/profile.js")
 };
 
 var templates = {
-    login:        require("./templates/login.html"),
+    //login:        require("./templates/login.html"),
     registration: require("./templates/registration.html"),
     notes:        require("./templates/notes.html"),
     profile:      require("./templates/profile.html")

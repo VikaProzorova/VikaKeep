@@ -1,9 +1,9 @@
-"use strict";
+// "use strict";
 
-// require("./styles.css");
-require("bootstrap/dist/css/bootstrap.css");
-const router = require("./router.js");
+// // require("./styles.css");
+// require("bootstrap/dist/css/bootstrap.css");
+// const router = require("./router.js");
 
-window.onpopstate = () => router.start();
+// window.onpopstate = () => router.start();
 
-router.start();
+// router.start();
