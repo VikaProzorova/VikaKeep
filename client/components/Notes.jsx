@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { Jumbotron, PageHeader, Button, FormControl, Glyphicon, FormGroup } from 'react-bootstrap';
+import { Jumbotron, PageHeader, Badge, Button, FormControl, Glyphicon, FormGroup, Panel } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 import API from "../api.js";
 
@@ -9,7 +9,8 @@ class Notes extends React.Component {
         super(props);
 
         this.state = {
-            notes: []
+            notes: [],
+            newNote: ''
         }
     }
 
@@ -28,50 +29,6 @@ class Notes extends React.Component {
         });
     }
 
-    // updateNote(event) {
-    //     this.setState({
-    //         note: event.target.value
-    //     });
-
-    //     newTextArea.onblur = () => {
-    //         API.notes.update({id: note.id, text: newTextArea.value})
-    //         .then(noteFromServer => newDateContainer.innerHTML = moment(noteFromServer.date).toNow());
-    //     };
-    // }
-
-    // createNote() {
-    //     document.getElementById("addButton").onclick = () => {
-    //         const note = {text: newNoteInput.value};
-
-    //         API.notes.create(note)
-    //         .then(noteFromServer => {
-    //             let newNoteContainer = showNote(noteFromServer);
-    //             notesList.insertBefore(newNoteContainer, notesList.firstChild);
-    //             newNoteInput.value = "";
-    //         });
-    //     };
-    // }
-
-    // showNote() {
-    //     const newNoteContainer = document.createElement("div");
-    //     const newTextArea      = document.createElement("textarea");
-    //     const deleteButton     = document.createElement("div");
-    //     const newDateContainer = document.createElement("div");
-
-    //     newNoteContainer.appendChild(newTextArea);
-    //     newNoteContainer.appendChild(newDateContainer);
-    //     newNoteContainer.appendChild(deleteButton);
-
-    //     newNoteContainer.className = "panel panel-default";
-    //     newTextArea.className      = "panel-body form-control form-group";
-    //     newDateContainer.className = "panel-title";
-    //     deleteButton.className     = "glyphicon glyphicon-trash";
-
-    //     newTextArea.innerHTML      = note.text;
-    //     newDateContainer.innerHTML = moment(note.date).toNow();
-
-    //     return newNoteContainer;
-    // }
     updateNewNote(event) {
         this.setState({
             newNote: event.target.value
@@ -96,14 +53,19 @@ class Notes extends React.Component {
 
     updateNote(id) {
         return (event) => {
-            this.setState({
-                notes: this.state.notes.map(note => {
-                    if (note.id == id) {
-                        return Object.assign({}, note, {text: event.target.value})
-                    }
-                    return note;
+                this.setState({
+                    notes: this.state.notes.map(note => {
+                        if (note.id == id) {
+                            return Object.assign({}, note, {text: event.target.value})
+                        }
+                        return note;
+                    })
                 })
-            })
+        }
+    }
+    sendUpdatedNote(id) {
+        return (event) => {
+            API.notes.update({id: id, text: event.target.value})
         }
     }
 
@@ -120,15 +82,21 @@ class Notes extends React.Component {
 
     render() {
         const notesList = this.state.notes.map(note => {
+            const title = <div>
+                {moment(note.date).toNow()}
+                <Glyphicon glyph='trash' style={{float: 'right'}} onClick={this.deleteNote(note.id)}/>
+
+            </div>
             return (
-                <FormGroup key={note.id}>
+                <Panel key={note.id} header={title} >
                     <FormControl
+                        componentClass="textarea"
                         type="text"
                         value={note.text}
                         onChange={this.updateNote(note.id)}
+                        onBlur={this.sendUpdatedNote(note.id)}
                     />
-                    <Glyphicon glyph='trash' onClick={this.deleteNote(note.id)}/>
-                </FormGroup>
+                </Panel>
             )
         });
         return(
@@ -136,6 +104,7 @@ class Notes extends React.Component {
                 <PageHeader> VikaKeep Notes Page <br/> <small> Notes </small> </PageHeader>
                     <FormGroup>
                         <FormControl
+                            componentClass="textarea"
                             type="text"
                             placeholder="New note"
                             value={this.state.newNote}

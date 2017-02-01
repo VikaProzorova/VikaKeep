@@ -1,7 +1,7 @@
 import React from 'react';
 import { Glyphicon, Jumbotron, PageHeader, Button, InputGroup, FormControl } from 'react-bootstrap';
+import { withRouter } from 'react-router';
 import API from "../api.js";
-import router from "../router.js";
 
 class Login extends React.Component {
     constructor(props) {
@@ -40,7 +40,7 @@ class Login extends React.Component {
         API.users.login(user)
         .then(response => {
             if (response.status == 1) {
-               router.notes();
+               this.props.router.push({ pathname: '/notes'})
             }
             else {
                 alert("Wrong email and/or password");
@@ -80,4 +80,4 @@ class Login extends React.Component {
         )
     }
 }
-export default Login;
+export default withRouter(Login);

@@ -60,6 +60,15 @@ class Profile extends React.Component {
                 email: user.email
             })
         })
+        .catch((error) => {
+            console.log(error)
+            if (error == "Permission denied") {
+                this.props.router.push({ pathname: '/login' });
+                return;
+            }
+
+            alert("Some bullshit! " + error);
+        });
     }
 
     handleChangeData() {
