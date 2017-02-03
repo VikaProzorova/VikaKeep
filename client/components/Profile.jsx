@@ -2,6 +2,7 @@ import React from 'react';
 import { Jumbotron, PageHeader, Button, FormControl } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 import API from "../api.js";
+import Alert from "./Alert.jsx";
 
 class Profile extends React.Component {
     constructor(props) {
@@ -12,7 +13,9 @@ class Profile extends React.Component {
             email:'',
             oldPassword:'',
             newPassword:'',
-            repeatPassword:''
+            repeatPassword:'',
+            errorMessage:'',
+            successMessage:''
         };
     }
 
@@ -66,8 +69,9 @@ class Profile extends React.Component {
                 this.props.router.push({ pathname: '/login' });
                 return;
             }
-
-            alert("Some bullshit! " + error);
+            this.setState({
+                errorMessage: "Some bullshit! " + error
+            });
         });
     }
 
@@ -79,36 +83,44 @@ class Profile extends React.Component {
 
         API.users.update(newUserData)
         .then(user => {
-            alert("Changes successfully saved");
+            this.setState({
+                successMessage: "Changes successfully saved"
+            });
         })
         .catch(error => {
-            alert(error);
+            this.setState({
+                errorMessage: "Some bullshit! " + error
+            });
         });
     }
 
     handleChangePassword() {
         const passwordData = {
-            oldPassword:       this.state.oldPassword,
-            newPassword:       this.state.newPassword,
+            oldPassword: this.state.oldPassword,
+            newPassword: this.state.newPassword,
             repeatPassword: this.state.repeatPassword
         };
-        console.log(passwordData);
+
         if (passwordData.newPassword != passwordData.repeatPassword) {
-            alert("Passwords not match");
+            this.setState({
+                errorMessage: "Passwords not match"
+            });
             return;
         }
 
         API.users.changePassword(passwordData)
         .then(user => {
-            alert("Password successfully saved");
             this.setState({
                 oldPassword:'',
                 newPassword:'',
-                repeatPassword:''
+                repeatPassword:'',
+                successMessage: "Password successfully saved"
             })
         })
         .catch(error => {
-            alert(error);
+            this.setState({
+                errorMessage: "Some bullshit! " + error
+            });
         });
     }
 
@@ -121,6 +133,8 @@ class Profile extends React.Component {
         return(
             <Jumbotron>
                 <PageHeader> VikaKeep Profile Page <br/> <small> Profile </small> </PageHeader>
+                <Alert style="warning">{this.state.errorMessage}</Alert>
+                <Alert style="success">{this.state.successMessage}</Alert>
                 <FormControl
                     type="text"
                     placeholder="Name"

@@ -3,6 +3,7 @@ import moment from 'moment';
 import { Jumbotron, PageHeader, Badge, Button, FormControl, Glyphicon, FormGroup, Panel } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 import API from "../api.js";
+import Alert from "./Alert.jsx";
 
 class Notes extends React.Component {
     constructor(props) {
@@ -10,22 +11,25 @@ class Notes extends React.Component {
 
         this.state = {
             notes: [],
-            newNote: ''
+            newNote: '',
+            errorMessage:''
         }
     }
 
     componentWillMount() {
         API.notes.list()
-        .then(({data}) => {
+        .then(data => {
             this.setState({ notes: data })
         })
         .catch((error) => {
             if (error == "Permission denied") {
                 this.props.router.push({ pathname: '/login' });
-                return;
             }
-
-            alert("Some bullshit! " + error);
+            else {
+                this.setState({
+                    errorMessage: "Some bullshit! " + error
+                })
+            }
         });
     }
 
@@ -102,16 +106,17 @@ class Notes extends React.Component {
         return(
             <Jumbotron>
                 <PageHeader> VikaKeep Notes Page <br/> <small> Notes </small> </PageHeader>
-                    <FormGroup>
-                        <FormControl
-                            componentClass="textarea"
-                            type="text"
-                            placeholder="New note"
-                            value={this.state.newNote}
-                            onChange={this.updateNewNote.bind(this)}
-                        />
-                        <Button bsStyle='primary' onClick={this.handleAddNewNote.bind(this)}> Save </Button>
-                    </FormGroup>
+                <Alert style="warning">{this.state.errorMessage}</Alert>
+                <FormGroup>
+                    <FormControl
+                        componentClass="textarea"
+                        type="text"
+                        placeholder="New note"
+                        value={this.state.newNote}
+                        onChange={this.updateNewNote.bind(this)}
+                    />
+                    <Button bsStyle='primary' onClick={this.handleAddNewNote.bind(this)}> Save </Button>
+                </FormGroup>
                 <div> {notesList} </div>
             </Jumbotron>
         )

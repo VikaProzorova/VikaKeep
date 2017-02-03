@@ -1,128 +1,71 @@
+function query (path, method, body) {
+    const params = {
+        method: method,
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+        credentials: "same-origin"
+    }
+
+    if (body) {
+        params.body = JSON.stringify(body)
+    }
+
+    return fetch("/api/" + path, params)
+    .then(response => response.json())
+    .then(response => {
+        if(!response.status) {
+            throw response.error;
+        }
+        return response.data;
+    })
+}
+
 const notes = {
     list() {
-        return fetch("/api/notes", {
-            method: "get",
-            credentials: "same-origin"
-        })
-        .then(response => response.json())
-        .then(response => {
-            if(!response.status) {
-                throw response.error;
-            }
-            for (let i = 0; i < response.data.length; i++) {
-                response.data[i].date = new Date(response.data[i].date);
-            }
-            return response;
+        return query("notes", "get")
+        .then(data => {
+            return data.map(note => {
+                note.date = new Date(note.date);
+                return note
+            });
         });
     },
     create(note) {
-        return fetch("/api/notes", {
-            method:  "post",
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            body:    JSON.stringify(note),
-            credentials: "same-origin"
-        })
-        .then(response => response.json())
-        .then(resivedFromServerNote => {
-            let noteFromServer  = resivedFromServerNote.data;
-            noteFromServer.date = new Date(noteFromServer.date);
-            return noteFromServer;
+        return query("notes", "post", note)
+        .then(note => {
+            note.date = new Date(note.date);
+            return note;
         });
     },
     update(note) {
-        return fetch("/api/notes/" + note.id, {
-            method:  "post",
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            body:    JSON.stringify({text: note.text}),
-            credentials: "same-origin"
-        })
-        .then(response => response.json())
-        .then(resivedFromServerNote => {
-            let noteFromServer  = resivedFromServerNote.data;
-            noteFromServer.date = new Date(noteFromServer.date);
-            return noteFromServer;
+        return query(`notes/${note.id}`, "post", {text: note.text})
+        .then(note => {
+            note.date = new Date(note.date);
+            return note;
         });
     },
     delete(noteID) {
-        return fetch("/api/notes/" + noteID, {
-            method:  "delete",
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            credentials: "same-origin"
-        })
-        .then(response => response.json());
+        return query(`notes/${noteID}`, "delete")
     }
 };
 
 const users = {
     login(user) {
-        return fetch("/api/users/login", {
-            method:  "post",
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            body:    JSON.stringify(user),
-            credentials: "same-origin"
-        })
-        .then(response => response.json());
+        return query("users/login", "post", user)
     },
     register(user) {
-        return fetch("/api/users/registration", {
-            method:  "post",
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            body:    JSON.stringify(user),
-            credentials: "same-origin"
-        })
-        .then(response => response.json());
+        return query("users/registration", "post", user)
     },
     logout() {
-        return fetch("/api/users/logout", {
-            method:  "post",
-            credentials: "same-origin"
-        })
-        .then(response => response.json());
+        return query("users/logout", "post")
     },
     show(user) {
-        return fetch("/api/users/current", {
-            method: "get",
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            body:    JSON.stringify(user),
-            credentials: "same-origin"
-        })
-        .then(response => response.json())
-        .then(response => {
-            if(!response.status) {
-                throw response.error;
-            }
-            return response.data
-        });
+        return query("users/current", "get", user)
     },
     update(user) {
-        return fetch("/api/users/current", {
-            method: "post",
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            body:    JSON.stringify(user),
-            credentials: "same-origin"
-        })
-        .then(response => response.json())
-        .then(userFromServer => {
-            if (!userFromServer.status) {
-                throw userFromServer.error;
-            }
-            return userFromServer.data;
-        });
+        return query("users/current", "post", user)
     },
     changePassword(user) {
-        return fetch("/api/users/current/password", {
-            method: "post",
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            body:    JSON.stringify(user),
-            credentials: "same-origin"
-        })
-        .then(response => response.json())
-        .then(userFromServer => {
-            if (!userFromServer.status) {
-                throw userFromServer.error;
-            }
-            return userFromServer.data;
-        });
+        return query("users/current/password", "post", user)
     }
 };
 

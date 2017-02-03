@@ -33,7 +33,6 @@ class Navigator extends React.Component {
 
     render() {
         const currentPath = this.props.location.pathname.substring(1) || 'notes'
-        console.log(currentPath);
         const navLinks = linksBar[currentPath].links.map(link => {
             return <NavItem key={link} eventKey={'/' + link}> {linksBar[link].title}</NavItem>
         })

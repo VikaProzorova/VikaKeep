@@ -6,10 +6,8 @@ import API from "../api.js";
 class Logout extends React.Component {
     componentWillMount() {
         API.users.logout()
-        .then(response => {
-            if (response.status) {
-               this.props.router.push({ pathname: '/login'})
-            }
+        .then(() => {
+            this.props.router.push({ pathname: '/login'})
         });
     }
     render() {

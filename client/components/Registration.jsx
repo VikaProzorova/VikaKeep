@@ -2,6 +2,7 @@ import React from 'react';
 import { Jumbotron, PageHeader, Button, FormControl } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 import API from "../api.js";
+import Alert from "./Alert.jsx";
 
 class Registration extends React.Component {
     constructor(props) {
@@ -11,7 +12,8 @@ class Registration extends React.Component {
             name:'',
             email:'',
             password:'',
-            repeatPassword:''
+            repeatPassword:'',
+            errorMessage:''
         };
     }
 
@@ -47,7 +49,9 @@ class Registration extends React.Component {
 
     handleRegistration() {
         if (this.state.password !== this.state.repeatPassword) {
-            alert("Passwords not match");
+            this.setState({
+                errorMessage: "Passwords not match"
+            });
             return;
         }
 
@@ -57,14 +61,14 @@ class Registration extends React.Component {
             name: this.state.name
         };
         API.users.register(user)
-        .then(response => {
-            if (response.status == 1) {
-               this.props.router.push({ pathname: '/login' });
-            }
-            else {
-                alert("Wrong data");
-            }
-        });
+        .then(() => {
+            this.props.router.push({ pathname: '/login' });
+        })
+        .catch(error => {
+            this.setState({
+                errorMessage: "Wrong data" + error
+            });
+        })
     }
 
     render() {
@@ -72,9 +76,11 @@ class Registration extends React.Component {
         const password = this.state.password;
         const name = this.state.name;
         const repeatPassword = this.state.repeatPassword;
+
         return(
             <Jumbotron>
                 <PageHeader> VikaKeep Registration Page <br/> <small> Registration </small> </PageHeader>
+                <Alert style="warning">{this.state.errorMessage}</Alert>
                 <FormControl
                     type="text"
                     placeholder="Name"
