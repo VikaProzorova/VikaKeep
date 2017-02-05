@@ -1,6 +1,7 @@
 import React from 'react';
-import { Jumbotron, PageHeader, Button, FormControl } from 'react-bootstrap';
+import { Jumbotron, PageHeader, Button, FormControl, FormGroup } from 'react-bootstrap';
 import { withRouter } from 'react-router';
+import { render } from 'react-dom';
 import API from "../api.js";
 import Alert from "./Alert.jsx";
 
@@ -15,7 +16,8 @@ class Profile extends React.Component {
             newPassword:'',
             repeatPassword:'',
             errorMessage:'',
-            successMessage:''
+            successMessage:'',
+            error:{}
         };
     }
 
@@ -64,13 +66,13 @@ class Profile extends React.Component {
             })
         })
         .catch((error) => {
-            console.log(error)
             if (error == "Permission denied") {
                 this.props.router.push({ pathname: '/login' });
                 return;
             }
             this.setState({
-                errorMessage: "Some bullshit! " + error
+                errorMessage: "Some bullshit! " + JSON.stringify(error),
+                error: error
             });
         });
     }
@@ -89,7 +91,8 @@ class Profile extends React.Component {
         })
         .catch(error => {
             this.setState({
-                errorMessage: "Some bullshit! " + error
+                errorMessage: "Some bullshit! " + JSON.stringify(error),
+                error: error
             });
         });
     }
@@ -103,7 +106,8 @@ class Profile extends React.Component {
 
         if (passwordData.newPassword != passwordData.repeatPassword) {
             this.setState({
-                errorMessage: "Passwords not match"
+                errorMessage: "Passwords not match",
+                error: {newPassword: "Passwords not match"}
             });
             return;
         }
@@ -119,9 +123,14 @@ class Profile extends React.Component {
         })
         .catch(error => {
             this.setState({
-                errorMessage: "Some bullshit! " + error
+                errorMessage: "Some bullshit! " + JSON.stringify(error),
+                error: error
             });
         });
+    }
+
+    getValidationState(field) {
+        return this.state.error[field] ? "error" : undefined
     }
 
     render() {
@@ -130,45 +139,55 @@ class Profile extends React.Component {
         const oldPassword = this.state.oldPassword;
         const newPassword = this.state.newPassword;
         const repeatPassword = this.state.repeatPassword;
+
         return(
             <Jumbotron>
                 <PageHeader> VikaKeep Profile Page <br/> <small> Profile </small> </PageHeader>
                 <Alert style="warning">{this.state.errorMessage}</Alert>
                 <Alert style="success">{this.state.successMessage}</Alert>
-                <FormControl
-                    type="text"
-                    placeholder="Name"
-                    value={name}
-                    onChange={this.updateName.bind(this)}
-                />
-                <FormControl
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={this.updateEmail.bind(this)}
-                />
+                <FormGroup validationState={this.getValidationState("name")}>
+                    <FormControl
+                        type="text"
+                        placeholder="Name"
+                        value={name}
+                        onChange={this.updateName.bind(this)}
+                    />
+                </FormGroup>
+                <FormGroup validationState={this.getValidationState("email")}>
+                    <FormControl
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={this.updateEmail.bind(this)}
+                    />
+                </FormGroup>
                 <Button bsStyle='primary' onClick={this.handleChangeData.bind(this)}> Change data </Button>
-                <FormControl
-                    type="password"
-                    maxLength="40"
-                    placeholder="Password"
-                    value={oldPassword}
-                    onChange={this.updateOldPassword.bind(this)}
-                />
-                <FormControl
-                    type="password"
-                    maxLength="40"
-                    placeholder="New password"
-                    value={newPassword}
-                    onChange={this.updateNewPassword.bind(this)}
-                />
-                <FormControl
-                    type="password"
-                    maxLength="40"
-                    placeholder="Repeat new password"
-                    value={repeatPassword}
-                    onChange={this.updateRepeatPassword.bind(this)}
-                />
+                <br/> <br/>
+                <FormGroup validationState={this.getValidationState("oldPassword")}>
+                    <FormControl
+                        type="password"
+                        maxLength="40"
+                        placeholder="Password"
+                        value={oldPassword}
+                        onChange={this.updateOldPassword.bind(this)}
+                    />
+                </FormGroup>
+                <FormGroup validationState={this.getValidationState("newPassword")}>
+                    <FormControl
+                        type="password"
+                        maxLength="40"
+                        placeholder="New password"
+                        value={newPassword}
+                        onChange={this.updateNewPassword.bind(this)}
+                    />
+                    <FormControl
+                        type="password"
+                        maxLength="40"
+                        placeholder="Repeat new password"
+                        value={repeatPassword}
+                        onChange={this.updateRepeatPassword.bind(this)}
+                    />
+                </FormGroup>
                 <Button bsStyle='primary' onClick={this.handleChangePassword.bind(this)}> Change password </Button>
             </Jumbotron>
         )

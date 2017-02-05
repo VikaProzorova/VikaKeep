@@ -26,8 +26,9 @@ class Notes extends React.Component {
                 this.props.router.push({ pathname: '/login' });
             }
             else {
+                const err = JSON.stringify(error)
                 this.setState({
-                    errorMessage: "Some bullshit! " + error
+                    errorMessage: "Some bullshit! " + err
                 })
             }
         });

@@ -19,6 +19,14 @@ Login.prototype.validate = function(data) {
 Login.prototype.execute = function(data) {
     return this.storage
     .loginUser(data)
+    .catch(error => {
+        if (error == "Wrong password") {
+            throw {
+                password: "WRONG_PASSWORD"
+            }
+        }
+        throw error
+    })
     .then(function(user) {
         return {
             data:   user,

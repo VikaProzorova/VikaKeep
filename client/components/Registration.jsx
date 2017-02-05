@@ -65,8 +65,9 @@ class Registration extends React.Component {
             this.props.router.push({ pathname: '/login' });
         })
         .catch(error => {
+            const err = JSON.stringify(error)
             this.setState({
-                errorMessage: "Wrong data" + error
+                errorMessage: "Wrong data" + err
             });
         })
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Glyphicon, Jumbotron, PageHeader, Button, InputGroup, FormControl } from 'react-bootstrap';
+import { Glyphicon, Jumbotron, PageHeader, Button, InputGroup, FormControl, FormGroup } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 import API from "../api.js";
 import Alert from "./Alert.jsx";
@@ -11,7 +11,8 @@ class Login extends React.Component {
         this.state = {
             email: '',
             password:'',
-            errorMessage:''
+            errorMessage:'',
+            error:{}
         };
     }
     componentWillMount() {
@@ -51,10 +52,16 @@ class Login extends React.Component {
             this.props.router.push({ pathname: '/notes'})
         })
         .catch(error => {
+            const err = JSON.stringify(error)
             this.setState({
-                errorMessage: "Wrong data" + error
+                errorMessage: "Wrong data" + err,
+                error: error
             });
         })
+    }
+
+    getValidationState(field) {
+        return this.state.error[field] ? "error" : undefined
     }
 
     render() {
@@ -64,27 +71,31 @@ class Login extends React.Component {
             <Jumbotron>
                 <PageHeader> VikaKeep Authorization Page <br/> <small> Authorization </small> </PageHeader>
                 <Alert style="warning">{this.state.errorMessage}</Alert>
-                <InputGroup>
-                    <InputGroup.Addon> <Glyphicon glyph='envelope' /> </InputGroup.Addon>
-                    <FormControl
-                        type="email"
-                        placeholder="Email"
-                        value={email}
-                        onChange={this.updateEmail.bind(this)}
-                        onKeyPress={this.handleKeyPress.bind(this)}
-                    />
-                </InputGroup>
-                <InputGroup>
-                    <InputGroup.Addon> <Glyphicon glyph='lock' /> </InputGroup.Addon>
-                    <FormControl
-                        type="password"
-                        maxLength="40"
-                        placeholder="Password"
-                        value={password}
-                        onChange={this.updatePassword.bind(this)}
-                        onKeyPress={this.handleKeyPress.bind(this)}
-                    />
-                </InputGroup>
+                <FormGroup validationState={this.getValidationState("email")}>
+                    <InputGroup>
+                        <InputGroup.Addon> <Glyphicon glyph='envelope' /> </InputGroup.Addon>
+                        <FormControl
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={this.updateEmail.bind(this)}
+                            onKeyPress={this.handleKeyPress.bind(this)}
+                        />
+                    </InputGroup>
+                </FormGroup>
+                <FormGroup validationState={this.getValidationState("password")}>
+                    <InputGroup>
+                        <InputGroup.Addon> <Glyphicon glyph='lock' /> </InputGroup.Addon>
+                        <FormControl
+                            type="password"
+                            maxLength="40"
+                            placeholder="Password"
+                            value={password}
+                            onChange={this.updatePassword.bind(this)}
+                            onKeyPress={this.handleKeyPress.bind(this)}
+                        />
+                    </InputGroup>
+                </FormGroup>
                 <Button bsStyle='primary' onClick={this.handleLogin.bind(this)}> Login </Button>
             </Jumbotron>
         )
