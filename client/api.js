@@ -1,165 +1,75 @@
-var notes = {
-    list: function() {
-        return fetch("/api/notes", {
-            method: "get",
-            credentials: "same-origin"
-        })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(response) {
-            if(!response.status) {
-                throw response.error;
-            }
-            for (var i = 0; i < response.data.length; i++) {
-                response.data[i].date = new Date(response.data[i].date);
-            }
-            return response;
+function query (path, method, body) {
+    const params = {
+        method: method,
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+        credentials: "same-origin"
+    }
+
+    if (body) {
+        params.body = JSON.stringify(body)
+    }
+
+    return fetch("/api/" + path, params)
+    .then(response => response.json())
+    .then(response => {
+        if(!response.status) {
+            throw response.error;
+        }
+        return response.data;
+    })
+}
+
+const notes = {
+    list() {
+        return query("notes", "get")
+        .then(data => {
+            return data.map(note => {
+                note.date = new Date(note.date);
+                return note
+            });
         });
     },
-    create: function(note) {
-        return fetch("/api/notes", {
-            method:  "post",
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            body:    JSON.stringify(note),
-            credentials: "same-origin"
-        })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(resivedFromServerNote) {
-            var noteFromServer  = resivedFromServerNote.data;
-            noteFromServer.date = new Date(noteFromServer.date);
-            return noteFromServer;
+    create(note) {
+        return query("notes", "post", note)
+        .then(note => {
+            note.date = new Date(note.date);
+            return note;
         });
     },
-    update: function(note) {
-        return fetch("/api/notes/" + note.id, {
-            method:  "post",
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            body:    JSON.stringify({text: note.text}),
-            credentials: "same-origin"
-        })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(resivedFromServerNote) {
-            var noteFromServer  = resivedFromServerNote.data;
-            noteFromServer.date = new Date(noteFromServer.date);
-            return noteFromServer;
+    update(note) {
+        return query(`notes/${note.id}`, "post", {text: note.text})
+        .then(note => {
+            note.date = new Date(note.date);
+            return note;
         });
     },
-    delete: function(noteID) {
-        return fetch("/api/notes/" + noteID, {
-            method:  "delete",
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            credentials: "same-origin"
-        })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(status) {
-            console.log(status);
-            return status;
-        });
+    delete(noteID) {
+        return query(`notes/${noteID}`, "delete")
     }
 };
 
-var users = {
-    login: function(user) {
-        return fetch("/api/users/login", {
-            method:  "post",
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            body:    JSON.stringify(user),
-            credentials: "same-origin"
-        })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(status) {
-            console.log(status);
-            return status;
-        });
+const users = {
+    login(user) {
+        return query("users/login", "post", user)
     },
-    register: function(user) {
-        return fetch("/api/users/registration", {
-            method:  "post",
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            body:    JSON.stringify(user),
-            credentials: "same-origin"
-        })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(status) {
-            console.log(status);
-            return status;
-        });
+    register(user) {
+        return query("users/registration", "post", user)
     },
-    logout: function() {
-        return fetch("/api/users/logout", {
-            method:  "post",
-            credentials: "same-origin"
-        })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(status) {
-            return status;
-        });
+    logout() {
+        return query("users/logout", "post")
     },
-    show: function(user) {
-        return fetch("/api/users/current", {
-            method: "get",
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            body:    JSON.stringify(user),
-            credentials: "same-origin"
-        })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(userFromServer) {
-            var user = userFromServer.data;
-            return user;
-        });
+    show(user) {
+        return query("users/current", "get", user)
     },
-    update: function(user) {
-        return fetch("/api/users/current", {
-            method: "post",
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            body:    JSON.stringify(user),
-            credentials: "same-origin"
-        })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(userFromServer) {
-            if (!userFromServer.status) {
-                throw userFromServer.error;
-            }
-            return userFromServer.data;
-        });
+    update(user) {
+        return query("users/current", "post", user)
     },
-    changePassword: function(user) {
-        return fetch("/api/users/current/password", {
-            method: "post",
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            body:    JSON.stringify(user),
-            credentials: "same-origin"
-        })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(userFromServer) {
-            if (!userFromServer.status) {
-                throw userFromServer.error;
-            }
-            return userFromServer.data;
-        });
+    changePassword(user) {
+        return query("users/current/password", "post", user)
     }
 };
 
 module.exports = {
-    notes: notes,
-    users: users
+    notes,
+    users
 };

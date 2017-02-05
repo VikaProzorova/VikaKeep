@@ -19,6 +19,14 @@ ChangePassword.prototype.validate = function(data) {
 ChangePassword.prototype.execute = function(data) {
     return this.storage
     .changePasswordUser(data)
+    .catch(error => {
+        if (error == "Wrong password") {
+            throw {
+                oldPassword: "WRONG_PASSWORD"
+            }
+        }
+        throw error
+    })
     .then(function(user) {
         return {
             data:   user,

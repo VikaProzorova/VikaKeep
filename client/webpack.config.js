@@ -1,5 +1,5 @@
 module.exports = {
-    entry:  "./main.js",
+    entry:  "./app.jsx",
     devtool: "source-map",
     output: {
         path:       "./public/static/build/",
@@ -13,7 +13,9 @@ module.exports = {
         loaders: [
             { test: /\.html$/, loader: "raw" },
             { test: /\.css$/, loader: "style-loader!css-loader"},
-            { test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/, loader: "file-loader?name=/fonts/[name].[ext]" }
+            { test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/, loader: "file-loader?name=/fonts/[name].[ext]" },
+            { test: /\.jsx$/, loader: 'babel-loader', exclude: [/node_modules/, /public/] },
+            { test: /\.js$/, loader: 'babel-loader', exclude: [/node_modules/, /public/] }
         ]
     },
     devServer: {
