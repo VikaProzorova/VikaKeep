@@ -2,7 +2,7 @@
   "name": "VikaKeep",
   "version": "0.0.1",
   "dependencies": {
-    "bcrypt-nodejs": "latest",
+    "bcrypt": "latest",
     "bluebird": "latest",
     "body-parser": "latest",
     "chai": "latest",

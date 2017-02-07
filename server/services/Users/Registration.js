@@ -25,7 +25,7 @@ Registration.prototype.execute = function(data) {
             data:   user,
             status: 1
         };
-    });
+    })
 };
 
 module.exports = Registration;

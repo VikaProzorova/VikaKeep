@@ -1,13 +1,13 @@
 drop table if exists notes;
 drop table if exists users;
-drop table if exists customers;
-drop table if exists teammates;
+-- drop table if exists customers;
+-- drop table if exists teammates;
 
 create table users (
     id       INT          NOT NULL AUTO_INCREMENT,
     email    VARCHAR(40)  NOT NULL,
     password VARCHAR(100) NOT NULL,
-    salt     VARCHAR(40)  NOT NULL,
+    -- salt     VARCHAR(40)  NOT NULL,
     name     VARCHAR(40)  NOT NULL,
 
     PRIMARY KEY (id),
