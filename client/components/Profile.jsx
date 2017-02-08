@@ -118,7 +118,8 @@ class Profile extends React.Component {
                 oldPassword:'',
                 newPassword:'',
                 repeatPassword:'',
-                successMessage: "Password successfully saved"
+                successMessage: "Password successfully saved",
+                error:{}
             })
         })
         .catch(error => {

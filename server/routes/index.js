@@ -1,14 +1,14 @@
-var routes = {
+const routes = {
     Notes: require('./Notes'),
     Users: require('./Users')
 };
 
-module.exports = function(params) {
+module.exports = params => {
 
-    return function(actionName) {
-        var parts        = actionName.split('/');
-        var actionClass  = routes[parts[0]];
-        var actionObject = new actionClass(params.config, params.services);
+    return actionName => {
+        const parts        = actionName.split('/');
+        const actionClass  = routes[parts[0]];
+        const actionObject = new actionClass(params.config, params.services);
 
         return actionObject[parts[1]].bind(actionObject);
     }

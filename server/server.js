@@ -1,23 +1,23 @@
 "use strict";
 
-var express      = require('express');
-var cookieParser = require('cookie-parser');
-var bodyParser   = require('body-parser');
+const express      = require('express');
+const cookieParser = require('cookie-parser');
+const bodyParser   = require('body-parser');
 
-var app          = express();
-var router       = express.Router();
+const app          = express();
+const router       = express.Router();
 
 module.exports   = function(config) {
-    var Storage  = require('./Storage')({config: config.db});
-    var services = require('./services')({config: null, Storage: Storage});
-    var routes   = require('./routes')({config: config.app, services: services});
+    const Storage  = require('./Storage')({config: config.db});
+    const services = require('./services')({config: null, Storage: Storage});
+    const routes   = require('./routes')({config: config.app, services: services});
 
     app.use(cookieParser(config.app.secret));
-    app.use(bodyParser.json()); // for parsing application/json
+    app.use(bodyParser.json());
     app.use('/api', router);
 
-    var auth = function(req, res, next) {
-        var id = req.signedCookies.id;
+    const auth = function(req, res, next) {
+        const id = req.signedCookies.id;
 
         if (id) return next();
         res.send({

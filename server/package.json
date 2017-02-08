@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "dependencies": {
     "bcrypt": "latest",
-    "bluebird": "latest",
     "body-parser": "latest",
     "chai": "latest",
     "cookie-parser": "latest",

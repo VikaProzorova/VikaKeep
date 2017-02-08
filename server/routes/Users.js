@@ -1,47 +1,41 @@
-var util = require('util');
-var Base = require('./Base');
+const Base = require('./Base');
 
-function Users (config, services) {
-    Users.super_.call(this, config, services);
-};
+class Users extends Base {
+    registration (req, res) {
+        const promise = this.services('Users/Registration', req.body, req.signedCookies.id);
+        this.renderPromise(promise, res);
+    }
 
-util.inherits(Users, Base);
+    login (req, res) {
+        const promise = this.services('Users/Login', req.body, req.signedCookies.id)
+        .then(user => {
+            res.cookie("id", user.data.id, {signed: true, httpOnly: false});
+            return user;
+        })
+        this.renderPromise(promise, res);
+    }
 
+    show (req, res) {
+        const promise = this.services('Users/Show', {}, req.signedCookies.id);
+        this.renderPromise(promise, res);
+    }
 
-Users.prototype.registration = function(req, res) {
-    var promise = this.services('Users/Registration', req.body, req.signedCookies.id);
-    this.renderPromise(promise, res);
-}
+    update (req, res) {
+        const promise = this.services('Users/Update', req.body, req.signedCookies.id);
+        this.renderPromise(promise, res);
+    }
 
-Users.prototype.login = function(req, res) {
-    var promise = this.services('Users/Login', req.body, req.signedCookies.id)
-    .then(function(user) {
-        res.cookie("id", user.data.id, {signed: true, httpOnly: false});
-        return user;
-    })
-    this.renderPromise(promise, res);
-}
+    changePassword (req, res) {
+        const promise = this.services('Users/ChangePassword', req.body, req.signedCookies.id);
+        this.renderPromise(promise, res);
+    }
 
-Users.prototype.show = function(req, res) {
-    var promise = this.services('Users/Show', {}, req.signedCookies.id);
-    this.renderPromise(promise, res);
-}
-
-Users.prototype.update = function(req, res) {
-    var promise = this.services('Users/Update', req.body, req.signedCookies.id);
-    this.renderPromise(promise, res);
-}
-
-Users.prototype.changePassword = function(req, res) {
-    var promise = this.services('Users/ChangePassword', req.body, req.signedCookies.id);
-    this.renderPromise(promise, res);
-}
-
-Users.prototype.logout = function(req, res) {
-    res.clearCookie("id");
-    res.send({
-        status: 1
-    });
+    logout (req, res) {
+        res.clearCookie("id");
+        res.send({
+            status: 1
+        });
+    }
 }
 
 module.exports = Users;

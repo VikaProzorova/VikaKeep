@@ -1,6 +1,6 @@
 module.exports = {
-    Create:         require('./Create'),
-    Delete:         require('./Delete'),
-    List:           require('./List'),
-    Update:         require('./Update')
+    Create: require('./Create'),
+    Delete: require('./Delete'),
+    List:   require('./List'),
+    Update: require('./Update')
 }

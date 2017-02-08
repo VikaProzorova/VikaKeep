@@ -1,25 +1,20 @@
-var util = require('util');
-var Base = require('../Base');
+const Base = require('../Base');
 
-function Show (data) {
-    Show.super_.call(this, data);
-};
+class Show extends Base {
+    validate (data) {
+        return true;
+    };
 
-util.inherits(Show, Base);
-
-Show.prototype.validate = function(data) {
-    return true;
-};
-
-Show.prototype.execute = function() {
-    return this.storage
-    .showUser({id: this.userID})
-    .then(function(user) {
-        return {
-            data:   user,
-            status: 1
-        };
-    });
+    execute () {
+        return this.storage
+        .showUser({id: this.userID})
+        .then(user => {
+            return {
+                data: user,
+                status: 1
+            };
+        });
+    };
 };
 
 module.exports = Show;

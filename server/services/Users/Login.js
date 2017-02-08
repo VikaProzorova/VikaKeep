@@ -1,38 +1,32 @@
-var util = require('util');
-var Base = require('../Base');
+const Base = require('../Base');
 
-function Login (data) {
-    Login.super_.call(this, data);
-};
-
-util.inherits(Login, Base);
-
-Login.prototype.validate = function(data) {
-    var rules =  {
-        email:     [ 'required', 'email' ],
-        password:  [ 'required', {min_length: 6} ],
-    };
-
-    return this.runValidation(data, rules);
-}
-
-Login.prototype.execute = function(data) {
-    return this.storage
-    .loginUser(data)
-    .catch(error => {
-        if (error == "Wrong password") {
-            throw {
-                password: "WRONG_PASSWORD"
-            }
-        }
-        throw error
-    })
-    .then(function(user) {
-        return {
-            data:   user,
-            status: 1
+class Login extends Base {
+    validate (data) {
+        const rules =  {
+            email:     [ 'required', 'email' ],
+            password:  [ 'required', {min_length: 6} ],
         };
-    });
+        return this.runValidation(data, rules);
+    }
+
+    execute (data) {
+        return this.storage
+        .loginUser(data)
+        .catch(error => {
+            if (error == "Wrong password") {
+                throw {
+                    password: "WRONG_PASSWORD"
+                }
+            }
+            throw error
+        })
+        .then(user => {
+            return {
+                data: user,
+                status: 1
+            };
+        });
+    };
 };
 
 module.exports = Login;
