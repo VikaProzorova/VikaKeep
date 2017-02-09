@@ -1,2 +1,2 @@
 # VikaKeep
-VanillaJS notes
+React&bootstrap notes
