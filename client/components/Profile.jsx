@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import { render } from 'react-dom';
 import API from "../api.js";
 import Alert from "./Alert.jsx";
+import Tooltip from "./Tooltip.jsx";
 
 class Profile extends React.Component {
     constructor(props) {
@@ -21,34 +22,21 @@ class Profile extends React.Component {
         };
     }
 
-    updateName(event) {
-        this.setState({
-            name: event.target.value
-        });
-    }
+    updateField(field) {
+        return event => {
+            const cleanError = {}
 
-    updateEmail(event) {
-        this.setState({
-            email: event.target.value
-        });
-    }
+            Object.keys(this.state.error)
+            .filter(key => key !== field)
+            .map(key => {
+                cleanError[key] = this.state.error[key]
+            })
 
-    updateOldPassword(event) {
-        this.setState({
-            oldPassword: event.target.value
-        });
-    }
-
-    updateNewPassword(event) {
-        this.setState({
-            newPassword: event.target.value
-        });
-    }
-
-    updateRepeatPassword(event) {
-        this.setState({
-            repeatPassword: event.target.value
-        });
+            this.setState({
+                [field]: event.target.value,
+                error: cleanError
+            })
+        }
     }
 
     handleKeyPress(event) {
@@ -123,6 +111,15 @@ class Profile extends React.Component {
             })
         })
         .catch(error => {
+            if (error.oldPassword == "REQUIRED") {
+                const message = "Old password can not be empty"
+                this.setState({
+                    errorMessage: "Some bullshit! " + message,
+                    error: error
+                });
+                return
+            }
+
             this.setState({
                 errorMessage: "Some bullshit! " + JSON.stringify(error),
                 error: error
@@ -133,12 +130,15 @@ class Profile extends React.Component {
     getValidationState(field) {
         return this.state.error[field] ? "error" : undefined
     }
+    getValidationMessage(field) {
+        return this.state.error[field] ? this.state.error[field] : undefined
+    }
 
     render() {
-        const email = this.state.email;
-        const name = this.state.name;
-        const oldPassword = this.state.oldPassword;
-        const newPassword = this.state.newPassword;
+        const email          = this.state.email;
+        const name           = this.state.name;
+        const oldPassword    = this.state.oldPassword;
+        const newPassword    = this.state.newPassword;
         const repeatPassword = this.state.repeatPassword;
 
         return(
@@ -147,46 +147,52 @@ class Profile extends React.Component {
                 <Alert style="warning">{this.state.errorMessage}</Alert>
                 <Alert style="success">{this.state.successMessage}</Alert>
                 <FormGroup validationState={this.getValidationState("name")}>
+                    <Tooltip>{this.getValidationMessage("name")}</Tooltip>
+
                     <FormControl
                         type="text"
                         placeholder="Name"
                         value={name}
-                        onChange={this.updateName.bind(this)}
+                        onChange={this.updateField("name")}
                     />
                 </FormGroup>
                 <FormGroup validationState={this.getValidationState("email")}>
+                    <Tooltip>{this.getValidationMessage("email")}</Tooltip>
                     <FormControl
                         type="email"
                         placeholder="Email"
                         value={email}
-                        onChange={this.updateEmail.bind(this)}
+                        onChange={this.updateField("email")}
                     />
                 </FormGroup>
                 <Button bsStyle='primary' onClick={this.handleChangeData.bind(this)}> Change data </Button>
                 <br/> <br/>
                 <FormGroup validationState={this.getValidationState("oldPassword")}>
+                    <Tooltip>{this.getValidationMessage("oldPassword")}</Tooltip>
                     <FormControl
                         type="password"
                         maxLength="40"
                         placeholder="Password"
                         value={oldPassword}
-                        onChange={this.updateOldPassword.bind(this)}
+                        onChange={this.updateField("oldPassword")}
                     />
                 </FormGroup>
                 <FormGroup validationState={this.getValidationState("newPassword")}>
+                    <Tooltip>{this.getValidationMessage("newPassword")}</Tooltip>
                     <FormControl
                         type="password"
                         maxLength="40"
                         placeholder="New password"
                         value={newPassword}
-                        onChange={this.updateNewPassword.bind(this)}
+                        onChange={this.updateField("newPassword")}
                     />
+                    <Tooltip>{this.getValidationMessage("newPassword")}</Tooltip>
                     <FormControl
                         type="password"
                         maxLength="40"
                         placeholder="Repeat new password"
                         value={repeatPassword}
-                        onChange={this.updateRepeatPassword.bind(this)}
+                        onChange={this.updateField("newPassword")}
                     />
                 </FormGroup>
                 <Button bsStyle='primary' onClick={this.handleChangePassword.bind(this)}> Change password </Button>
