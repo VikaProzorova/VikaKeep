@@ -13,6 +13,12 @@ class Registration extends Base {
     execute (data) {
         return this.storage
         .registerUser(data)
+        .catch(error => {
+            if (error == "Email already exist") {
+                throw {"email": "NOT_UNIQUE"}
+            }
+            throw error
+        })
         .then(user => {
             return {
                 data: user,

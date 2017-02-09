@@ -3,6 +3,8 @@ import { Glyphicon, Jumbotron, PageHeader, Button, InputGroup, FormControl, Form
 import { withRouter } from 'react-router';
 import API from "../api.js";
 import Alert from "./Alert.jsx";
+import Tooltip from "./Tooltip.jsx";
+import getMessage from "../messages.js";
 
 class Login extends React.Component {
     constructor(props) {
@@ -52,9 +54,8 @@ class Login extends React.Component {
             this.props.router.push({ pathname: '/notes'})
         })
         .catch(error => {
-            const err = JSON.stringify(error)
             this.setState({
-                errorMessage: "Wrong data" + err,
+                errorMessage: "Wrong data",
                 error: error
             });
         })
@@ -62,6 +63,10 @@ class Login extends React.Component {
 
     getValidationState(field) {
         return this.state.error[field] ? "error" : undefined
+    }
+
+    getValidationMessage(field) {
+        return getMessage(this.state.error[field])
     }
 
     render() {
@@ -72,6 +77,7 @@ class Login extends React.Component {
                 <PageHeader> VikaKeep Authorization Page <br/> <small> Authorization </small> </PageHeader>
                 <Alert style="warning">{this.state.errorMessage}</Alert>
                 <FormGroup validationState={this.getValidationState("email")}>
+                    <Tooltip>{this.getValidationMessage("email")}</Tooltip>
                     <InputGroup>
                         <InputGroup.Addon> <Glyphicon glyph='envelope' /> </InputGroup.Addon>
                         <FormControl
@@ -84,6 +90,7 @@ class Login extends React.Component {
                     </InputGroup>
                 </FormGroup>
                 <FormGroup validationState={this.getValidationState("password")}>
+                    <Tooltip>{this.getValidationMessage("password")}</Tooltip>
                     <InputGroup>
                         <InputGroup.Addon> <Glyphicon glyph='lock' /> </InputGroup.Addon>
                         <FormControl

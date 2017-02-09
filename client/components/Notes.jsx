@@ -104,11 +104,18 @@ class Notes extends React.Component {
                 </Panel>
             )
         });
+
+        const newNoteButton = <div>
+            <Button bsStyle='primary' style={{float:"right"}} onClick={this.handleAddNewNote.bind(this)}> Save </Button>
+            <br/>
+            <br/>
+        </div>
+
         return(
             <Jumbotron>
                 <PageHeader> VikaKeep Notes Page <br/> <small> Notes </small> </PageHeader>
                 <Alert style="warning">{this.state.errorMessage}</Alert>
-                <FormGroup>
+                <Panel footer={newNoteButton}>
                     <FormControl
                         componentClass="textarea"
                         type="text"
@@ -116,8 +123,7 @@ class Notes extends React.Component {
                         value={this.state.newNote}
                         onChange={this.updateNewNote.bind(this)}
                     />
-                    <Button bsStyle='primary' onClick={this.handleAddNewNote.bind(this)}> Save </Button>
-                </FormGroup>
+                </Panel>
                 <div> {notesList} </div>
             </Jumbotron>
         )

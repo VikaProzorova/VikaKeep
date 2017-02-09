@@ -3,6 +3,8 @@ import { Jumbotron, PageHeader, Button, FormGroup, FormControl } from 'react-boo
 import { withRouter } from 'react-router';
 import API from "../api.js";
 import Alert from "./Alert.jsx";
+import Tooltip from "./Tooltip.jsx";
+import getMessage from "../messages.js";
 
 class Registration extends React.Component {
     constructor(props) {
@@ -52,7 +54,7 @@ class Registration extends React.Component {
         if (this.state.password !== this.state.repeatPassword) {
             this.setState({
                 errorMessage: "Passwords not match",
-                error: {password:  "Passwords not match"}
+                error: {password:  "NOT_MATCH"}
             });
             return;
         }
@@ -67,9 +69,8 @@ class Registration extends React.Component {
             this.props.router.push({ pathname: '/login' });
         })
         .catch(error => {
-            const err = JSON.stringify(error)
             this.setState({
-                errorMessage: "Wrong data" + err,
+                errorMessage: "Wrong data",
                 error: error
             });
         })
@@ -77,6 +78,10 @@ class Registration extends React.Component {
 
     getValidationState(field) {
         return this.state.error[field] ? "error" : undefined
+    }
+
+    getValidationMessage(field) {
+        return getMessage(this.state.error[field])
     }
 
     render() {
@@ -90,6 +95,7 @@ class Registration extends React.Component {
                 <PageHeader> VikaKeep Registration Page <br/> <small> Registration </small> </PageHeader>
                 <Alert style="warning">{this.state.errorMessage}</Alert>
                 <FormGroup validationState={this.getValidationState("name")}>
+                    <Tooltip>{this.getValidationMessage("name")}</Tooltip>
                     <FormControl
                         type="text"
                         placeholder="Name"
@@ -99,6 +105,7 @@ class Registration extends React.Component {
                     />
                 </FormGroup>
                 <FormGroup validationState={this.getValidationState("email")}>
+                    <Tooltip>{this.getValidationMessage("email")}</Tooltip>
                     <FormControl
                         type="email"
                         placeholder="Email"
@@ -108,6 +115,7 @@ class Registration extends React.Component {
                     />
                 </FormGroup>
                 <FormGroup validationState={this.getValidationState("password")}>
+                    <Tooltip>{this.getValidationMessage("password")}</Tooltip>
                     <FormControl
                         type="password"
                         maxLength="40"

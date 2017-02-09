@@ -5,6 +5,7 @@ import { render } from 'react-dom';
 import API from "../api.js";
 import Alert from "./Alert.jsx";
 import Tooltip from "./Tooltip.jsx";
+import getMessage from "../messages.js";
 
 class Profile extends React.Component {
     constructor(props) {
@@ -79,7 +80,7 @@ class Profile extends React.Component {
         })
         .catch(error => {
             this.setState({
-                errorMessage: "Some bullshit! " + JSON.stringify(error),
+                errorMessage: "Some bullshit!",
                 error: error
             });
         });
@@ -111,19 +112,11 @@ class Profile extends React.Component {
             })
         })
         .catch(error => {
-            if (error.oldPassword == "REQUIRED") {
-                const message = "Old password can not be empty"
-                this.setState({
-                    errorMessage: "Some bullshit! " + message,
-                    error: error
-                });
-                return
-            }
-
             this.setState({
-                errorMessage: "Some bullshit! " + JSON.stringify(error),
+                errorMessage: "Some bullshit!",
                 error: error
             });
+            return
         });
     }
 
@@ -131,7 +124,7 @@ class Profile extends React.Component {
         return this.state.error[field] ? "error" : undefined
     }
     getValidationMessage(field) {
-        return this.state.error[field] ? this.state.error[field] : undefined
+        return getMessage(this.state.error[field])
     }
 
     render() {
@@ -148,7 +141,6 @@ class Profile extends React.Component {
                 <Alert style="success">{this.state.successMessage}</Alert>
                 <FormGroup validationState={this.getValidationState("name")}>
                     <Tooltip>{this.getValidationMessage("name")}</Tooltip>
-
                     <FormControl
                         type="text"
                         placeholder="Name"
