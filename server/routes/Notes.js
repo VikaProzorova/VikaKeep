@@ -6,6 +6,11 @@ class Notes extends Base {
         this.renderPromise(promise, res);
     }
 
+    tags (req, res) {
+        const promise = this.services('Notes/Tags', {}, req.signedCookies.id);
+        this.renderPromise(promise, res);
+    }
+
     create (req, res) {
         const promise = this.services('Notes/Create', req.body, req.signedCookies.id);
         this.renderPromise(promise, res);

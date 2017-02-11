@@ -12,7 +12,8 @@ class Notes extends React.Component {
         this.state = {
             notes: [],
             newNote: '',
-            errorMessage:''
+            errorMessage:'',
+            allTags:[]
         }
     }
 
@@ -32,6 +33,13 @@ class Notes extends React.Component {
                 })
             }
         });
+
+        API.notes.getAllTags()
+        .then(allTags => {
+            this.setState({
+                allTags: allTags
+            })
+        })
     }
 
     updateNewNote(event) {
@@ -61,7 +69,7 @@ class Notes extends React.Component {
                 this.setState({
                     notes: this.state.notes.map(note => {
                         if (note.id == id) {
-                            return Object.assign({}, note, {text: event.target.value})
+                            return Object.assign({}, note, {text: event.target.value, date: new Date()})
                         }
                         return note;
                     })
@@ -95,6 +103,7 @@ class Notes extends React.Component {
             return (
                 <Panel key={note.id} header={title} >
                     <FormControl
+                        style={{maxWidth: "100%"}}
                         componentClass="textarea"
                         type="text"
                         value={note.text}
@@ -104,8 +113,11 @@ class Notes extends React.Component {
                 </Panel>
             )
         });
-
-        const newNoteButton = <div>
+        const tagsButtons = this.state.allTags.map(tag => {
+           return <Button key={tag.id}> {tag.name} </Button>
+        })
+        const myFooter = <div>
+            {tagsButtons}
             <Button bsStyle='primary' style={{float:"right"}} onClick={this.handleAddNewNote.bind(this)}> Save </Button>
             <br/>
             <br/>
@@ -115,8 +127,9 @@ class Notes extends React.Component {
             <Jumbotron>
                 <PageHeader> VikaKeep Notes Page <br/> <small> Notes </small> </PageHeader>
                 <Alert style="warning">{this.state.errorMessage}</Alert>
-                <Panel footer={newNoteButton}>
+                <Panel footer={myFooter}>
                     <FormControl
+                        style={{maxWidth: "100%"}}
                         componentClass="textarea"
                         type="text"
                         placeholder="New note"

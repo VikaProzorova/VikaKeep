@@ -29,6 +29,9 @@ const notes = {
             });
         });
     },
+    getAllTags() {
+        return query("notes/tags", "get")
+    },
     create(note) {
         return query("notes", "post", note)
         .then(note => {

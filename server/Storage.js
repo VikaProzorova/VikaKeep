@@ -9,6 +9,10 @@ class Storage {
         return db.query('SELECT * FROM notes WHERE user = ? AND isDeleted = 0 ORDER BY id DESC', [this.user.id])
         .then(([notesFromDB]) => notesFromDB);
     }
+    getAllTags() {
+        return db.query('SELECT * FROM tags')
+        .then(([notesTags]) => notesTags)
+    }
     createNote(note) {
         note.date = new Date();
         return db.query('INSERT INTO notes (text, date, user) VALUES (?, ?, ?)', [note.text, note.date, this.user.id])
