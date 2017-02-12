@@ -3,7 +3,8 @@ const Base = require('../Base');
 class Create extends Base {
     validate (data) {
         const rules =  {
-            text: [ {max_length: 1000} ]
+            text: [ {max_length: 1000} ],
+            tagsIDs: [ {list_of: 'integer'}]
         };
 
         return this.runValidation(data, rules);
@@ -14,7 +15,7 @@ class Create extends Base {
         .createNote(data)
         .then(note => {
             return {
-                data:   note,
+                data: note,
                 status: 1
             };
         })

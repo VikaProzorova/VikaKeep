@@ -29,9 +29,6 @@ const notes = {
             });
         });
     },
-    getAllTags() {
-        return query("notes/tags", "get")
-    },
     create(note) {
         return query("notes", "post", note)
         .then(note => {
@@ -72,7 +69,13 @@ const users = {
     }
 };
 
+const tags = {
+    list() {
+        return query("tags", "get")
+    }
+}
 module.exports = {
     notes,
-    users
+    users,
+    tags
 };

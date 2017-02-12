@@ -1,16 +1,16 @@
 const Base = require('../Base');
 
-class Tags extends Base {
+class List extends Base {
     validate (data) {
         return true;
     }
 
     execute (data) {
         return this.storage
-        .getAllTags()
-        .then(allTags => {
+        .getTagsList()
+        .then(tags => {
             return {
-                data: allTags,
+                data: tags,
                 status: 1
             };
         });
@@ -18,4 +18,4 @@ class Tags extends Base {
 };
 
 
-module.exports = Tags;
+module.exports = List;

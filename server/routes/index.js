@@ -1,6 +1,7 @@
 const routes = {
     Notes: require('./Notes'),
-    Users: require('./Users')
+    Users: require('./Users'),
+    Tags:  require('./Tags')
 };
 
 module.exports = params => {

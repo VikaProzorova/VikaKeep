@@ -26,7 +26,7 @@ module.exports   = function(config) {
     };
 
     router.get   ('/notes',                  auth, routes('Notes/list') );
-    router.get   ('/notes/tags',             auth, routes('Notes/tags') );
+    router.get   ('/tags',                   auth, routes('Tags/list') );
     router.post  ('/notes',                  auth, routes('Notes/create') );
     router.post  ('/notes/:id',              auth, routes('Notes/update') );
     router.delete('/notes/:id',              auth, routes('Notes/delete') );

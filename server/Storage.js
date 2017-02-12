@@ -9,16 +9,21 @@ class Storage {
         return db.query('SELECT * FROM notes WHERE user = ? AND isDeleted = 0 ORDER BY id DESC', [this.user.id])
         .then(([notesFromDB]) => notesFromDB);
     }
-    getAllTags() {
+    getTagsList() {
         return db.query('SELECT * FROM tags')
-        .then(([notesTags]) => notesTags)
+        .then(([tags]) => tags)
     }
     createNote(note) {
         note.date = new Date();
         return db.query('INSERT INTO notes (text, date, user) VALUES (?, ?, ?)', [note.text, note.date, this.user.id])
         .then(([queryStatus]) => {
             note.id = queryStatus.insertId;
-            return note;
+
+            const mappedTags = note.tagsIDs.map(tagID => {
+                return [tagID, note.id]
+            })
+            return db.query('INSERT INTO notesTagsMap (tagID, noteID) VALUES ?', [mappedTags])
+            .then(() => note)
         });
     }
     updateNote(newNoteData) {

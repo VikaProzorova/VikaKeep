@@ -13,7 +13,8 @@ class Notes extends React.Component {
             notes: [],
             newNote: '',
             errorMessage:'',
-            allTags:[]
+            tags:[],
+            choosedTagsIDs:[]
         }
     }
 
@@ -34,10 +35,10 @@ class Notes extends React.Component {
             }
         });
 
-        API.notes.getAllTags()
-        .then(allTags => {
+        API.tags.list()
+        .then(tags => {
             this.setState({
-                allTags: allTags
+                tags: tags
             })
         })
     }
@@ -50,7 +51,8 @@ class Notes extends React.Component {
 
     handleAddNewNote() {
         const newNote = {
-            text: this.state.newNote
+            text: this.state.newNote,
+            tagsIDs: this.state.choosedTagsIDs
         }
 
         if (newNote.text != '') {
@@ -58,7 +60,8 @@ class Notes extends React.Component {
             .then(noteFromServer => {
                 this.setState({
                     notes: [noteFromServer, ...this.state.notes],
-                    newNote: ''
+                    newNote: '',
+                    choosedTagsIDs:[]
                 })
             })
         }
@@ -66,16 +69,17 @@ class Notes extends React.Component {
 
     updateNote(id) {
         return (event) => {
-                this.setState({
-                    notes: this.state.notes.map(note => {
-                        if (note.id == id) {
-                            return Object.assign({}, note, {text: event.target.value, date: new Date()})
-                        }
-                        return note;
-                    })
+            this.setState({
+                notes: this.state.notes.map(note => {
+                    if (note.id == id) {
+                        return Object.assign({}, note, {text: event.target.value, date: new Date()})
+                    }
+                    return note;
                 })
+            })
         }
     }
+
     sendUpdatedNote(id) {
         return (event) => {
             API.notes.update({id: id, text: event.target.value})
@@ -91,6 +95,28 @@ class Notes extends React.Component {
                 })
             })
         }
+    }
+
+    handleToogleTag(tagID) {
+        return (event) => {
+            if (this.state.choosedTagsIDs.includes(tagID)) {
+                return this.setState({
+                    choosedTagsIDs: this.state.choosedTagsIDs.filter(id => id != tagID)
+                })
+            }
+
+            this.setState({
+                choosedTagsIDs: [...this.state.choosedTagsIDs, tagID]
+            })
+        }
+    }
+
+    getButtonStyle(tagID) {
+        let buttonStyle = "info"
+        if (this.state.choosedTagsIDs.includes(tagID)) {
+            buttonStyle = "success"
+        }
+        return buttonStyle
     }
 
     render() {
@@ -112,13 +138,25 @@ class Notes extends React.Component {
                     />
                 </Panel>
             )
-        });
-        const tagsButtons = this.state.allTags.map(tag => {
-           return <Button key={tag.id}> {tag.name} </Button>
         })
+
+        const tagsButtons = this.state.tags.map(tag => {
+            return <Button
+                key={tag.id+tag.name}
+                bsStyle={this.getButtonStyle(tag.id)}
+                onClick={this.handleToogleTag(tag.id)}>
+                {tag.name}
+            </Button>
+        })
+
         const myFooter = <div>
             {tagsButtons}
-            <Button bsStyle='primary' style={{float:"right"}} onClick={this.handleAddNewNote.bind(this)}> Save </Button>
+            <Button
+                bsStyle='primary'
+                style={{float:"right"}}
+                onClick={this.handleAddNewNote.bind(this)}>
+                Save
+            </Button>
             <br/>
             <br/>
         </div>
