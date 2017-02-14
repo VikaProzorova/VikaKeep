@@ -7,7 +7,26 @@ class Storage {
     }
     getNotesList() {
         return db.query('SELECT * FROM notes WHERE user = ? AND isDeleted = 0 ORDER BY id DESC', [this.user.id])
-        .then(([notesFromDB]) => notesFromDB);
+        .then(([notesFromDB]) => {
+            const notesIDs = notesFromDB.map(note => note.id)
+
+            return db.query('SELECT * FROM notesTagsMap WHERE noteID IN (?)', [notesIDs])
+            .then(([mappedTags]) => {
+                const notes = notesFromDB.map(note => {
+                    note.tagsIDs = []
+
+                    mappedTags.map(bunch => {
+                        if (note.id == bunch.noteID) {
+                            note.tagsIDs = [...note.tagsIDs, bunch.tagID]
+                        }
+                    })
+
+                    return note
+                })
+                return notes
+            })
+            .then((notes) => notes)
+        })
     }
     getTagsList() {
         return db.query('SELECT * FROM tags')
@@ -22,13 +41,26 @@ class Storage {
             const mappedTags = note.tagsIDs.map(tagID => {
                 return [tagID, note.id]
             })
-            return db.query('INSERT INTO notesTagsMap (tagID, noteID) VALUES ?', [mappedTags])
-            .then(() => note)
-        });
+            if (mappedTags.length) {
+                return db.query('INSERT INTO notesTagsMap (tagID, noteID) VALUES ?', [mappedTags])
+                .then(() => note)
+            }
+            return note
+        })
     }
     updateNote(newNoteData) {
         newNoteData.date = new Date();
         return db.query('UPDATE notes SET text = ?, date = ? WHERE id = ?', [newNoteData.text, newNoteData.date, newNoteData.id])
+        .then(() => db.query('DELETE FROM notesTagsMap WHERE noteID = ?', [newNoteData.id]))
+        .then(() => {
+            const mappedTags = newNoteData.tagsIDs.map(tagID => {
+                return [tagID, newNoteData.id]
+            })
+            if (mappedTags.length) {
+                return db.query('INSERT INTO notesTagsMap (tagID, noteID) VALUES ?', [mappedTags])
+                .then(() => newNoteData);
+            }
+        })
         .then(() => newNoteData);
     }
     deleteNote(note) {

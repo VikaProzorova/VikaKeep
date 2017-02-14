@@ -14,7 +14,8 @@ class Notes extends Base {
     update (req, res) {
         const data = {
             text: req.body.text,
-            id:   req.params.id
+            id:   req.params.id,
+            tagsIDs: req.body.tagsIDs
         }
         const promise = this.services('Notes/Update', data, req.signedCookies.id);
         this.renderPromise(promise, res);

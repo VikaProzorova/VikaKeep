@@ -37,7 +37,7 @@ const notes = {
         });
     },
     update(note) {
-        return query(`notes/${note.id}`, "post", {text: note.text})
+        return query(`notes/${note.id}`, "post", {text: note.text, tagsIDs: note.tagsIDs})
         .then(note => {
             note.date = new Date(note.date);
             return note;

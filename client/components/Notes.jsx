@@ -14,14 +14,16 @@ class Notes extends React.Component {
             newNote: '',
             errorMessage:'',
             tags:[],
-            choosedTagsIDs:[]
+            newNoteTagsIDs:[]
         }
     }
 
     componentWillMount() {
         API.notes.list()
         .then(data => {
-            this.setState({ notes: data })
+            this.setState({
+                notes: data
+            })
         })
         .catch((error) => {
             if (error == "Permission denied") {
@@ -52,7 +54,7 @@ class Notes extends React.Component {
     handleAddNewNote() {
         const newNote = {
             text: this.state.newNote,
-            tagsIDs: this.state.choosedTagsIDs
+            tagsIDs: this.state.newNoteTagsIDs
         }
 
         if (newNote.text != '') {
@@ -61,7 +63,7 @@ class Notes extends React.Component {
                 this.setState({
                     notes: [noteFromServer, ...this.state.notes],
                     newNote: '',
-                    choosedTagsIDs:[]
+                    newNoteTagsIDs:[]
                 })
             })
         }
@@ -81,8 +83,9 @@ class Notes extends React.Component {
     }
 
     sendUpdatedNote(id) {
+        const tagsIDs = this.state.notes.find(note => note.id == id).tagsIDs
         return (event) => {
-            API.notes.update({id: id, text: event.target.value})
+            API.notes.update({id: id, text: event.target.value, tagsIDs: tagsIDs})
         }
     }
 
@@ -99,35 +102,88 @@ class Notes extends React.Component {
 
     handleToogleTag(tagID) {
         return (event) => {
-            if (this.state.choosedTagsIDs.includes(tagID)) {
+            if (this.state.newNoteTagsIDs.includes(tagID)) {
                 return this.setState({
-                    choosedTagsIDs: this.state.choosedTagsIDs.filter(id => id != tagID)
+                    newNoteTagsIDs: this.state.newNoteTagsIDs.filter(id => id != tagID)
                 })
             }
 
             this.setState({
-                choosedTagsIDs: [...this.state.choosedTagsIDs, tagID]
+                newNoteTagsIDs: [...this.state.newNoteTagsIDs, tagID]
             })
+        }
+    }
+
+    handleUpdateTag(tagID, noteID) {
+        return (event) => {
+            const note = this.state.notes.find(note => note.id == noteID)
+
+            if (note.tagsIDs.includes(tagID)) {
+                note.tagsIDs = note.tagsIDs.filter(id => id != tagID)
+            } else {
+                note.tagsIDs = [ ...note.tagsIDs, tagID ]
+            }
+
+            this.forceUpdate()
+
+            API.notes.update(note)
         }
     }
 
     getButtonStyle(tagID) {
         let buttonStyle = "info"
-        if (this.state.choosedTagsIDs.includes(tagID)) {
+        if (this.state.newNoteTagsIDs.includes(tagID)) {
             buttonStyle = "success"
         }
         return buttonStyle
+    }
+
+    getTagsButtons(tagsIDs, noteID) {
+        if (!this.state.tags.length) {
+            return
+        }
+        return tagsIDs.map(tagID => {
+            const tagName = this.state.tags.find(tag => tag.id == tagID).name
+
+            return <Button
+                key={"note tag" + tagName + noteID}
+                bsStyle="info"
+                onClick={this.handleUpdateTag(tagID, noteID)}
+                >
+                {tagName}
+            </Button>
+        })
+    }
+    getOtherTagsButtons(note) {
+        if (!this.state.tags.length) {
+            return
+        }
+        const otherTags = this.state.tags.filter(tag => {
+            return !note.tagsIDs.includes(tag.id)
+        })
+
+        return otherTags.map(tag => {
+            return <Button
+                key={"note other tag" + tag.id + note.id}
+                bsStyle="warning"
+                onClick={this.handleUpdateTag(tag.id, note.id)}
+                >
+                {tag.name}
+            </Button>
+        })
     }
 
     render() {
         const notesList = this.state.notes.map(note => {
             const title = <div>
                 {moment(note.date).toNow()}
+                {this.getTagsButtons(note.tagsIDs, note.id)}
                 <Glyphicon glyph='trash' style={{float: 'right'}} onClick={this.deleteNote(note.id)}/>
-
             </div>
+            const noteFooter = <div> {this.getOtherTagsButtons(note)} </div>
+
             return (
-                <Panel key={note.id} header={title} >
+                <Panel key={note.id} header={title} footer={noteFooter}>
                     <FormControl
                         style={{maxWidth: "100%"}}
                         componentClass="textarea"
@@ -149,7 +205,7 @@ class Notes extends React.Component {
             </Button>
         })
 
-        const myFooter = <div>
+        const newNoteFooter = <div>
             {tagsButtons}
             <Button
                 bsStyle='primary'
@@ -165,7 +221,7 @@ class Notes extends React.Component {
             <Jumbotron>
                 <PageHeader> VikaKeep Notes Page <br/> <small> Notes </small> </PageHeader>
                 <Alert style="warning">{this.state.errorMessage}</Alert>
-                <Panel footer={myFooter}>
+                <Panel footer={newNoteFooter}>
                     <FormControl
                         style={{maxWidth: "100%"}}
                         componentClass="textarea"

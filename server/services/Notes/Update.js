@@ -4,7 +4,8 @@ class Update extends Base {
     validate (data) {
         const rules =  {
             text: [ {max_length: 1000} ],
-            id:   [ 'required', 'positive_integer']
+            id:   [ 'required', 'positive_integer'],
+            tagsIDs: [ {list_of: 'integer'}]
         };
 
         return this.runValidation(data, rules);
