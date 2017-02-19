@@ -13,7 +13,8 @@
     "mysql-promise": "latest",
     "node-uuid": "latest",
     "nodemon": "^1.9.2",
-    "supertest-as-promised": "latest"
+    "supertest-as-promised": "latest",
+    "require-directory": "latest"
   },
   "scripts": {
     "start": "nodemon app.js",

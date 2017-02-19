@@ -1,10 +1,6 @@
 {
   "name": "VikaKeep",
   "version": "0.0.1",
-  "dependencies": {
-    "bootstrap": "^3.3.6",
-    "moment": "latest"
-  },
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-core": "^6.21.0",
@@ -23,7 +19,8 @@
     "start": "webpack-dev-server --progress --colors --watch",
     "build": "webpack --progress --colors -p"
   },
-    "dependencies": {
+  "dependencies": {
+    "moment": "latest",
     "fbjs": "^0.8.8",
     "react": "^15.4.2",
     "react-bootstrap": "^0.30.7",

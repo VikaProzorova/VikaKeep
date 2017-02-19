@@ -72,6 +72,12 @@ const users = {
 const tags = {
     list() {
         return query("tags", "get")
+    },
+    create(tag) {
+        return query("tags", "post", tag)
+    },
+    update(tag) {
+        return query(`tags/${tag.id}`, "post", tag)
     }
 }
 module.exports = {

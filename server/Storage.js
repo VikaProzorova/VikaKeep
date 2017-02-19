@@ -8,6 +8,10 @@ class Storage {
     getNotesList() {
         return db.query('SELECT * FROM notes WHERE user = ? AND isDeleted = 0 ORDER BY id DESC', [this.user.id])
         .then(([notesFromDB]) => {
+            if (!notesFromDB.length) {
+                return notesFromDB
+            }
+
             const notesIDs = notesFromDB.map(note => note.id)
 
             return db.query('SELECT * FROM notesTagsMap WHERE noteID IN (?)', [notesIDs])
@@ -27,10 +31,6 @@ class Storage {
             })
             .then((notes) => notes)
         })
-    }
-    getTagsList() {
-        return db.query('SELECT * FROM tags')
-        .then(([tags]) => tags)
     }
     createNote(note) {
         note.date = new Date();
@@ -65,6 +65,21 @@ class Storage {
     }
     deleteNote(note) {
         return db.query('UPDATE notes SET isDeleted = true WHERE id = ?', [note.id]);
+    }
+    getTagsList() {
+        return db.query('SELECT * FROM tags')
+        .then(([tags]) => tags)
+    }
+    createTag(tag) {
+        return db.query('INSERT INTO tags (name) VALUES (?)', [tag.name])
+        .then(([queryStatus]) => {
+            tag.id = queryStatus.insertId;
+            return tag
+        })
+    }
+    updateTag(tag) {
+        return db.query('UPDATE tags SET name = ? WHERE id = ?', [tag.name, tag.id])
+        .then (() => tag)
     }
     loginUser(user) {
         return db.query('SELECT * FROM users WHERE email = ?', [user.email])

@@ -9,11 +9,15 @@ const linksBar = {
     },
     notes: {
         title: 'Notes',
-        links: [ 'profile', 'logout' ]
+        links: [ 'profile', 'tags', 'logout' ]
+    },
+    tags: {
+        title: 'Tags',
+        links: ['notes', 'profile', 'logout' ]
     },
     profile: {
         title: 'Profile',
-        links: [ 'notes', 'logout' ]
+        links: [ 'notes', 'tags', 'logout' ]
     },
     registration: {
         title: 'Registration',
