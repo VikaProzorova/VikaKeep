@@ -64,12 +64,24 @@ class Tags extends React.Component {
         }
     }
 
+    deleteTad(id) {
+        return (event) => {
+            API.tags.delete(id)
+            .then(() => {
+                this.setState({
+                    tags: this.state.tags.filter(tag => tag.id != id)
+                })
+            })
+        }
+    }
+
     render() {
         let tagsList =[]
 
         if(this.state.tags.length) {
             tagsList = this.state.tags.map(tag => {
-                return(
+                const title = <Glyphicon glyph='trash' style={{float: 'right'}} onClick={this.deleteTad(tag.id)}/>
+                return( <Panel key={tag.id} header={title}>
                     <FormControl
                         key={tag.id}
                         style={{maxWidth: "100%"}}
@@ -79,6 +91,7 @@ class Tags extends React.Component {
                         onChange={this.updateTag(tag.id)}
                         onBlur={this.sendUpdatedTag(tag.id)}
                     />
+                    </Panel>
                 )
             })
         }

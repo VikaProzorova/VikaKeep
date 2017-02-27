@@ -78,6 +78,9 @@ const tags = {
     },
     update(tag) {
         return query(`tags/${tag.id}`, "post", tag)
+    },
+    delete(tagID) {
+        return query(`tags/${tagID}`, "delete")
     }
 }
 module.exports = {

@@ -19,6 +19,14 @@ class Tags extends Base {
         const promise = this.services('Tags/Update', data, req.signedCookies.id);
         this.renderPromise(promise, res);
     }
+
+    delete (req, res) {
+        const data = {
+            id: req.params.id
+        }
+        const promise = this.services('Tags/Delete', data, req.signedCookies.id);
+        this.renderPromise(promise, res);
+    }
 }
 
 module.exports = Tags;

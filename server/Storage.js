@@ -81,6 +81,10 @@ class Storage {
         return db.query('UPDATE tags SET name = ? WHERE id = ?', [tag.name, tag.id])
         .then (() => tag)
     }
+    deleteTag(tag) {
+        return db.query('DELETE FROM notesTagsMap WHERE tagID = ?', [tag.id])
+        .then(() => db.query('DELETE FROM tags WHERE id = ?', [tag.id]))
+    }
     loginUser(user) {
         return db.query('SELECT * FROM users WHERE email = ?', [user.email])
         .then(([[foundUser]]) => {

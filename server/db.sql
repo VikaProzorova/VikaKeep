@@ -41,6 +41,7 @@ create table notesTagsMap (
     FOREIGN KEY (noteID) REFERENCES notes (id)
 )   DEFAULT CHARACTER SET utf8;
 
+--mysql.server start
 
 -- create table customers (
 --     id          INT          NOT NULL AUTO_INCREMENT,

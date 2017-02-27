@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { Jumbotron, PageHeader, Badge, Button, FormControl, Glyphicon, FormGroup, Panel } from 'react-bootstrap';
+import { Jumbotron, PageHeader, Badge, Button, FormControl, Glyphicon, FormGroup, Panel, ButtonGroup } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 import API from "../api.js";
 import Alert from "./Alert.jsx";
@@ -145,13 +145,23 @@ class Notes extends React.Component {
         return tagsIDs.map(tagID => {
             const tagName = this.state.tags.find(tag => tag.id == tagID).name
 
-            return <Button
-                key={"note tag" + tagName + noteID}
-                bsStyle="info"
-                onClick={this.handleUpdateTag(tagID, noteID)}
+            return <ButtonGroup>
+                <Button
+                    key={"note delete tag" + tagName + noteID}
+                    bsStyle="info"
+                    bsSize="xsmall"
+                    onClick={this.handleUpdateTag(tagID, noteID)}
                 >
-                {tagName}
-            </Button>
+                    <Glyphicon glyph='minus' />
+                </Button>
+                <Button
+                    key={"note sorting tag" + tagName + noteID}
+                    bsStyle="info"
+                    bsSize="xsmall"
+                    >
+                    {tagName}
+                </Button>
+            </ButtonGroup>
         })
     }
     getOtherTagsButtons(note) {
@@ -163,13 +173,24 @@ class Notes extends React.Component {
         })
 
         return otherTags.map(tag => {
-            return <Button
-                key={"note other tag" + tag.id + note.id}
-                bsStyle="warning"
-                onClick={this.handleUpdateTag(tag.id, note.id)}
+            return <div> <ButtonGroup>
+                <Button
+                    key={"note toogle tag" + tag.id + note.id}
+                    bsStyle="warning"
+                    bsSize="xsmall"
+                    onClick={this.handleUpdateTag(tag.id, note.id)}
                 >
-                {tag.name}
-            </Button>
+                    <Glyphicon glyph='plus' />
+                </Button>
+                <Button
+                    key={"note sort tag" + tag.id + note.id}
+                    bsStyle="warning"
+                    bsSize="xsmall"
+                >
+                    {tag.name}
+                </Button>
+            </ButtonGroup> </div>
+
         })
     }
 
@@ -177,6 +198,7 @@ class Notes extends React.Component {
         const notesList = this.state.notes.map(note => {
             const title = <div>
                 {moment(note.date).toNow()}
+                <br/>
                 {this.getTagsButtons(note.tagsIDs, note.id)}
                 <Glyphicon glyph='trash' style={{float: 'right'}} onClick={this.deleteNote(note.id)}/>
             </div>
