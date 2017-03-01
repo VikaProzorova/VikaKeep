@@ -6,7 +6,11 @@ function query (path, method, body) {
     }
 
     if (body) {
-        params.body = JSON.stringify(body)
+        if(method == 'get') {
+            path += '?' + Object.keys(body).map(key => key + '=' + body[key]).join('&')
+        } else {
+            params.body = JSON.stringify(body)
+        }
     }
 
     return fetch("/api/" + path, params)
@@ -20,8 +24,10 @@ function query (path, method, body) {
 }
 
 const notes = {
-    list() {
-        return query("notes", "get")
+    list(tagFilter) {
+        console.log(tagFilter)
+
+        return query("notes", "get", tagFilter)
         .then(data => {
             return data.map(note => {
                 note.date = new Date(note.date);
@@ -58,8 +64,8 @@ const users = {
     logout() {
         return query("users/logout", "post")
     },
-    show(user) {
-        return query("users/current", "get", user)
+    show() {
+        return query("users/current", "get")
     },
     update(user) {
         return query("users/current", "post", user)

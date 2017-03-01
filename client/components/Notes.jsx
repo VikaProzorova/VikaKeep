@@ -14,35 +14,13 @@ class Notes extends React.Component {
             newNote: '',
             errorMessage:'',
             tags:[],
-            newNoteTagsIDs:[]
+            newNoteTagsIDs:[],
+            tagFilter:''
         }
     }
 
     componentWillMount() {
-        API.notes.list()
-        .then(data => {
-            this.setState({
-                notes: data
-            })
-        })
-        .catch((error) => {
-            if (error == "Permission denied") {
-                this.props.router.push({ pathname: '/login' });
-            }
-            else {
-                const err = JSON.stringify(error)
-                this.setState({
-                    errorMessage: "Some bullshit! " + err
-                })
-            }
-        });
-
-        API.tags.list()
-        .then(tags => {
-            this.setState({
-                tags: tags
-            })
-        })
+        this.getNotes()
     }
 
     updateNewNote(event) {
@@ -158,6 +136,7 @@ class Notes extends React.Component {
                     key={"note sorting tag" + tagName + noteID}
                     bsStyle="info"
                     bsSize="xsmall"
+                    onClick={this.getFilteredNotes(tagID)}
                     >
                     {tagName}
                 </Button>
@@ -186,6 +165,7 @@ class Notes extends React.Component {
                     key={"note sort tag" + tag.id + note.id}
                     bsStyle="warning"
                     bsSize="xsmall"
+                    onClick={this.getFilteredNotes(tag.id)}
                 >
                     {tag.name}
                 </Button>
@@ -193,7 +173,45 @@ class Notes extends React.Component {
 
         })
     }
+    getNotes() {
+        const tagFilter = {
+            id: this.state.tagFilter
+        }
+        API.notes.list(tagFilter)
+        .then(data => {
+            this.setState({
+                notes: data
+            })
+        })
+        .catch((error) => {
+            if (error == "Permission denied") {
+                this.props.router.push({ pathname: '/login' });
+            }
+            else {
+                const err = JSON.stringify(error)
+                this.setState({
+                    errorMessage: "Some bullshit! " + err
+                })
+            }
+        });
 
+        API.tags.list()
+        .then(tags => {
+            this.setState({
+                tags: tags
+            })
+        })
+    }
+
+    getFilteredNotes(incomingTagID) {
+        return (event) => {
+            this.setState({
+                tagFilter: incomingTagID
+            }, () => {
+                this.getNotes()
+            })
+        }
+    }
     render() {
         const notesList = this.state.notes.map(note => {
             const title = <div>

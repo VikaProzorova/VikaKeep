@@ -2,7 +2,12 @@ const Base = require('./Base');
 
 class Notes extends Base {
     list (req, res) {
-        const promise = this.services('Notes/List', {}, req.signedCookies.id);
+        const data = {
+            tagID: req.query.id
+        }
+        console.log(data)
+
+        const promise = this.services('Notes/List', data, req.signedCookies.id);
         this.renderPromise(promise, res);
     }
 
@@ -14,7 +19,7 @@ class Notes extends Base {
     update (req, res) {
         const data = {
             text: req.body.text,
-            id:   req.params.id,
+            id: req.params.id,
             tagsIDs: req.body.tagsIDs
         }
         const promise = this.services('Notes/Update', data, req.signedCookies.id);

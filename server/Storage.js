@@ -5,8 +5,24 @@ class Storage {
     constructor(user) {
         this.user = user;
     }
-    getNotesList() {
-        return db.query('SELECT * FROM notes WHERE user = ? AND isDeleted = 0 ORDER BY id DESC', [this.user.id])
+    getNotesList(filter) {
+        let sql = ''
+        if(filter.tagID) {
+            sql = [
+                'SELECT * FROM notes',
+                'JOIN notesTagsMap ON (notes.id = notesTagsMap.noteID)',
+                'WHERE user = ? AND isDeleted = 0 AND tagID = ?',
+                'ORDER BY id DESC'
+            ].join(' ')
+        }
+        else {
+            sql = [
+                'SELECT * FROM notes',
+                'WHERE user = ? AND isDeleted = 0',
+                'ORDER BY id DESC'
+            ].join(' ')
+        }
+        return db.query(sql, [this.user.id, filter.tagID])
         .then(([notesFromDB]) => {
             if (!notesFromDB.length) {
                 return notesFromDB
@@ -29,9 +45,9 @@ class Storage {
                 })
                 return notes
             })
-            .then((notes) => notes)
         })
     }
+
     createNote(note) {
         note.date = new Date();
         return db.query('INSERT INTO notes (text, date, user) VALUES (?, ?, ?)', [note.text, note.date, this.user.id])

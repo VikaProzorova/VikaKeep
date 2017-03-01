@@ -2,12 +2,15 @@ const Base = require('../Base');
 
 class List extends Base {
     validate (data) {
-        return true;
+        const rules = {
+            tagID: ['positive_integer']
+        }
+        return this.runValidation(data, rules);
     }
 
     execute (data) {
         return this.storage
-        .getNotesList()
+        .getNotesList(data)
         .then(notesList => {
             return {
                 data: notesList,
