@@ -25,9 +25,8 @@ function query (path, method, body) {
 
 const notes = {
     list(tagFilter) {
-        console.log(tagFilter)
-
-        return query("notes", "get", tagFilter)
+        console.log(tagFilter, 'api tagFilter')
+        return query("notes", "get", {tags: tagFilter.tags , statuses: tagFilter.statuses})
         .then(data => {
             return data.map(note => {
                 note.date = new Date(note.date);
@@ -51,6 +50,13 @@ const notes = {
     },
     delete(noteID) {
         return query(`notes/${noteID}`, "delete")
+    },
+    changeStatus(noteID, newStatus) {
+        return query(`notes/${noteID}/${newStatus}`, "post")
+        .then(note => {
+            note.date = new Date(note.date);
+            return note;
+        });
     }
 };
 

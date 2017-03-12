@@ -1,7 +1,8 @@
+drop table if exists notesTagsMap;
 drop table if exists notes;
 drop table if exists users;
 drop table if exists tags;
-drop table if exists notesTagsMap;
+
 
 create table users (
     id       INT          NOT NULL AUTO_INCREMENT,
@@ -17,7 +18,7 @@ create table notes (
     id        INT         NOT NULL AUTO_INCREMENT,
     text      TEXT        NOT NULL,
     date      DATETIME    NOT NULL,
-    isDeleted BOOLEAN     NOT NULL DEFAULT FALSE,
+    status    ENUM ('NEW', 'IN_PROGRESS', 'DONE', 'DELETED') NOT NULL DEFAULT 'NEW',
     user      INT         NOT NULL,
 
     PRIMARY KEY (id),
@@ -40,40 +41,3 @@ create table notesTagsMap (
     FOREIGN KEY (tagID) REFERENCES tags (id),
     FOREIGN KEY (noteID) REFERENCES notes (id)
 )   DEFAULT CHARACTER SET utf8;
-
---mysql.server start
-
--- create table customers (
---     id          INT          NOT NULL AUTO_INCREMENT,
---     parentID    INT,
---     name        VARCHAR(40)  NOT NULL,
---     description VARCHAR(100) NOT NULL,
---     project     VARCHAR(40)  NOT NULL,
---     priority    ENUM('low', 'normal', 'high') NOT NULL DEFAULT 'normal',
-
---     PRIMARY KEY (id),
---     UNIQUE KEY (name),
---     FOREIGN KEY (project) REFERENCES projects (id)
--- ) DEFAULT CHARACTER SET utf8;
-
--- create table teammates (
---     id          INT          NOT NULL AUTO_INCREMENT,
---     name        VARCHAR(40)  NOT NULL,
---     project     VARCHAR(40)  NOT NULL,
---     priority    ENUM('low', 'normal', 'high') NOT NULL DEFAULT 'normal',
-
---     PRIMARY KEY (id),
---     UNIQUE KEY (name),
---     FOREIGN KEY (project) REFERENCES projects (id)
--- ) DEFAULT CHARACTER SET utf8;
-
--- create table projects (
---     id          INT          NOT NULL AUTO_INCREMENT,
---     parentID    INT,
---     name        VARCHAR(40)  NOT NULL,
---     description VARCHAR(100) NOT NULL,
---     priority    ENUM('low', 'normal', 'high') NOT NULL DEFAULT 'normal',
-
---     PRIMARY KEY (id),
---     UNIQUE KEY (name),
--- ) DEFAULT CHARACTER SET utf8;

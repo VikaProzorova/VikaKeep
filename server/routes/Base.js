@@ -16,6 +16,9 @@ class Base {
             })
         })
     }
+    getArrayFromQuery(queryString) {
+        return (queryString || '').split(',').filter(element => element !== '')
+    }
 }
 
 module.exports = Base;

@@ -32,6 +32,7 @@ module.exports   = function(config) {
     router.delete('/tags/:id',               auth, routes('Tags/delete') );
     router.post  ('/notes',                  auth, routes('Notes/create') );
     router.post  ('/notes/:id',              auth, routes('Notes/update') );
+    router.post  ('/notes/:id/:action',      auth, routes('Notes/changeStatus') );
     router.delete('/notes/:id',              auth, routes('Notes/delete') );
     router.post  ('/users/registration',           routes('Users/registration') );
     router.post  ('/users/login',                  routes('Users/login') );

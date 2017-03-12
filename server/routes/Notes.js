@@ -3,9 +3,9 @@ const Base = require('./Base');
 class Notes extends Base {
     list (req, res) {
         const data = {
-            tagID: req.query.id
+            tagsIDs: this.getArrayFromQuery(req.query.tags),
+            statuses: this.getArrayFromQuery(req.query.statuses)
         }
-        console.log(data)
 
         const promise = this.services('Notes/List', data, req.signedCookies.id);
         this.renderPromise(promise, res);
@@ -31,6 +31,14 @@ class Notes extends Base {
             id: req.params.id
         }
         const promise = this.services('Notes/Delete', data, req.signedCookies.id);
+        this.renderPromise(promise, res);
+    }
+    changeStatus (req, res) {
+        const data = {
+            id: req.params.id,
+            status: req.params.action
+        }
+        const promise = this.services('Notes/ChangeStatus', data, req.signedCookies.id);
         this.renderPromise(promise, res);
     }
 }

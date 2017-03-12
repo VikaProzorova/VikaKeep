@@ -5,3 +5,4 @@ config.test.json
 npm-debug.log
 client/public/static/build/*
 *.sublime*
+nextDB.sql

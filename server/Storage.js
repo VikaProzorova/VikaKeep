@@ -6,23 +6,38 @@ class Storage {
         this.user = user;
     }
     getNotesList(filter) {
+        console.log(filter, "Storage")
         let sql = ''
-        if(filter.tagID) {
+        let filterQuery = []
+        if (!filter.statuses.length) {
+            filter.statuses = ['NEW', 'IN_PROGRESS']
+        }
+
+        if (filter.tagsIDs.length > 0) {
             sql = [
                 'SELECT * FROM notes',
                 'JOIN notesTagsMap ON (notes.id = notesTagsMap.noteID)',
-                'WHERE user = ? AND isDeleted = 0 AND tagID = ?',
+                'WHERE user = ? AND tagID IN (?) AND status IN (?)',
                 'ORDER BY id DESC'
             ].join(' ')
+
+            filterQuery = [filter.tagsIDs, filter.statuses]
+            console.log(filterQuery, "filterQueryst")
         }
+
         else {
             sql = [
                 'SELECT * FROM notes',
-                'WHERE user = ? AND isDeleted = 0',
+                'JOIN notesTagsMap ON (notes.id = notesTagsMap.noteID)',
+                'WHERE user = ? AND status IN (?)',
                 'ORDER BY id DESC'
             ].join(' ')
+
+            filterQuery = [filter.statuses]
+            console.log(filterQuery, "filterQueryst")
         }
-        return db.query(sql, [this.user.id, filter.tagID])
+
+        return db.query(sql, [this.user.id].concat(filterQuery))
         .then(([notesFromDB]) => {
             if (!notesFromDB.length) {
                 return notesFromDB
@@ -80,7 +95,11 @@ class Storage {
         .then(() => newNoteData);
     }
     deleteNote(note) {
-        return db.query('UPDATE notes SET isDeleted = true WHERE id = ?', [note.id]);
+        return db.query('UPDATE notes SET status = "deleted" WHERE id = ?', [note.id]);
+    }
+    changeStatusNote(note) {
+        return db.query('UPDATE notes SET status = ? WHERE id = ?', [note.status, note.id])
+        .then(() => note)
     }
     getTagsList() {
         return db.query('SELECT * FROM tags')
