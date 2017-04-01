@@ -10,8 +10,11 @@ class Create extends Base {
     }
 
     execute (data) {
-        return this.storage
-        .createTag(data)
+        const tag = {
+            name: data.name,
+            userId: this.userId
+        }
+        return this.model.Tag.create(tag)
         .then(tag => {
             return {
                 data: tag,

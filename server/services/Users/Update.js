@@ -10,8 +10,16 @@ class Update extends Base {
     }
 
     execute (data) {
-        return this.storage
-        .updateUser(data)
+        return this.model.User.update({name: data.name, email: data.email}, {
+            where: { id: this.userId },
+            limit: 1,
+        })
+        .catch(error => {
+            if (error.name =='SequelizeUniqueConstraintError') {
+                throw {"email": "NOT_UNIQUE"}
+            }
+            throw error
+        })
         .then(user => {
             return {
                 data: user,
@@ -20,5 +28,6 @@ class Update extends Base {
         })
     };
 };
+
 
 module.exports = Update;

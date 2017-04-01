@@ -3,8 +3,8 @@ LIVR.Validator.defaultAutoTrim(true);
 
 class Base {
     constructor (params) {
-        this.userID  = params.userID;
-        this.Storage = params.Storage;
+        this.userId  = params.userId;
+        this.model = params.model;
     }
 
     runValidation (data, rules) {
@@ -17,7 +17,6 @@ class Base {
     }
 
     run (data) {
-        this.storage = new this.Storage({id: this.userID});
         try {
             return this.execute( this.validate(data) );
         } catch (error) {

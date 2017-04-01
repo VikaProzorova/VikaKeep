@@ -1,0 +1,6 @@
+{
+    "extends": "webbylab",
+    "rules": {
+        "more/no-then": 0
+    }
+}

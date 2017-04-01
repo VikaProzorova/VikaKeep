@@ -9,8 +9,9 @@ class Delete extends Base {
     }
 
     execute (data) {
-        return this.storage
-        .deleteNote({ id: data.id })
+        return this.model.Note.destroy({
+            where: { id: data.id }
+        })
         .then(() => ({status: 1}))
     }
 };

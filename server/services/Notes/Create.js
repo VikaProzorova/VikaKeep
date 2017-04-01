@@ -11,11 +11,26 @@ class Create extends Base {
     }
 
     execute (data) {
-        return this.storage
-        .createNote(data)
+        console.log(data)
+        const note = {
+            text: data.text,
+            userId: this.userId,
+            NotesTagsMaps: data.tagsIDs.map(tagId => ({tagId}))
+         }
+
+        return this.model.Note.create(note, {
+            include: this.model.NotesTagsMap
+        })
         .then(note => {
             return {
-                data: note,
+                data: {
+                    id: note.id,
+                    date: note.createdAt,
+                    updatedAt: note.updatedAt,
+                    text: note.text,
+                    status: note.status,
+                    tagsIDs: note.NotesTagsMaps.map(({tagId}) => tagId)
+                },
                 status: 1
             };
         })

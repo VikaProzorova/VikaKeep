@@ -10,10 +10,14 @@ class ChangeStatus extends Base {
     }
 
     execute (data) {
-        console.log(data, '======')
-        return this.storage
-        .changeStatusNote(data)
-        .then((note) => ({note: note, status: 1}))
+        return this.model.Note.update({status: data.status}, {
+            where: { id: data.id },
+            limit: 1,
+        })
+        .then(() => ({
+            data: data,
+            status: 1
+        }))
     }
 };
 

@@ -7,8 +7,10 @@ const app          = express();
 const router       = express.Router();
 
 module.exports   = function(config) {
-    const Storage  = require('./Storage')({config: config.db});
-    const services = require('./services')({config: null, Storage: Storage});
+    //const Storage  = require('./Storage')({config: config.db});
+    const model    = require('./models')({config: config.db});
+    const services = require('./services')({config: null, model: model});
+
     const routes   = require('./routes')({config: config.app, services: services});
 
     app.use(cookieParser(config.app.secret));
@@ -43,7 +45,7 @@ module.exports   = function(config) {
 
     return {
         app: app,
-        Storage: Storage,
+        //Storage: Storage,
         services: services,
         routes: routes,
     };

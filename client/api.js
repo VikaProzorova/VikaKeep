@@ -55,6 +55,7 @@ const notes = {
         return query(`notes/${noteID}/${newStatus}`, "post")
         .then(note => {
             note.date = new Date(note.date);
+            console.log(note, "0000")
             return note;
         });
     }

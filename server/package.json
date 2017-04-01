@@ -13,8 +13,9 @@
     "mysql-promise": "latest",
     "node-uuid": "latest",
     "nodemon": "^1.9.2",
-    "supertest-as-promised": "latest",
-    "require-directory": "latest"
+    "require-directory": "latest",
+    "sequelize": "^3.30.3",
+    "supertest-as-promised": "latest"
   },
   "scripts": {
     "start": "nodemon app.js",

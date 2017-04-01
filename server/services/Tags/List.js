@@ -6,8 +6,11 @@ class List extends Base {
     }
 
     execute (data) {
-        return this.storage
-        .getTagsList()
+        return this.model.Tag.findAll({
+            where: {
+                userId: this.userId
+            }
+        })
         .then(tags => {
             return {
                 data: tags,

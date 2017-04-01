@@ -50,6 +50,7 @@ class Notes extends React.Component {
 
     updateNote(id) {
         return (event) => {
+            console.log(id, "updateNote")
             this.setState({
                 notes: this.state.notes.map(note => {
                     if (note.id == id) {
@@ -80,7 +81,17 @@ class Notes extends React.Component {
             }
             else {
                 API.notes.changeStatus(id, newStatus)
-                .then(id => this.updateNote(id))
+                .then(id => {
+                    return this.setState({
+                        notes: this.state.notes.map(note => {
+                            console.log(note, newStatus, "rnvfjn")
+                            if (note.id == id) {
+                                return Object.assign({}, note, {status: newStatus, date: new Date()})
+                            }
+                            return note;
+                        })
+                    })
+                })
             }
         }
     }
@@ -130,7 +141,7 @@ class Notes extends React.Component {
         return tagsIDs.map(tagID => {
             const tagName = this.state.tags.find(tag => tag.id == tagID).name
 
-            return <ButtonGroup>
+            return <ButtonGroup key={'getTagsButtons:' + tagID}>
                 <Button
                     key={"note_delete_tag" + tagName + noteID}
                     bsStyle="info"
@@ -160,7 +171,7 @@ class Notes extends React.Component {
         })
 
         return otherTags.map(tag => {
-            return <div> <ButtonGroup>
+            return <div key={'getOtherTagsButtons:' + tag.id}> <ButtonGroup>
                 <Button
                     key={"note_toogle_tag" + tag.id + note.id}
                     bsStyle="warning"

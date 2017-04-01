@@ -1,4 +1,5 @@
 const Base = require('../Base');
+const bcrypt = require('bcrypt');
 
 class Registration extends Base {
     validate (data) {
@@ -11,12 +12,21 @@ class Registration extends Base {
     }
 
     execute (data) {
-        return this.storage
-        .registerUser(data)
+        const user = {
+            name: data.name,
+            email: data.email
+        }
+
+        return bcrypt.hash(data.password, 10)
+        .then((hash) => {
+            user.password = hash
+        })
+        .then(() => this.model.User.create(user))
         .catch(error => {
-            if (error == "Email already exist") {
+            if (error.name =='SequelizeUniqueConstraintError') {
                 throw {"email": "NOT_UNIQUE"}
             }
+
             throw error
         })
         .then(user => {

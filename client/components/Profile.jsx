@@ -184,7 +184,7 @@ class Profile extends React.Component {
                         maxLength="40"
                         placeholder="Repeat new password"
                         value={repeatPassword}
-                        onChange={this.updateField("newPassword")}
+                        onChange={this.updateField("repeatPassword")}
                     />
                 </FormGroup>
                 <Button bsStyle='primary' onClick={this.handleChangePassword.bind(this)}> Change password </Button>

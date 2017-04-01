@@ -11,14 +11,14 @@ class Update extends Base {
     }
 
     execute (data) {
-        return this.storage
-        .updateTag(data)
-        .then(tag => {
-            return {
-                data: tag,
-                status: 1
-            };
-        });
+        return this.model.Tag.update({name: data.name}, {
+            where: { id: data.id },
+            limit: 1,
+        })
+        .then(() => ({
+            data: data,
+            status: 1
+        }))
     }
 };
 

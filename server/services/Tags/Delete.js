@@ -9,8 +9,9 @@ class Delete extends Base {
     }
 
     execute (data) {
-        return this.storage
-        .deleteTag({ id: data.id })
+        return this.model.Tag.destroy({
+            where: { id: data.id }
+        })
         .then(() => ({status: 1}))
     }
 };

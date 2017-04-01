@@ -5,10 +5,10 @@ const services = {
 };
 
 module.exports = params => {
-    return (actionName, data, userID) => {
+    return (actionName, data, userId) => {
         const parts        = actionName.split('/');
         const actionClass  = services[parts[0]][parts[1]];
-        const actionObject = new actionClass({userID: userID, Storage: params.Storage});
+        const actionObject = new actionClass({userId: userId, model: params.model});
 
         return actionObject.run(data);
     }

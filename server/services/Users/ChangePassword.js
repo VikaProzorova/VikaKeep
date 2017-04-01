@@ -1,4 +1,5 @@
 const Base = require('../Base');
+const bcrypt = require('bcrypt');
 
 class ChangePassword extends Base {
     validate (data) {
@@ -10,15 +11,23 @@ class ChangePassword extends Base {
     }
 
     execute (data) {
-        return this.storage
-        .changePasswordUser(data)
-        .catch(error => {
-            if (error == "Wrong password") {
-                throw {
-                    oldPassword: "WRONG_PASSWORD"
+        return this.model.User.findOne({where: { id: this.userId }})
+        .then(foundUser => {
+            return bcrypt.compare(data.oldPassword, foundUser.password)
+            .then(isValidPassword => {
+                if (!isValidPassword) {
+                    throw {
+                        oldPassword: "WRONG_PASSWORD"
+                    }
                 }
-            }
-            throw error
+                return bcrypt.hash(data.newPassword, 10)
+                .then((hash) => {
+                    return this.model.User.update({password: hash}, {
+                        where: { id: this.userId },
+                        limit: 1,
+                    })
+                })
+            })
         })
         .then(user => {
             return {
