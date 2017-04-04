@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { Jumbotron, PageHeader, Badge, Button, FormControl, Glyphicon, FormGroup, Panel, ButtonGroup } from 'react-bootstrap';
+import { Grid, Row, Col, Badge, Button, FormControl, Glyphicon, FormGroup, Panel, ButtonGroup } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 import API from "../api.js";
 import Alert from "./Alert.jsx";
@@ -331,28 +331,34 @@ class Notes extends React.Component {
         </div>
 
         return(
-            <Jumbotron>
-                <PageHeader> VikaKeep Notes Page <br/> <small> Notes </small> </PageHeader>
-                <Alert style="warning">{this.state.errorMessage}</Alert>
-                <div>
-                    Filter by statuses
-                    {this.getStatusesButtons('NEW', "New")}
-                    {this.getStatusesButtons('IN_PROGRESS', "In progress")}
-                    {this.getStatusesButtons('DONE', "Done")}
-                    {this.getStatusesButtons('DELETED', "Deleted")}
-                </div>
-                <Panel footer={newNoteFooter}>
-                    <FormControl
-                        style={{maxWidth: "100%"}}
-                        componentClass="textarea"
-                        type="text"
-                        placeholder="New note"
-                        value={this.state.newNote}
-                        onChange={this.updateNewNote.bind(this)}
-                    />
-                </Panel>
-                <div> {notesList} </div>
-            </Jumbotron>
+            <Grid>
+                <Row className="show-grid" style={{"padding":"50"}}>
+                    <Col xs={6} md={2}><code>
+                        <div>
+                            Filter by statuses
+                            <br/>{this.getStatusesButtons('NEW', "New")}
+                            <br/>{this.getStatusesButtons('IN_PROGRESS', "In progress")}
+                            <br/>{this.getStatusesButtons('DONE', "Done")}
+                            <br/>{this.getStatusesButtons('DELETED', "Deleted")}
+                        </div>
+                    </code></Col>
+                    <Col xs={12} md={10}><code>
+                        <Alert style="warning">{this.state.errorMessage}</Alert>
+
+                        <Panel footer={newNoteFooter}>
+                            <FormControl
+                                style={{maxWidth: "100%"}}
+                                componentClass="textarea"
+                                type="text"
+                                placeholder="New note"
+                                value={this.state.newNote}
+                                onChange={this.updateNewNote.bind(this)}
+                            />
+                        </Panel>
+                        <div> {notesList} </div>
+                    </code></Col>
+                </Row>
+            </Grid>
         )
     }
 }

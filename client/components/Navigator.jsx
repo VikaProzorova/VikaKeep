@@ -5,23 +5,23 @@ import { Nav, NavItem, Navbar } from 'react-bootstrap';
 const linksBar = {
     login: {
         title: 'Login',
-        links: [ 'registration' ]
+        links: [ 'login', 'registration' ]
     },
     notes: {
         title: 'Notes',
-        links: [ 'profile', 'tags', 'logout' ]
+        links: [ 'notes', 'tags', 'profile', 'logout' ]
     },
     tags: {
         title: 'Tags',
-        links: ['notes', 'profile', 'logout' ]
+        links: [ 'notes', 'tags', 'profile', 'logout' ]
     },
     profile: {
         title: 'Profile',
-        links: [ 'notes', 'tags', 'logout' ]
+        links: [ 'notes', 'tags', 'profile', 'logout' ]
     },
     registration: {
         title: 'Registration',
-        links: [ 'login' ]
+        links: [ 'login', 'registration' ]
     },
     logout: {
         title: 'Logout',
@@ -44,7 +44,7 @@ class Navigator extends React.Component {
         return (<Navbar fixedTop>
             <Navbar.Header>
                 <Navbar.Brand>
-                    VikaKeep
+                   <a href="/notes"> VikaKeep </a>
                 </Navbar.Brand>
                 <Navbar.Toggle />
             </Navbar.Header>
