@@ -50,11 +50,10 @@ class Notes extends React.Component {
 
     updateNote(id) {
         return (event) => {
-            console.log(id, "updateNote")
             this.setState({
                 notes: this.state.notes.map(note => {
                     if (note.id == id) {
-                        return Object.assign({}, note, {text: event.target.value, date: new Date()})
+                        return Object.assign({}, note, {text: event.target.value})
                     }
                     return note;
                 })
@@ -65,34 +64,29 @@ class Notes extends React.Component {
     sendUpdatedNote(id) {
         const tagsIDs = this.state.notes.find(note => note.id == id).tagsIDs
         return (event) => {
+            this.setState({
+                notes: this.state.notes.map(note => {
+                    if (note.id == id) {
+                        return Object.assign({}, note, {date: new Date()})
+                    }
+                    return note;
+                })
+            })
             API.notes.update({id: id, text: event.target.value, tagsIDs: tagsIDs})
         }
     }
 
     changeStatusInNote(id, newStatus) {
         return (event) => {
-            if (newStatus == 'delete') {
-                API.notes.delete(id)
-                .then(() => {
-                    this.setState({
-                        notes: this.state.notes.filter(note => note.id != id)
-                    })
+            this.setState({
+                notes: this.state.notes.map(note => {
+                    if (note.id == id) {
+                        return Object.assign({}, note, {status: newStatus, date: new Date()})
+                    }
+                    return note;
                 })
-            }
-            else {
-                API.notes.changeStatus(id, newStatus)
-                .then(id => {
-                    return this.setState({
-                        notes: this.state.notes.map(note => {
-                            console.log(note, newStatus, "rnvfjn")
-                            if (note.id == id) {
-                                return Object.assign({}, note, {status: newStatus, date: new Date()})
-                            }
-                            return note;
-                        })
-                    })
-                })
-            }
+            })
+            API.notes.changeStatus(id, newStatus)
         }
     }
 
@@ -140,7 +134,6 @@ class Notes extends React.Component {
         }
         return tagsIDs.map(tagID => {
             const tagName = this.state.tags.find(tag => tag.id == tagID).name
-
             return <ButtonGroup key={'getTagsButtons:' + tagID}>
                 <Button
                     key={"note_delete_tag" + tagName + noteID}
@@ -154,9 +147,16 @@ class Notes extends React.Component {
                     key={"note_sorting_tag" + tagName + noteID}
                     bsStyle="info"
                     bsSize="xsmall"
-                    onClick={this.getFilteredNotes({tag: tagID})}
                     >
                     {tagName}
+                </Button>
+                <Button
+                    key={"note_sorting_tag_?" + tagName + noteID}
+                    bsStyle="info"
+                    bsSize="xsmall"
+                    onClick={this.getFilteredNotes({tag: tagID})}
+                >
+                    <Glyphicon glyph={this.state.tagFilters[tagID] ? "minus" : "plus"}  />
                 </Button>
             </ButtonGroup>
         })
@@ -184,39 +184,31 @@ class Notes extends React.Component {
                     key={"note_sort_tag" + tag.id + note.id}
                     bsStyle="warning"
                     bsSize="xsmall"
-                    onClick={this.getFilteredNotes({tag: tag.id})}
                 >
                     {tag.name}
                 </Button>
+                <Button
+                    key={"note_sort_tag_plus" + tag.id + note.id}
+                    bsStyle="warning"
+                    bsSize="xsmall"
+                    onClick={this.getFilteredNotes({tag: tag.id})}
+                >
+                    <Glyphicon glyph={this.state.tagFilters[tag.id] ? "minus" : "plus"} />
+                </Button>
             </ButtonGroup> </div>
-
         })
     }
 
     getStatusesButtons(status, text){
-
-        if (this.state.statusFilters[status]) {
-            return <ButtonGroup>
-                <Button
-                    key={"notes_button_filter"+ status}
-                    onClick={this.getFilteredNotes({status: status})}
-                >
-                    <Glyphicon glyph='minus' />
-                </Button>
-                <Button> {text} </Button>
-            </ButtonGroup>
-        }
-        else {
-            return <ButtonGroup>
-                <Button
-                    key={"new_notes_button_filter" + status}
-                    onClick={this.getFilteredNotes({status: status})}
-                >
-                    <Glyphicon glyph='plus' />
-                </Button>
-                <Button> {text} </Button>
-            </ButtonGroup>
-        }
+        return <ButtonGroup>
+            <Button
+                key={"notes_button_filter"+ status}
+                onClick={this.getFilteredNotes({status: status})}
+            >
+                <Glyphicon glyph={this.state.statusFilters[status] ? "minus" : "plus"} />
+            </Button>
+            <Button> {text} </Button>
+        </ButtonGroup>
     }
 
     getNotes() {
@@ -252,8 +244,6 @@ class Notes extends React.Component {
 
     getFilteredNotes(filter) {
         return (event) => {
-            console.log(filter, 'one incoming filter')
-
             const newTags = this.state.tagFilters
             const newStatuses = this.state.statusFilters
 
@@ -272,7 +262,6 @@ class Notes extends React.Component {
                 }
             }
 
-            console.log(newTags, newStatuses, "Objects to state")
             this.setState({
                tagFilters: newTags,
                statusFilters: newStatuses
@@ -290,7 +279,7 @@ class Notes extends React.Component {
                 <Glyphicon
                     glyph='trash'
                     style={{float: 'right'}}
-                    onClick={this.changeStatusInNote(note.id, 'delete')}
+                    onClick={this.changeStatusInNote(note.id, 'DELETED')}
                 />
                 <Glyphicon
                     glyph='check'
@@ -347,7 +336,6 @@ class Notes extends React.Component {
                 <Alert style="warning">{this.state.errorMessage}</Alert>
                 <div>
                     Filter by statuses
-                    {this.getStatusesButtons("", "ToDo")}
                     {this.getStatusesButtons('NEW', "New")}
                     {this.getStatusesButtons('IN_PROGRESS', "In progress")}
                     {this.getStatusesButtons('DONE', "Done")}

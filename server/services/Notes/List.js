@@ -10,45 +10,70 @@ class List extends Base {
     }
 
     execute (data) {
-        if (!data.statuses.length) {
-            data.statuses = ['NEW', 'IN_PROGRESS']
-        }
         const tagsFilter = data.tagsIDs.length
             ? {
-                id: {
+                tagId: {
                     $in: data.tagsIDs
                 }
             }
             : undefined
 
-        const query = {
+        const statusFilter = data.statuses.length
+            ? data.statuses
+            : ['NEW', 'IN_PROGRESS']
+
+        const findNotes = {
             where: {
                 status: {
-                    $in: data.statuses
+                    $in: statusFilter
                 },
                 userId: this.userId
             },
             include: [{
                 model: this.model.NotesTagsMap,
-                include: {
-                    model: this.model.Tag,
-                    where: tagsFilter
-                }
-            }]
+                where: tagsFilter
+            }],
+            order: 'updatedAt DESC'
         }
-        return this.model.Note.findAll(query)
-        .then(notesList => {
-            return {
-                data: notesList.map(note => ({
-                    id: note.id,
-                    date: note.createdAt,
-                    updatedAt: note.updatedAt,
-                    text: note.text,
-                    status: note.status,
-                    tagsIDs: note.NotesTagsMaps.map(({tagId}) => tagId)
-                })),
-                status: 1
-            };
+
+
+        return this.model.Note.findAll(findNotes)
+        .then(notes => {
+            const notesIds = notes.map(note => note.id)
+
+            return this.model.NotesTagsMap.findAll({
+                where: {
+                    noteId: {
+                        $in: notesIds
+                    }
+                }
+            })
+            .then(notesTagsMaps => {
+                const tagsIdsByNote = notesTagsMaps.reduce((acc, noteTagMap) => {
+                    if (!acc[ noteTagMap.noteId ]) {
+                        acc[ noteTagMap.noteId ] = []
+                    }
+
+                    acc[ noteTagMap.noteId ].push(noteTagMap.tagId)
+                    return acc
+                }, {})
+
+                const data = notes.map(note => {
+                    return {
+                        id: note.id,
+                        date: note.createdAt,
+                        updatedAt: note.updatedAt,
+                        text: note.text,
+                        status: note.status,
+                        tagsIDs: tagsIdsByNote[ note.id ] || []
+                    }
+                })
+
+                return {
+                    data: data,
+                    status: 1
+                }
+            })
         });
     }
 };

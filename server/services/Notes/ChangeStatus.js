@@ -4,7 +4,7 @@ class ChangeStatus extends Base {
     validate (data) {
         const rules = {
             id: [ 'required', 'positive_integer'],
-            status: [ 'required', { one_of: ['NEW', 'IN_PROGRESS', 'DONE']} ]
+            status: [ 'required', { one_of: ['NEW', 'IN_PROGRESS', 'DONE', 'DELETED']} ]
         };
         return this.runValidation(data, rules);
     }

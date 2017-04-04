@@ -25,11 +25,10 @@ function query (path, method, body) {
 
 const notes = {
     list(tagFilter) {
-        console.log(tagFilter, 'api tagFilter')
         return query("notes", "get", {tags: tagFilter.tags , statuses: tagFilter.statuses})
         .then(data => {
             return data.map(note => {
-                note.date = new Date(note.date);
+                note.date = new Date(note.updatedAt);
                 return note
             });
         });
@@ -55,7 +54,6 @@ const notes = {
         return query(`notes/${noteID}/${newStatus}`, "post")
         .then(note => {
             note.date = new Date(note.date);
-            console.log(note, "0000")
             return note;
         });
     }

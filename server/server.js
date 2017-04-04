@@ -7,7 +7,6 @@ const app          = express();
 const router       = express.Router();
 
 module.exports   = function(config) {
-    //const Storage  = require('./Storage')({config: config.db});
     const model    = require('./models')({config: config.db});
     const services = require('./services')({config: null, model: model});
 
@@ -45,7 +44,6 @@ module.exports   = function(config) {
 
     return {
         app: app,
-        //Storage: Storage,
         services: services,
         routes: routes,
     };
