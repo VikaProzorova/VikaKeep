@@ -17,5 +17,5 @@ export {
     Navigator,
     Logout,
     Alert,
-    Container
+    Container,
 }

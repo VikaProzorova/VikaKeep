@@ -4,6 +4,8 @@ import { Grid, Row, Col, Badge, Button, FormControl, Glyphicon, FormGroup, Panel
 import { withRouter } from 'react-router';
 import API from "../api.js";
 import Alert from "./Alert.jsx";
+import Sidebar from 'react-sidebar';
+
 
 class Notes extends React.Component {
     constructor(props) {
@@ -330,35 +332,40 @@ class Notes extends React.Component {
             <br/>
         </div>
 
-        return(
-            <Grid>
-                <Row className="show-grid" style={{"padding":"50"}}>
-                    <Col xs={6} md={2}><code>
-                        <div>
-                            Filter by statuses
-                            <br/>{this.getStatusesButtons('NEW', "New")}
-                            <br/>{this.getStatusesButtons('IN_PROGRESS', "In progress")}
-                            <br/>{this.getStatusesButtons('DONE', "Done")}
-                            <br/>{this.getStatusesButtons('DELETED', "Deleted")}
-                        </div>
-                    </code></Col>
-                    <Col xs={12} md={10}><code>
-                        <Alert style="warning">{this.state.errorMessage}</Alert>
+        const sidebarContent = <div>
+            <p> Filter by statuses </p>
+            <br/>{this.getStatusesButtons('NEW', "New")}
+            <br/>{this.getStatusesButtons('IN_PROGRESS', "In progress")}
+            <br/>{this.getStatusesButtons('DONE', "Done")}
+            <br/>{this.getStatusesButtons('DELETED', "Deleted")}
+        </div>
 
-                        <Panel footer={newNoteFooter}>
-                            <FormControl
-                                style={{maxWidth: "100%"}}
-                                componentClass="textarea"
-                                type="text"
-                                placeholder="New note"
-                                value={this.state.newNote}
-                                onChange={this.updateNewNote.bind(this)}
-                            />
-                        </Panel>
-                        <div> {notesList} </div>
-                    </code></Col>
-                </Row>
-            </Grid>
+        const styles = {
+            root: {
+                position: 'absolute',
+                top: 60
+            },
+            sidebar: {
+                width: 200,
+            }
+        }
+
+        return(
+            <Sidebar docked={true} sidebar={sidebarContent} styles={styles}>
+                <Alert style="warning">{this.state.errorMessage}</Alert>
+
+                <Panel footer={newNoteFooter}>
+                    <FormControl
+                        style={{maxWidth: "100%"}}
+                        componentClass="textarea"
+                        type="text"
+                        placeholder="New note"
+                        value={this.state.newNote}
+                        onChange={this.updateNewNote.bind(this)}
+                    />
+                </Panel>
+                <div> {notesList} </div>
+            </Sidebar>
         )
     }
 }
