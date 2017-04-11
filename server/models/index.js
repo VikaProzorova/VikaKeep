@@ -32,7 +32,7 @@ module.exports = function({config}) {
     db.sequelize = sequelize;
     db.Sequelize = Sequelize;
 
-    // sequelize.sync({force: true})
+    // sequelize.sync({force: false})
     // .then(() => console.log('====='))
 
     return db;

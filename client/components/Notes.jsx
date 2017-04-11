@@ -173,7 +173,7 @@ class Notes extends React.Component {
         })
 
         return otherTags.map(tag => {
-            return <div key={'getOtherTagsButtons:' + tag.id}> <ButtonGroup>
+            return  <ButtonGroup key={'getOtherTagsButtons:' + tag.id}>
                 <Button
                     key={"note_toogle_tag" + tag.id + note.id}
                     bsStyle="warning"
@@ -197,7 +197,7 @@ class Notes extends React.Component {
                 >
                     <Glyphicon glyph={this.state.tagFilters[tag.id] ? "minus" : "plus"} />
                 </Button>
-            </ButtonGroup> </div>
+            </ButtonGroup>
         })
     }
 
@@ -209,7 +209,10 @@ class Notes extends React.Component {
             >
                 <Glyphicon glyph={this.state.statusFilters[status] ? "minus" : "plus"} />
             </Button>
-            <Button> {text} </Button>
+            <Button
+                onClick={this.getFilteredNotes({status: status})}
+                style={{minWidth: 130}}>
+                {text} </Button>
         </ButtonGroup>
     }
 
@@ -275,7 +278,8 @@ class Notes extends React.Component {
 
     render() {
         const notesList = this.state.notes.map(note => {
-            const title = <div>
+            const title = <div> Status: {note.status}
+                <br/>
                 {moment(note.date).toNow()}
                 {this.getTagsButtons(note.tagsIDs, note.id)}
                 <Glyphicon
@@ -289,13 +293,18 @@ class Notes extends React.Component {
                     onClick={this.changeStatusInNote(note.id, 'DONE')}
                 />
                 <Glyphicon
+                    glyph='hourglass'
+                    style={{float: 'right'}}
+                    onClick={this.changeStatusInNote(note.id, 'PENDING')}
+                />
+                <Glyphicon
                     glyph='play'
                     style={{float: 'right'}}
                     onClick={this.changeStatusInNote(note.id, 'IN_PROGRESS')}
                 />
             </div>
 
-            const noteFooter = <div> {this.getOtherTagsButtons(note)} Status: {note.status}</div>
+            const noteFooter = <div> {this.getOtherTagsButtons(note)} </div>
 
             return (
                 <Panel key={"Panel" + note.id} header={title} footer={noteFooter}>
@@ -320,6 +329,24 @@ class Notes extends React.Component {
             </Button>
         })
 
+        const tagsFilters = this.state.tags.map(tag => {
+            return <ButtonGroup>
+                <Button
+                    key={"tags_sidebar_filter"+ tag.id}
+                    onClick={this.getFilteredNotes({tag: tag.id})}
+                >
+                    <Glyphicon glyph={this.state.tagFilters[tag.id] ? "minus" : "plus"} />
+                </Button>
+                <Button
+                    key={"filter"+tag.id+tag.name}
+                    bsStyle='primary'
+                    style={{minWidth: 130}}
+                    onClick={this.getFilteredNotes({tag: tag.id})}>
+                    {tag.name}
+                </Button>
+            </ButtonGroup>
+        })
+
         const newNoteFooter = <div>
             {tagsButtons}
             <Button
@@ -333,11 +360,16 @@ class Notes extends React.Component {
         </div>
 
         const sidebarContent = <div>
-            <p> Filter by statuses </p>
-            <br/>{this.getStatusesButtons('NEW', "New")}
+            <h4>Filter by statuses </h4>
+            {this.getStatusesButtons('NEW', "New")}
             <br/>{this.getStatusesButtons('IN_PROGRESS', "In progress")}
+            <br/>{this.getStatusesButtons('PENDING', "Pending")}
             <br/>{this.getStatusesButtons('DONE', "Done")}
             <br/>{this.getStatusesButtons('DELETED', "Deleted")}
+            <br/><h4> Filter by tags </h4>
+            {tagsFilters}
+
+
         </div>
 
         const styles = {
